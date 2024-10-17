@@ -5,9 +5,10 @@ name = "pypi"
 
 [packages]
 pandas = "*"
-jupyter = "*"
-ipykernel = "*"
 chromadb = "*"
+vertexai = "*"
+langchain = "*"
+langchain-community = "*"
 
 [dev-packages]
 
