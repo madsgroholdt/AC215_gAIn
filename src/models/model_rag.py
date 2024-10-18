@@ -205,6 +205,7 @@ def chunk(method="char-split"):
             print("Shape:", data_df.shape)
             print(data_df.head())
 
+            os.makedirs(OUTPUT_FOLDER, exist_ok=True)
             jsonl_filename = os.path.join(
                 OUTPUT_FOLDER, f"chunks-{method}-{doc_name}.jsonl")
             with open(jsonl_filename, "w") as json_file:
@@ -328,7 +329,7 @@ def chat(method="char-split"):
     # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
     collection_name = f"{method}-collection"
 
-    query = "What was my step count on the week of September 12?"
+    query = "What was my step count on Thursday, September 12th? I am a 6 foot 2 190 pound man, and I want to lose 10 pounds. Is this a good step count? What else should I do?"
     query_embedding = generate_query_embedding(query)
     print("Query:", query)
     print("Embedding values:", query_embedding)
@@ -339,7 +340,7 @@ def chat(method="char-split"):
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=10,
-        where={"doc_name": "Tomas Arevalo-2"}
+        # where={"doc_name": "Tomas Arevalo-2"}
     )
     print("\n\nResults:", results)
 
