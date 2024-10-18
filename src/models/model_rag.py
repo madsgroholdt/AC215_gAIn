@@ -6,6 +6,8 @@ import time
 import glob
 import hashlib
 import chromadb
+from google.cloud import storage
+import shutil
 
 # Vertex AI
 import vertexai
@@ -22,11 +24,12 @@ import rag_agent_tools
 # Setup
 GCP_PROJECT = "ac215-final-project"
 GCP_LOCATION = "us-central1"
+BUCKET_NAME = "gain-bucket"  # Define your GCS bucket here
+BUCKET_INPUT_FOLDER = "processed_user_data"  # Placeholder for the bucket folder
+OUTPUT_FOLDER = "output"  # Placeholder for the bucket folder
 EMBEDDING_MODEL = "text-embedding-004"
 EMBEDDING_DIMENSION = 256
 GENERATIVE_MODEL = "gemini-1.5-flash-001"
-INPUT_FOLDER = "input"
-OUTPUT_FOLDER = "output"
 CHROMADB_HOST = "gain-rag-chromadb"
 CHROMADB_PORT = 8000
 vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
@@ -65,6 +68,18 @@ document_mappings = {
     "Tomas Arevalo-2": {"type": "Activity Log", "source": "Apple Health"}
 }
 
+def download_from_gcs(folder_name, local_path):
+    """Downloads files from the GCS bucket to a local directory."""
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(BUCKET_NAME)
+    
+    blobs = bucket.list_blobs(prefix=folder_name)
+    for blob in blobs:
+        if not blob.name.endswith("/"):  # Skip directory blobs
+            destination = os.path.join(local_path, os.path.basename(blob.name))
+            os.makedirs(os.path.dirname(destination), exist_ok=True)
+            blob.download_to_filename(destination)
+            print(f"Downloaded {blob.name} to {destination}")
 
 def generate_query_embedding(query):
     query_embedding_inputs = [TextEmbeddingInput(
@@ -92,7 +107,6 @@ def generate_text_embeddings(chunks, dimensionality: int = 256, batch_size=250):
 
 
 def load_text_embeddings(df, collection, batch_size=500):
-
     # Generate ids
     df["id"] = df.index.astype(str)
     hashed_doc_names = df["doc_name"].apply(
@@ -134,11 +148,11 @@ def load_text_embeddings(df, collection, batch_size=500):
 def chunk(method="char-split"):
     print("chunk()")
 
-    # Make dataset folders
-    os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+    # Download input files from GCS into a local
+    download_from_gcs(BUCKET_INPUT_FOLDER, "local_input")
 
-    # Get the list of text file
-    text_files = glob.glob(os.path.join(INPUT_FOLDER, "*.txt"))
+    # Get the list of text files from the local directory where they were downloaded
+    text_files = glob.glob(os.path.join("local_input", "*.txt"))
     print("Number of files to process:", len(text_files))
 
     # Process
@@ -400,7 +414,7 @@ def agent(method="char-split"):
     )
     print("LLM Response:", response)
 
-    # Step 2: Execute the function and send chunks back to LLM to answer get the final response
+    # Step 2: Execute the function and send chunks back to LLM to get the final response
     function_calls = response.candidates[0].function_calls
     print("Function calls:")
     function_responses = rag_agent_tools.execute_function_calls(
