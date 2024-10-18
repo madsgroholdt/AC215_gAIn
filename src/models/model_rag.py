@@ -1,5 +1,6 @@
 import os
 import argparse
+from pydoc import doc
 import pandas as pd
 import json
 import time
@@ -61,8 +62,7 @@ generative_model = GenerativeModel(
 )
 
 document_mappings = {
-    "Tomas Arevalo": {"type": "Activity Log", "source": "Apple Health"},
-    "Tomas Arevalo-2": {"type": "Activity Log", "source": "Apple Health"}
+    "Tomas Arevalo-2": {"type": "Activity Log", "source": "Apple Health", "user": "Tomas Arevalo"}
 }
 
 
@@ -106,6 +106,7 @@ def load_text_embeddings(df, collection, batch_size=500):
         document_mapping = document_mappings[metadata["doc_name"]]
         metadata["type"] = document_mapping["type"]
         metadata["source"] = document_mapping["source"]
+        metadata["user"] = document_mapping["user"]
 
     # Process data in batches
     total_inserted = 0
@@ -131,13 +132,25 @@ def load_text_embeddings(df, collection, batch_size=500):
         f"Finished inserting {total_inserted} items into collection '{collection.name}'")
 
 
-def chunk(method="char-split"):
+def get_collection(method="recursive-split"):
+    # Connect to chroma DB
+    client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
+    # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
+    collection_name = f"{method}-collection"
+    # Get the collection
+    collection = client.get_collection(name=collection_name)
+
+    return collection
+
+
+def chunk(method="recursive-split"):
     print("chunk()")
 
     # Make dataset folders
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
     # Get the list of text file
+    # Replace with GCP bucket connection
     text_files = glob.glob(os.path.join(INPUT_FOLDER, "*.txt"))
     print("Number of files to process:", len(text_files))
 
@@ -151,20 +164,9 @@ def chunk(method="char-split"):
             input_text = f.read()
 
         text_chunks = None
-        if method == "char-split":
-            chunk_size = 350
-            chunk_overlap = 20
-            # Init the splitter
-            text_splitter = CharacterTextSplitter(
-                chunk_size=chunk_size, chunk_overlap=chunk_overlap, separator='', strip_whitespace=False)
 
-            # Perform the splitting
-            text_chunks = text_splitter.create_documents([input_text])
-            text_chunks = [doc.page_content for doc in text_chunks]
-            print("Number of chunks:", len(text_chunks))
-
-        elif method == "recursive-split":
-            chunk_size = 500  # originally was 350
+        if method == "recursive-split":
+            chunk_size = 500
             # Init the splitter
             text_splitter = RecursiveCharacterTextSplitter(
                 chunk_size=chunk_size)
@@ -197,7 +199,7 @@ def chunk(method="char-split"):
                 json_file.write(data_df.to_json(orient='records', lines=True))
 
 
-def embed(method="char-split"):
+def embed(method="recursive-split"):
     print("embed()")
 
     # Get the list of chunk files
@@ -231,13 +233,10 @@ def embed(method="char-split"):
             json_file.write(data_df.to_json(orient='records', lines=True))
 
 
-def load(method="char-split"):
+def load(method="recursive-split"):
     print("load()")
 
-    # Connect to chroma DB
     client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
-
-    # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
     collection_name = f"{method}-collection"
     print("Creating collection:", collection_name)
 
@@ -270,69 +269,80 @@ def load(method="char-split"):
         load_text_embeddings(data_df, collection)
 
 
-def query(method="char-split"):
-    print("load()")
+def preprocess_files(method='recursive-split'):
+    print('Chunking files...')
+    chunk(method)
+    print('Done chunking files.')
 
-    # Connect to chroma DB
-    client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
+    print('Embedding files...')
+    embed(method)
+    print('Done embedding files.')
 
-    # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
-    collection_name = f"{method}-collection"
+    print('Loading embeddings to vector db...')
+    load(method)
+    print('Done loading embeddings.')
 
-    query = "What was my step count on September 12th?"
-    query_embedding = generate_query_embedding(query)
-    # print("Embedding values:", query_embedding)
 
-    # Get the collection
-    collection = client.get_collection(name=collection_name)
+def query(user, prompt, search_string=" ", method="recursive-split"):
 
-    # 2: Query based on embedding value + metadata filter
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=1,
-        where={"doc_name": "Tomas Arevalo-2"}
-    )
-    print("Query:", query)
-    print("\n\nResults:", results)
+    collection = get_collection(method)
+
+    query_embedding = generate_query_embedding(prompt)
 
     # 3: Query based on embedding value + lexical search filter
-    search_string = "September 12th"
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=1,
-        where_document={"$contains": search_string}
-    )
-    print("Query:", query)
-    print("\n\nResults:", results)
-
-
-def chat(method="char-split"):
-    print("chat()")
-
-    # Connect to chroma DB
-    client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
-    # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
-    collection_name = f"{method}-collection"
-
-    query = "What was my step count on the week of September 12?"
-    query_embedding = generate_query_embedding(query)
-    print("Query:", query)
-    print("Embedding values:", query_embedding)
-    # Get the collection
-    collection = client.get_collection(name=collection_name)
-
-    search_string = "September 12th"
+    print(search_string)
+    # search_string = "September 12th"
+    # print(search_string)
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=10,
-        where={"doc_name": "Tomas Arevalo-2"}
+        where={"source": "Apple Health"},
+        where_document={"$contains": search_string}
     )
+    print("Query:", prompt)
+    print("\n\nResults:", results)
+
+    return results
+
+
+def get_relevant_search_string(prompt):
+
+    INPUT_PROMPT = f"""
+    Analyze the below text, and return the most important text string you believe is needed to get data that is the most relevant for the sentence. Do not return anything else other than that string. Do not return any other data format than a string. If you do not believe there is any substring that is particularly relevant, then answer me with "no relevant search string", but only do this if you truly do not believe there is any important substring in the text. Here is the text:
+    {prompt}
+    """
+    print("INPUT_PROMPT: ", INPUT_PROMPT)
+    response = generative_model.generate_content(
+        [INPUT_PROMPT],
+        generation_config=generation_config,
+        stream=False,
+    )
+    generated_text = response.text
+    print("LLM Response:", generated_text)
+
+    generated_text = generated_text.replace('"', '').strip()
+
+    if generated_text == "no relevant search string":
+        generated_text = " "
+
+    return generated_text
+
+
+def chat(user, prompt, method="recursive-split"):
+    print("chat()")
+
+    search_string = get_relevant_search_string(prompt)
+    print("Search String: " + search_string)
+    print(type(search_string))
+
+    results = query(user, prompt, search_string, method)
+
     print("\n\nResults:", results)
 
     print(len(results["documents"][0]))
 
     INPUT_PROMPT = f"""
-	{query}
+	{prompt}
     {results['documents'][0]}
     """
 
@@ -346,41 +356,27 @@ def chat(method="char-split"):
     print("LLM Response:", generated_text)
 
 
-def get(method="char-split"):
-    print("get()")
+def get(user, method="recursive-split"):
 
-    # Connect to chroma DB
-    client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
-    # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
-    collection_name = f"{method}-collection"
-
-    # Get the collection
-    collection = client.get_collection(name=collection_name)
+    collection = get_collection(method)
 
     # Get documents with filters
     results = collection.get(
-        where={"doc_name": "Tomas Arevalo"},
-        limit=10
+        where={"user": user},
+        limit=1
     )
     print("\n\nResults:", results)
 
 
-def agent(method="char-split"):
+def agent(user, prompt, method="recursive-split"):
     print("agent()")
 
-    # Connect to chroma DB
-    client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
-    # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
-    collection_name = f"{method}-collection"
-    # Get the collection
-    collection = client.get_collection(name=collection_name)
+    collection = get_collection(method)
 
-    # User prompt
     user_prompt_content = Content(
         role="user",
         parts=[
-            Part.from_text(
-                "How many steps did I walk last Saturday?"),
+            Part.from_text(prompt),
         ],
     )
 
@@ -403,8 +399,9 @@ def agent(method="char-split"):
     # Step 2: Execute the function and send chunks back to LLM to answer get the final response
     function_calls = response.candidates[0].function_calls
     print("Function calls:")
+    print(function_calls)
     function_responses = rag_agent_tools.execute_function_calls(
-        function_calls, collection, embed_func=generate_query_embedding)
+        function_calls, user, collection, embed_func=generate_query_embedding)
     if len(function_responses) == 0:
         print("Function calls did not result in any responses...")
     else:
@@ -435,16 +432,29 @@ def main(args=None):
         load(method=args.chunk_type)
 
     if args.query:
-        query(method=args.chunk_type)
+        query(
+            user=args.user,
+            prompt=args.prompt,
+            method=args.chunk_type)
 
     if args.chat:
-        chat(method=args.chunk_type)
+        chat(
+            user=args.user,
+            prompt=args.prompt,
+            method=args.chunk_type)
 
     if args.get:
-        get(method=args.chunk_type)
+        get(
+            user=args.user,
+            method=args.chunk_type)
 
     if args.agent:
-        agent(method=args.chunk_type)
+        agent(
+            user=args.user,
+            prompt=args.prompt,
+            method=args.chunk_type)
+    if args.preprocess:
+        preprocess_files(method=args.chunk_type)
 
 
 if __name__ == "__main__":
@@ -487,8 +497,22 @@ if __name__ == "__main__":
         action="store_true",
         help="Chat with LLM Agent",
     )
-    parser.add_argument("--chunk_type", default="char-split",
-                        help="char-split | recursive-split | semantic-split")
+    parser.add_argument(
+        "--preprocess",
+        action="store_true",
+        help="Preprocess txt files by chunking and embedding the content",
+    )
+    parser.add_argument("--chunk_type", default="recursive-split",
+                        help="recursive-split | semantic-split"
+                        )
+    parser.add_argument(
+        "--user", default="",
+        help="Str with the name of username"
+    )
+    parser.add_argument(
+        "--prompt", default="",
+        help="Text prompt to pass to RAG model"
+    )
 
     args = parser.parse_args()
 
