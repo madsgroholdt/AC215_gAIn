@@ -10,6 +10,11 @@ scikit-learn = "*"
 requests = "*"
 beautifulsoup4 = "*"
 google-cloud-storage="*"
+phidata = "*"
+pandas = "*"
+openai = "*"
+googlesearch-python = "*"
+pycountry = "*"
 
 [requires]
 python_version = "3.11"
