@@ -1,0 +1,598 @@
+On Friday, October 18th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Run
+Distance (meters) was 11712.3 meters
+Moving Time (seconds) was 2884 seconds
+Elapsed Time (seconds) was 3388 seconds
+Total Elevation Gain (meters) was 31.0 meters
+Average Speed (meters/second) was 4.061 meters/second
+Max Speed (meters/second) was 7.06 meters/second
+Average Watts (watts) was 120.4 watts
+Max Watts (watts) was 477.0 watts
+Average Heartrate (bpm) was 140.8 bpm
+Max Heartrate (bpm) was 177.0 bpm
+Kilojoules (kj) was 347.2 kJ
+Elev High (meters) was 4.2 meters
+Elev Low (meters) was -2.0 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 2
+
+On Thursday, October 17th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 11983.9 meters
+Moving Time (seconds) was 3336 seconds
+Elapsed Time (seconds) was 3920 seconds
+Total Elevation Gain (meters) was 53.2 meters
+Average Speed (meters/second) was 3.592 meters/second
+Max Speed (meters/second) was 8.04 meters/second
+Average Watts (watts) was 88.1 watts
+Max Watts (watts) was 214.0 watts
+Average Heartrate (bpm) was 136.2 bpm
+Max Heartrate (bpm) was 169.0 bpm
+Kilojoules (kj) was 294.0 kJ
+Elev High (meters) was 4.2 meters
+Elev Low (meters) was -3.0 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 4
+Kudos Count was 0
+Athlete Count was 2
+
+On Monday, October 14th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Run
+Distance (meters) was 8862.5 meters
+Moving Time (seconds) was 2802 seconds
+Elapsed Time (seconds) was 2826 seconds
+Total Elevation Gain (meters) was 52.4 meters
+Average Speed (meters/second) was 3.163 meters/second
+Max Speed (meters/second) was 4.336 meters/second
+Average Watts (watts) was 297.5 watts
+Max Watts (watts) was 416.0 watts
+Average Heartrate (bpm) was 135.7 bpm
+Max Heartrate (bpm) was 145.0 bpm
+Kilojoules (kj) was 833.5 kJ
+Elev High (meters) was 7.6 meters
+Elev Low (meters) was -2.4 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 1
+Kudos Count was 0
+Athlete Count was 1
+
+On Monday, October 14th 2024, I had the following health and activity metrics:
+Name was HOCR Test Lap
+Sport Type was Rowing
+Distance (meters) was 4526.8 meters
+Moving Time (seconds) was 882 seconds
+Elapsed Time (seconds) was 882 seconds
+Total Elevation Gain (meters) was 11.8 meters
+Average Speed (meters/second) was 5.132 meters/second
+Max Speed (meters/second) was 7.22 meters/second
+Average Watts (watts) was 4.3 watts
+Max Watts (watts) was 88.0 watts
+Average Heartrate (bpm) was 167.9 bpm
+Max Heartrate (bpm) was 174.0 bpm
+Kilojoules (kj) was 3.8 kJ
+Elev High (meters) was 3.2 meters
+Elev Low (meters) was -0.8 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 17
+Kudos Count was 11
+Athlete Count was 2
+
+On Saturday, October 12th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 16623.3 meters
+Moving Time (seconds) was 5219 seconds
+Elapsed Time (seconds) was 5807 seconds
+Total Elevation Gain (meters) was 38.0 meters
+Average Speed (meters/second) was 3.185 meters/second
+Max Speed (meters/second) was 7.84 meters/second
+Average Watts (watts) was 69.7 watts
+Max Watts (watts) was 842.0 watts
+Average Heartrate (bpm) was 136.8 bpm
+Max Heartrate (bpm) was 179.0 bpm
+Kilojoules (kj) was 363.7 kJ
+Elev High (meters) was 4.8 meters
+Elev Low (meters) was -1.4 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 2
+Kudos Count was 0
+Athlete Count was 2
+
+On Friday, October 11th 2024, I had the following health and activity metrics:
+Name was Steady Run
+Sport Type was Run
+Distance (meters) was 11600.0 meters
+Moving Time (seconds) was 2984 seconds
+Elapsed Time (seconds) was 3042 seconds
+Total Elevation Gain (meters) was 56.6 meters
+Average Speed (meters/second) was 3.887 meters/second
+Max Speed (meters/second) was 5.646 meters/second
+Average Watts (watts) was 378.5 watts
+Max Watts (watts) was 1219.0 watts
+Average Heartrate (bpm) was 138.7 bpm
+Max Heartrate (bpm) was 161.0 bpm
+Kilojoules (kj) was 1129.5 kJ
+Elev High (meters) was 10.0 meters
+Elev Low (meters) was -3.2 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 33
+Kudos Count was 22
+Athlete Count was 1
+
+On Friday, October 11th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 15759.4 meters
+Moving Time (seconds) was 4046 seconds
+Elapsed Time (seconds) was 4678 seconds
+Total Elevation Gain (meters) was 127.2 meters
+Average Speed (meters/second) was 3.895 meters/second
+Max Speed (meters/second) was 6.86 meters/second
+Average Watts (watts) was 65.2 watts
+Max Watts (watts) was 138.0 watts
+Average Heartrate (bpm) was 131.0 bpm
+Max Heartrate (bpm) was 157.0 bpm
+Kilojoules (kj) was 263.9 kJ
+Elev High (meters) was 2.6 meters
+Elev Low (meters) was -5.6 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 4
+Kudos Count was 0
+Athlete Count was 2
+
+On Thursday, October 10th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Run
+Distance (meters) was 15196.7 meters
+Moving Time (seconds) was 3777 seconds
+Elapsed Time (seconds) was 4747 seconds
+Total Elevation Gain (meters) was 39.4 meters
+Average Speed (meters/second) was 4.023 meters/second
+Max Speed (meters/second) was 8.882 meters/second
+Average Watts (watts) was 91.4 watts
+Max Watts (watts) was 354.0 watts
+Average Heartrate (bpm) was 140.2 bpm
+Max Heartrate (bpm) was 175.0 bpm
+Kilojoules (kj) was 345.2 kJ
+Elev High (meters) was 4.6 meters
+Elev Low (meters) was -1.0 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 2
+
+On Monday, October 07th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Rowing
+Distance (meters) was 14936.3 meters
+Moving Time (seconds) was 4007 seconds
+Elapsed Time (seconds) was 4621 seconds
+Total Elevation Gain (meters) was 145.2 meters
+Average Speed (meters/second) was 3.728 meters/second
+Max Speed (meters/second) was 9.28 meters/second
+Average Watts (watts) was 118.6 watts
+Max Watts (watts) was 214.0 watts
+Average Heartrate (bpm) was 146.5 bpm
+Max Heartrate (bpm) was 180.0 bpm
+Kilojoules (kj) was 475.1 kJ
+Elev High (meters) was 3.2 meters
+Elev Low (meters) was -8.4 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 12
+Kudos Count was 0
+Athlete Count was 2
+
+On Monday, October 07th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 16455.4 meters
+Moving Time (seconds) was 4088 seconds
+Elapsed Time (seconds) was 4495 seconds
+Total Elevation Gain (meters) was 78.4 meters
+Average Speed (meters/second) was 4.025 meters/second
+Max Speed (meters/second) was 7.98 meters/second
+Average Watts (watts) was 83.1 watts
+Max Watts (watts) was 273.0 watts
+Average Heartrate (bpm) was 138.9 bpm
+Max Heartrate (bpm) was 161.0 bpm
+Kilojoules (kj) was 339.6 kJ
+Elev High (meters) was 5.6 meters
+Elev Low (meters) was -6.2 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 21
+Kudos Count was 0
+Athlete Count was 3
+
+On Saturday, October 05th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 13309.4 meters
+Moving Time (seconds) was 3492 seconds
+Elapsed Time (seconds) was 5309 seconds
+Total Elevation Gain (meters) was 55.6 meters
+Average Speed (meters/second) was 3.811 meters/second
+Max Speed (meters/second) was 8.16 meters/second
+Average Watts (watts) was 64.5 watts
+Max Watts (watts) was 638.0 watts
+Average Heartrate (bpm) was 135.1 bpm
+Max Heartrate (bpm) was 177.0 bpm
+Kilojoules (kj) was 225.1 kJ
+Elev High (meters) was 4.2 meters
+Elev Low (meters) was -2.8 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 13
+Kudos Count was 0
+Athlete Count was 2
+
+On Friday, October 04th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Run
+Distance (meters) was 11086.3 meters
+Moving Time (seconds) was 3156 seconds
+Elapsed Time (seconds) was 3509 seconds
+Total Elevation Gain (meters) was 71.6 meters
+Average Speed (meters/second) was 3.513 meters/second
+Max Speed (meters/second) was 5.818 meters/second
+Average Watts (watts) was 334.3 watts
+Max Watts (watts) was 590.0 watts
+Average Heartrate (bpm) was 142.7 bpm
+Max Heartrate (bpm) was 168.0 bpm
+Kilojoules (kj) was 1055.2 kJ
+Elev High (meters) was 15.4 meters
+Elev Low (meters) was 0.6 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 1
+Kudos Count was 0
+Athlete Count was 1
+
+On Friday, October 04th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 11897.5 meters
+Moving Time (seconds) was 3059 seconds
+Elapsed Time (seconds) was 3757 seconds
+Total Elevation Gain (meters) was 40.8 meters
+Average Speed (meters/second) was 3.889 meters/second
+Max Speed (meters/second) was 8.62 meters/second
+Average Watts (watts) was 63.0 watts
+Max Watts (watts) was 342.0 watts
+Average Heartrate (bpm) was 138.2 bpm
+Max Heartrate (bpm) was 169.0 bpm
+Kilojoules (kj) was 192.7 kJ
+Elev High (meters) was 6.4 meters
+Elev Low (meters) was -3.2 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 6
+Kudos Count was 0
+Athlete Count was 3
+
+On Thursday, October 03rd 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 12448.5 meters
+Moving Time (seconds) was 3490 seconds
+Elapsed Time (seconds) was 4198 seconds
+Total Elevation Gain (meters) was 47.4 meters
+Average Speed (meters/second) was 3.567 meters/second
+Max Speed (meters/second) was 9.22 meters/second
+Average Watts (watts) was 78.3 watts
+Max Watts (watts) was 258.0 watts
+Average Heartrate (bpm) was 136.0 bpm
+Max Heartrate (bpm) was 183.0 bpm
+Kilojoules (kj) was 273.4 kJ
+Elev High (meters) was 3.6 meters
+Elev Low (meters) was -3.2 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 3
+
+On Wednesday, October 02nd 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Run
+Distance (meters) was 7635.6 meters
+Moving Time (seconds) was 1996 seconds
+Elapsed Time (seconds) was 2686 seconds
+Total Elevation Gain (meters) was 20.8 meters
+Average Speed (meters/second) was 3.825 meters/second
+Max Speed (meters/second) was 9.626 meters/second
+Average Watts (watts) was 78.5 watts
+Max Watts (watts) was 114.0 watts
+Average Heartrate (bpm) was 93.3 bpm
+Max Heartrate (bpm) was 153.0 bpm
+Kilojoules (kj) was 156.7 kJ
+Elev High (meters) was 8.4 meters
+Elev Low (meters) was -1.0 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 2
+
+On Tuesday, October 01st 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 15257.2 meters
+Moving Time (seconds) was 3872 seconds
+Elapsed Time (seconds) was 4267 seconds
+Total Elevation Gain (meters) was 48.2 meters
+Average Speed (meters/second) was 3.94 meters/second
+Max Speed (meters/second) was 7.12 meters/second
+Average Watts (watts) was 85.0 watts
+Max Watts (watts) was 255.0 watts
+Average Heartrate (bpm) was 145.8 bpm
+Max Heartrate (bpm) was 172.0 bpm
+Kilojoules (kj) was 329.0 kJ
+Elev High (meters) was 8.6 meters
+Elev Low (meters) was 0.2 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 29
+Kudos Count was 0
+Athlete Count was 2
+
+On Monday, September 30th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Rowing
+Distance (meters) was 11408.9 meters
+Moving Time (seconds) was 3092 seconds
+Elapsed Time (seconds) was 3358 seconds
+Total Elevation Gain (meters) was 40.0 meters
+Average Speed (meters/second) was 3.69 meters/second
+Max Speed (meters/second) was 6.5 meters/second
+Elev High (meters) was 4.4 meters
+Elev Low (meters) was -3.6 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 4
+Kudos Count was 0
+Athlete Count was 2
+
+On Monday, September 30th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 16983.5 meters
+Moving Time (seconds) was 4134 seconds
+Elapsed Time (seconds) was 5765 seconds
+Total Elevation Gain (meters) was 55.0 meters
+Average Speed (meters/second) was 4.108 meters/second
+Max Speed (meters/second) was 7.94 meters/second
+Average Watts (watts) was 70.8 watts
+Max Watts (watts) was 187.0 watts
+Average Heartrate (bpm) was 136.6 bpm
+Max Heartrate (bpm) was 160.0 bpm
+Kilojoules (kj) was 292.8 kJ
+Elev High (meters) was 7.0 meters
+Elev Low (meters) was -2.0 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 2
+Kudos Count was 0
+Athlete Count was 2
+
+On Friday, September 27th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Run
+Distance (meters) was 11504.0 meters
+Moving Time (seconds) was 3187 seconds
+Elapsed Time (seconds) was 4093 seconds
+Total Elevation Gain (meters) was 82.0 meters
+Average Speed (meters/second) was 3.61 meters/second
+Max Speed (meters/second) was 5.96 meters/second
+Average Watts (watts) was 352.9 watts
+Max Watts (watts) was 641.0 watts
+Average Heartrate (bpm) was 136.0 bpm
+Max Heartrate (bpm) was 170.0 bpm
+Kilojoules (kj) was 1124.5 kJ
+Elev High (meters) was 11.0 meters
+Elev Low (meters) was 2.0 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 25
+Kudos Count was 0
+Athlete Count was 1
+
+On Friday, September 27th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 13699.2 meters
+Moving Time (seconds) was 3502 seconds
+Elapsed Time (seconds) was 3757 seconds
+Total Elevation Gain (meters) was 37.2 meters
+Average Speed (meters/second) was 3.912 meters/second
+Max Speed (meters/second) was 6.62 meters/second
+Average Watts (watts) was 302.9 watts
+Max Watts (watts) was 869.0 watts
+Average Heartrate (bpm) was 145.9 bpm
+Max Heartrate (bpm) was 177.0 bpm
+Kilojoules (kj) was 1060.9 kJ
+Elev High (meters) was 6.6 meters
+Elev Low (meters) was 0.6 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 2
+
+On Thursday, September 26th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 16975.8 meters
+Moving Time (seconds) was 4358 seconds
+Elapsed Time (seconds) was 5036 seconds
+Total Elevation Gain (meters) was 45.0 meters
+Average Speed (meters/second) was 3.895 meters/second
+Max Speed (meters/second) was 7.58 meters/second
+Average Watts (watts) was 60.1 watts
+Max Watts (watts) was 236.0 watts
+Average Heartrate (bpm) was 149.1 bpm
+Max Heartrate (bpm) was 182.0 bpm
+Kilojoules (kj) was 262.0 kJ
+Elev High (meters) was 5.8 meters
+Elev Low (meters) was -1.4 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 11
+Kudos Count was 0
+Athlete Count was 1
+
+On Wednesday, September 25th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Rowing
+Distance (meters) was 10127.1 meters
+Moving Time (seconds) was 3263 seconds
+Elapsed Time (seconds) was 3591 seconds
+Total Elevation Gain (meters) was 61.6 meters
+Average Speed (meters/second) was 3.104 meters/second
+Max Speed (meters/second) was 6.22 meters/second
+Average Heartrate (bpm) was 136.3 bpm
+Max Heartrate (bpm) was 159.0 bpm
+Elev High (meters) was 4.2 meters
+Elev Low (meters) was -5.4 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 2
+
+On Tuesday, September 24th 2024, I had the following health and activity metrics:
+Name was Morning Row
+Sport Type was Rowing
+Distance (meters) was 0.0 meters
+Moving Time (seconds) was 4099 seconds
+Elapsed Time (seconds) was 4099 seconds
+Total Elevation Gain (meters) was 0.0 meters
+Average Speed (meters/second) was 0.0 meters/second
+Max Speed (meters/second) was 0.0 meters/second
+Average Heartrate (bpm) was 133.2 bpm
+Max Heartrate (bpm) was 166.0 bpm
+Elev High (meters) was 0.0 meters
+Elev Low (meters) was 0.0 meters
+Timezone was (GMT-04:00) America/Anguilla
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 1
+
+On Monday, September 23rd 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Rowing
+Distance (meters) was 7444.4 meters
+Moving Time (seconds) was 2576 seconds
+Elapsed Time (seconds) was 2837 seconds
+Total Elevation Gain (meters) was 51.8 meters
+Average Speed (meters/second) was 2.89 meters/second
+Max Speed (meters/second) was 8.68 meters/second
+Average Heartrate (bpm) was 146.7 bpm
+Max Heartrate (bpm) was 182.0 bpm
+Elev High (meters) was 7.4 meters
+Elev Low (meters) was -1.8 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 8
+Kudos Count was 0
+Athlete Count was 2
+
+On Monday, September 23rd 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Rowing
+Distance (meters) was 16283.1 meters
+Moving Time (seconds) was 4116 seconds
+Elapsed Time (seconds) was 4660 seconds
+Total Elevation Gain (meters) was 36.2 meters
+Average Speed (meters/second) was 3.956 meters/second
+Max Speed (meters/second) was 6.92 meters/second
+Average Heartrate (bpm) was 144.0 bpm
+Max Heartrate (bpm) was 173.0 bpm
+Elev High (meters) was 4.8 meters
+Elev Low (meters) was -0.2 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 30
+Kudos Count was 0
+Athlete Count was 2
+
+On Friday, September 20th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Run
+Distance (meters) was 6917.5 meters
+Moving Time (seconds) was 1923 seconds
+Elapsed Time (seconds) was 1936 seconds
+Total Elevation Gain (meters) was 63.0 meters
+Average Speed (meters/second) was 3.597 meters/second
+Max Speed (meters/second) was 4.846 meters/second
+Average Heartrate (bpm) was 132.1 bpm
+Max Heartrate (bpm) was 151.0 bpm
+Elev High (meters) was 11.2 meters
+Elev Low (meters) was 1.2 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 1
+
+On Friday, September 20th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Run
+Distance (meters) was 13433.0 meters
+Moving Time (seconds) was 3646 seconds
+Elapsed Time (seconds) was 4225 seconds
+Total Elevation Gain (meters) was 34.0 meters
+Average Speed (meters/second) was 3.684 meters/second
+Max Speed (meters/second) was 6.328 meters/second
+Average Heartrate (bpm) was 134.1 bpm
+Max Heartrate (bpm) was 157.0 bpm
+Elev High (meters) was 5.6 meters
+Elev Low (meters) was 0.6 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 2
+
+On Thursday, September 19th 2024, I had the following health and activity metrics:
+Name was Morning Run
+Sport Type was Run
+Distance (meters) was 14064.8 meters
+Moving Time (seconds) was 3672 seconds
+Elapsed Time (seconds) was 4614 seconds
+Total Elevation Gain (meters) was 46.8 meters
+Average Speed (meters/second) was 3.83 meters/second
+Max Speed (meters/second) was 7.512 meters/second
+Average Heartrate (bpm) was 140.0 bpm
+Max Heartrate (bpm) was 175.0 bpm
+Elev High (meters) was 5.6 meters
+Elev Low (meters) was -2.0 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 1
+
+On Wednesday, September 18th 2024, I had the following health and activity metrics:
+Name was Afternoon Run
+Sport Type was Run
+Distance (meters) was 11610.6 meters
+Moving Time (seconds) was 3050 seconds
+Elapsed Time (seconds) was 3955 seconds
+Total Elevation Gain (meters) was 37.8 meters
+Average Speed (meters/second) was 3.807 meters/second
+Max Speed (meters/second) was 6.84 meters/second
+Average Heartrate (bpm) was 129.1 bpm
+Max Heartrate (bpm) was 151.0 bpm
+Elev High (meters) was 4.6 meters
+Elev Low (meters) was -2.0 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 1
+
+On Monday, September 16th 2024, I had the following health and activity metrics:
+Name was Afternoon Row
+Sport Type was Rowing
+Distance (meters) was 0.0 meters
+Moving Time (seconds) was 1003 seconds
+Elapsed Time (seconds) was 1003 seconds
+Total Elevation Gain (meters) was 0.0 meters
+Average Speed (meters/second) was 0.0 meters/second
+Max Speed (meters/second) was 0.0 meters/second
+Average Heartrate (bpm) was 187.5 bpm
+Max Heartrate (bpm) was 199.0 bpm
+Elev High (meters) was 0.0 meters
+Elev Low (meters) was 0.0 meters
+Timezone was (GMT-04:00) America/Anguilla
+Achievement Count was 0
+Kudos Count was 0
+Athlete Count was 1
+
