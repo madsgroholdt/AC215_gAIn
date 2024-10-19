@@ -7,6 +7,8 @@ import time
 import glob
 import hashlib
 import chromadb
+from google.cloud import storage
+import shutil
 
 # Vertex AI
 import vertexai
@@ -23,11 +25,14 @@ import rag_agent_tools
 # Setup
 GCP_PROJECT = "ac215-final-project"
 GCP_LOCATION = "us-central1"
+BUCKET_NAME = "gain-bucket"  # Define your GCS bucket here
+BUCKET_INPUT_FOLDER = "processed_user_data"  # Placeholder for the bucket folder
+OUTPUT_FOLDER = "output"  # Placeholder for the bucket folder
 EMBEDDING_MODEL = "text-embedding-004"
 EMBEDDING_DIMENSION = 256
 GENERATIVE_MODEL = "gemini-1.5-flash-001"
-INPUT_FOLDER = "input"
-OUTPUT_FOLDER = "output"
+# INPUT_FOLDER = "input"
+# OUTPUT_FOLDER = "output"
 CHROMADB_HOST = "gain-rag-chromadb"
 CHROMADB_PORT = 8000
 vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
@@ -64,6 +69,20 @@ generative_model = GenerativeModel(
 document_mappings = {
     "Tomas Arevalo-2": {"type": "Activity Log", "source": "Apple Health", "user": "Tomas Arevalo"}
 }
+
+
+def download_from_gcs(folder_name, local_path):
+    """Downloads files from the GCS bucket to a local directory."""
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(BUCKET_NAME)
+
+    blobs = bucket.list_blobs(prefix=folder_name)
+    for blob in blobs:
+        if not blob.name.endswith("/"):  # Skip directory blobs
+            destination = os.path.join(local_path, os.path.basename(blob.name))
+            os.makedirs(os.path.dirname(destination), exist_ok=True)
+            blob.download_to_filename(destination)
+            print(f"Downloaded {blob.name} to {destination}")
 
 
 def generate_query_embedding(query):
@@ -148,10 +167,11 @@ def chunk(method="recursive-split"):
 
     # Make dataset folders
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+    download_from_gcs(BUCKET_INPUT_FOLDER, "local_input")
 
     # Get the list of text file
     # Replace with GCP bucket connection
-    text_files = glob.glob(os.path.join(INPUT_FOLDER, "*.txt"))
+    text_files = glob.glob(os.path.join("local_input", "*.txt"))
     print("Number of files to process:", len(text_files))
 
     # Process
