@@ -1,4 +1,5 @@
 import os
+import csv
 import requests
 from bs4 import BeautifulSoup
 
@@ -34,5 +35,10 @@ urls = ['https://www.cnn.com/2024/10/15/politics/early-voting-record-georgia/ind
 
 # Change base index to the number of articles already stored in GCP bucket
 base_index = 1
-for i, url in enumerate(urls):
-    get_article_content(url, f"article{i+base_index}")
+
+with open('health_fitness_urls.csv', mode='r') as file:
+    urls = csv.reader(file)
+    
+    # Access each row and element
+    for i, url in enumerate(urls):
+        get_article_content(url[0], f"article{i+base_index}")
