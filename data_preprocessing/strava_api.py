@@ -7,7 +7,8 @@ import json
 def get_strava_data():
     # strava endpoints
     token_url = "https://www.strava.com/oauth/token"
-    activities_url = "https://www.strava.com/api/v3/activities"
+    num_activities = 100
+    activities_url = f'https://www.strava.com/api/v3/athlete/activities?per_page={num_activities}'
 
     json_path = os.path.join('..', 'secrets', 'strava_config.json')
     with open(json_path, 'r') as file:
