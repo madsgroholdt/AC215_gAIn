@@ -31,7 +31,6 @@ def get_access_token():
 # Configure OAuth2 access token for authorization: strava_oauth
 configuration = swagger_client.Configuration()
 configuration.access_token = get_access_token()
-print("Access Token:", configuration.access_token)
 
 # create an instance of the API class
 api_instance = swagger_client.ActivitiesApi(swagger_client.ApiClient(configuration))
@@ -42,7 +41,11 @@ per_page = 30 # int | Number of items per page. Defaults to 30. (optional) (defa
 
 try:
     # List Athlete Activities
-    api_response = api_instance.get_logged_in_athlete_activities(before=before, after=after, page=page, per_page=per_page)
+    api_response = api_instance.get_logged_in_athlete_activities(
+        # before=before, 
+        # after=after, 
+        # page=page, 
+        per_page=per_page)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ActivitiesApi->get_logged_in_athlete_activities: %s\n" % e)
