@@ -4,13 +4,10 @@ import csv
 import pandas as pd
 import json
 
-def get_strava_data():
-    # strava endpoints
+def get_access_token():
     token_url = "https://www.strava.com/oauth/token"
-    num_activities = 100
-    activities_url = f'https://www.strava.com/api/v3/athlete/activities?per_page={num_activities}'
 
-    json_path = os.path.join('..', 'secrets', 'strava_config.json')
+    json_path = os.path.join('../..', 'secrets', 'strava_config.json')
     with open(json_path, 'r') as file:
         strava_config = json.load(file)
 
@@ -26,11 +23,16 @@ def get_strava_data():
         'grant_type': 'refresh_token'
     }
     token_response = requests.post(token_url, data=params)
-    access_token = token_response.json().get('access_token')
+    return token_response.json().get('access_token')
+
+def get_strava_data():
+    # strava endpoints
+    num_activities = 100
+    activities_url = f'https://www.strava.com/api/v3/athlete/activities?per_page={num_activities}'
 
     # GET request to get activities list
     headers = {
-        "Authorization": f"Bearer {access_token}"
+        "Authorization": f"Bearer {get_access_token()}"
     }
     activities_response = requests.get(activities_url, headers=headers)
 
