@@ -48,7 +48,7 @@ jobs:
       - name: Install pytest and pytest-cov
         run: |
           python -m pip install --upgrade pip
-          pip install pytest pytest-cov requests beautifulsoup4
+          pip install pytest pytest-cov langchain-core langchain-community numpy
 
       # Step 4: Run pytest with coverage and generate HTML report
       - name: Run tests with coverage
