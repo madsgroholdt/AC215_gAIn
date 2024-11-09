@@ -1,21 +1,19 @@
-## Milestone 2 Template
+## gAIn Milestone 4
 
 ```
-The files are empty placeholders only. You may adjust this template as appropriate for your project.
-Never commit large data files,trained models, personal API Keys/secrets to GitHub
+Below is an overview of the gAIn source code repository.
 ```
 
-#### Project Milestone 2 Organization
+#### gAIn Milestone 4 Organization
 
 ```
 ├── Readme.md
-├── data # DO NOT UPLOAD DATA TO GITHUB, only .gitkeep to keep the directory or a really small sample
-├── notebooks
-│   └── eda.ipynb
-├── references
 ├── reports
-│   └── Statement of Work_Sample.pdf
+│   ├── CheesyAppMidterm.pdf
+│   └── Milestone 1.pdf
+|   └── Milestone 3.pdf
 └── src
+    ├── api-service
     ├── datapipeline
     │   ├── Dockerfile
     │   ├── Pipfile
@@ -23,70 +21,71 @@ Never commit large data files,trained models, personal API Keys/secrets to GitHu
     │   ├── dataloader.py
     │   ├── docker-shell.sh
     │   ├── preprocess_cv.py
-    │   ├── preprocess_rag.py
+    │   └── preprocess_rag.py
     ├── docker-compose.yml
-    └── models
-        ├── Dockerfile
-        ├── docker-shell.sh
-        ├── infer_model.py
-        ├── model_rag.py
-        └── train_model.py
+    ├── frontend
+    ├── models
+    │   ├── Dockerfile
+    │   ├── docker-shell.sh
+    │   ├── infer_model.py
+    │   ├── model_rag.py
+    │   └── train_model.py
+    └── workflow
 ```
 
-# AC215 - Milestone2 - Cheesy App
+# AC215 - Milestone3 - Cheesy App
 
 **Team Members**
-Pavlos Parmigianopapas, Pavlos Ricottapapas and Pavlos Gouda-papas
+Vincent Hock, Tomas Arevalo, Jake **Carmine** Pappo, Mads Groeholdt
 
 **Group Name**
-The Grate Cheese Group
+gAIn - The future of health and fitness
 
 **Project**
-In this project, we aim to develop an AI-powered cheese application. The app will feature visual recognition technology to identify various types of cheese and include a chatbot for answering all kinds of cheese-related questions. Users can simply take a photo of the cheese, and the app will identify it, providing detailed information. Additionally, the chatbot will allow users to ask cheese-related questions. It will be powered by a RAG model and fine-tuned models, making it a specialist in cheese expertise.
+With the gAIn application, we seek to fill an existing gap in the health and fitness industry by providing users with an affordable, knowledgeable, and context-aware AI-enabled personal trainer. Our trainer seeks to replace expensive, thin-stretched personal trainers and fitness coaches, and provides an easier solution for those seeking to educate themselves compared to relying on the internet's scathered, unverified information. The main functionality of the app is a chat interface with the intelligent assistant, where users can ask their coach for advice, training plans, and more. The coach improves on other LLM's in the area of health and fitness by both being fine-tuned on quality-checked expert resources, as well as having access to each user's historical activity and fitness data powered by an AI-agent.
 
-### Milestone2 ###
+---
 
-In this milestone, we have the components for data management, including versioning, as well as the computer vision and language models.
+### Milestone4 - THIS NEEDS TO BE EDITED
 
-**Data**
-We gathered a dataset of 100,000 cheese images representing approximately 1,500 different varieties. The dataset, approximately 100GB in size, was collected from the following sources: (1), (2), (3). We have stored it in a private Google Cloud Bucket.
-Additionally, we compiled 250 bibliographical sources on cheese, including books and reports, from sources such as (4) and (5).
+In this milestone, we have the components for frontend, API service, also components from previous milestones for data management, including versioning, as well as the computer vision and language models.
 
-**Data Pipeline Containers**
-1. One container processes the 100GB dataset by resizing the images and storing them back to Google Cloud Storage (GCS).
+After completions of building a robust ML Pipeline in our previous milestone we have built a backend api service and frontend app. This will be our user-facing application that ties together the various components built in previous milestones.
 
-	**Input:** Source and destination GCS locations, resizing parameters, and required secrets (provided via Docker).
+**Application Design**
 
-	**Output:** Resized images stored in the specified GCS location.
+Before we start implementing the app we built a detailed design document outlining the application’s architecture. We built a Solution Architecture and Technical Architecture to ensure all our components work together.
 
-2. Another container prepares data for the RAG model, including tasks such as chunking, embedding, and populating the vector database.
+Here is our Solution Architecture:
 
-## Data Pipeline Overview
+<img src="images/solution-arch.png"  width="800">
 
-1. **`src/datapipeline/preprocess_cv.py`**
-   This script handles preprocessing on our 100GB dataset. It reduces the image sizes to 128x128 (a parameter that can be changed later) to enable faster iteration during processing. The preprocessed dataset is now reduced to 10GB and stored on GCS.
+Here is our Technical Architecture:
 
-2. **`src/datapipeline/preprocess_rag.py`**
-   This script prepares the necessary data for setting up our vector database. It performs chunking, embedding, and loads the data into a vector database (ChromaDB).
+<img src="images/technical-arch.png"  width="800">
 
-3. **`src/datapipeline/Pipfile`**
-   We used the following packages to help with preprocessing:
-   - `special cheese package`
+**Backend API**
 
-4. **`src/preprocessing/Dockerfile(s)`**
-   Our Dockerfiles follow standard conventions, with the exception of some specific modifications described in the Dockerfile/described below.
+We built backend api service using fast API to expose model functionality to the frontend. We also added apis that will help the frontend display some key information about the model and data.
 
+<img src="images/api-list.png"  width="800">
+
+**Frontend**
+
+A user friendly React app was built to identify various species of mushrooms in the wild using computer vision models from the backend. Using the app a user can take a picture of a mushroom and upload it. The app will send the image to the backend api to get prediction results on weather the mushroom is poisonous or not.
+
+Here are some screenshots of our app:
+
+`Add screenshots here`
 
 ## Running Dockerfile
+
 Instructions for running the Dockerfile can be added here.
 To run Dockerfile - `Instructions here`
-
-**Models container**
-- This container has scripts for model training, rag pipeline and inference
-- Instructions for running the model container - `Instructions here`
 
 **Notebooks/Reports**
 This folder contains code that is not part of container - for e.g: Application mockup, EDA, any 🔍 🕵️‍♀️ 🕵️‍♂️ crucial insights, reports or visualizations.
 
-----
+---
+
 You may adjust this template as appropriate for your project.
