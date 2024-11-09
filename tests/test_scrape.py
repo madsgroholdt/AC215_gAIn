@@ -1,4 +1,3 @@
-from your_module import divide  # Replace with the actual module name
 import pytest
 from src.data_scraping import scrape
 import requests
