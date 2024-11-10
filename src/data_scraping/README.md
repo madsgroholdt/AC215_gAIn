@@ -1,8 +1,8 @@
 This container is responsible for procuring and preprocessing training materials for
-the fine-tuning of the gAIN LLM. These articles cover topics including fitness, health, 
-diet, wellness, exercise, and other related fields. 
+the fine-tuning of the gAIN LLM. These articles cover topics including fitness, health,
+diet, wellness, exercise, and other related fields.
 
-To run this container, create a secrets folder at the same level as the data-scraping 
+To run this container, create a secrets folder at the same level as the data-scraping
 folder. This folder should contain:
  - opensecret.json: A JSON file containing the OpenAI API key connected to your account.
  - data-scraping-service.json: The credentials file connected to the gAIn GCP Service account.

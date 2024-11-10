@@ -1,6 +1,6 @@
-import os
 import requests
 from bs4 import BeautifulSoup
+
 
 def get_article_content(url, title):
     try:
@@ -23,14 +23,19 @@ def get_article_content(url, title):
         # Save the content to a text file
         with open(f"/articles/{title}.txt", 'w') as file:
             file.write(content)
-        
+
         print(f"Article saved to {title}.txt")
 
     except requests.exceptions.RequestException as e:
         print(f"Error fetching article: {e}")
 
-# Replace this with the links we want to scrape 
-urls = ['https://www.cnn.com/2024/10/15/politics/early-voting-record-georgia/index.html']
+
+# Replace this with the links we want to scrape
+urls = [
+    (
+        'https://www.cnn.com/2024/10/15/politics/early-voting-record-georgia/index.html'
+    )
+]
 
 # Change base index to the number of articles already stored in GCP bucket
 base_index = 1

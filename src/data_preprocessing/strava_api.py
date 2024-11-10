@@ -4,6 +4,7 @@ import csv
 import pandas as pd
 import json
 
+
 def get_strava_data():
     # strava endpoints
     token_url = "https://www.strava.com/oauth/token"
@@ -37,10 +38,12 @@ def get_strava_data():
         activities = activities_response.json()
 
         titles = [
-            "start_date", "name", "sport_type", "distance", "moving_time", "elapsed_time",
-            "total_elevation_gain", "average_speed", "max_speed", "average_watts", 
-            "max_watts", "average_heartrate", "max_heartrate", "kilojoules", "elev_high",
-            "elev_low", "timezone", "achievement_count", "kudos_count", "athlete_count",
+            "start_date", "name", "sport_type", "distance", "moving_time",
+            "elapsed_time", "total_elevation_gain", "average_speed",
+            "max_speed", "average_watts", "max_watts", "average_heartrate",
+            "max_heartrate", "kilojoules", "elev_high",
+            "elev_low", "timezone", "achievement_count",
+            "kudos_count", "athlete_count",
         ]
 
         csv_file = "csv_data/activities_data.csv"
@@ -83,8 +86,11 @@ def get_strava_data():
         df.rename(columns=updated_titles, inplace=True)
         df.to_csv(csv_file, index=False)
     else:
-        print(f"Error: {activities_response.status_code} - {activities_response.text}")
+        print(
+            f"""Error:
+            {activities_response.status_code} - {activities_response.text}
+            """)
+
 
 if __name__ == "__main__":
     get_strava_data()
-

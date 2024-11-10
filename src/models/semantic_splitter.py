@@ -68,7 +68,8 @@ def calculate_cosine_distances(sentences: List[dict]) -> Tuple[List[float], List
         embedding_next = sentences[i + 1]["combined_sentence_embedding"]
 
         # Calculate cosine similarity
-        similarity = cosine_similarity([embedding_current], [embedding_next])[0][0]
+        similarity = cosine_similarity(
+            [embedding_current], [embedding_next])[0][0]
 
         # Convert to cosine distance
         distance = 1 - similarity
@@ -116,7 +117,7 @@ class SemanticChunker(BaseDocumentTransformer):
         breakpoint_threshold_amount: Optional[float] = None,
         number_of_chunks: Optional[int] = None,
         sentence_split_regex: str = r"(?<=[.?!])\s+",
-        embedding_function = None,
+        embedding_function=None,
     ):
         self._add_start_index = add_start_index
         self.buffer_size = buffer_size
@@ -154,10 +155,12 @@ class SemanticChunker(BaseDocumentTransformer):
             ) + self.breakpoint_threshold_amount * iqr, distances
         elif self.breakpoint_threshold_type == "gradient":
             # Calculate the threshold based on the distribution of gradient of distance array. # noqa: E501
-            distance_gradient = np.gradient(distances, range(0, len(distances)))
+            distance_gradient = np.gradient(
+                distances, range(0, len(distances)))
             return cast(
                 float,
-                np.percentile(distance_gradient, self.breakpoint_threshold_amount),
+                np.percentile(distance_gradient,
+                              self.breakpoint_threshold_amount),
             ), distance_gradient
         else:
             raise ValueError(
@@ -188,7 +191,6 @@ class SemanticChunker(BaseDocumentTransformer):
         y = min(max(y, 0), 100)
 
         return cast(float, np.percentile(distances, y))
-    
 
     def _calculate_sentence_distances(
         self, single_sentences_list: List[str]
@@ -199,11 +201,12 @@ class SemanticChunker(BaseDocumentTransformer):
             {"sentence": x, "index": i} for i, x in enumerate(single_sentences_list)
         ]
         sentences = combine_sentences(_sentences, self.buffer_size)
-        #print(sentences)
+        # print(sentences)
         # embeddings = self.embeddings.embed_documents(
         #     [x["combined_sentence"] for x in sentences]
         # )
-        embeddings = self.embedding_function([x["combined_sentence"] for x in sentences],batch_size=50)
+        embeddings = self.embedding_function(
+            [x["combined_sentence"] for x in sentences], batch_size=50)
         for i, sentence in enumerate(sentences):
             sentence["combined_sentence_embedding"] = embeddings[i]
 
@@ -226,9 +229,11 @@ class SemanticChunker(BaseDocumentTransformer):
             and len(single_sentences_list) == 2
         ):
             return single_sentences_list
-        distances, sentences = self._calculate_sentence_distances(single_sentences_list)
+        distances, sentences = self._calculate_sentence_distances(
+            single_sentences_list)
         if self.number_of_chunks is not None:
-            breakpoint_distance_threshold = self._threshold_from_clusters(distances)
+            breakpoint_distance_threshold = self._threshold_from_clusters(
+                distances)
             breakpoint_array = distances
         else:
             (
@@ -251,7 +256,7 @@ class SemanticChunker(BaseDocumentTransformer):
             end_index = index
 
             # Slice the sentence_dicts from the current start index to the end index
-            group = sentences[start_index : end_index + 1]
+            group = sentences[start_index: end_index + 1]
             combined_text = " ".join([d["sentence"] for d in group])
             chunks.append(combined_text)
 
@@ -260,7 +265,8 @@ class SemanticChunker(BaseDocumentTransformer):
 
         # The last group, if any sentences remain
         if start_index < len(sentences):
-            combined_text = " ".join([d["sentence"] for d in sentences[start_index:]])
+            combined_text = " ".join([d["sentence"]
+                                     for d in sentences[start_index:]])
             chunks.append(combined_text)
         return chunks
 

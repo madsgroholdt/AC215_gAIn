@@ -1,6 +1,7 @@
 import os
 from google.cloud import storage
 
+
 def upload_to_storage(bucket_name, source_file_path, destination_file_path):
     try:
         # Initialize client
@@ -17,8 +18,9 @@ def upload_to_storage(bucket_name, source_file_path, destination_file_path):
         os.remove(source_file_path)
         print(f"{source_file_path} DELETED locally")
 
-    except:
+    except Exception:
         print(f"\nError uploading file {source_file_path} to GCP bucket")
+
 
 # Set directory names
 bucket_name = "gain-articles"

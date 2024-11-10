@@ -301,4 +301,3 @@ Walking Asymmetry Percentage (%) was 0.273 %
 Walking Double Support Percentage (%) was 27.82 %
 Walking Speed (mi/hr) was 2.8 mi/hr
 Walking Step Length (in) was 26.86 in
-
