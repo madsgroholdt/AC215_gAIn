@@ -1,5 +1,3 @@
-import pytest
-from typing import List
 from src.models.semantic_splitter import combine_sentences
 
 

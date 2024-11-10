@@ -2,7 +2,8 @@
 
 import copy
 import re
-from typing import Any, Dict, Iterable, List, Literal, Optional, Sequence, Tuple, cast
+from typing import (Any, Dict, Iterable, List, Literal,
+                    Optional, Sequence, Tuple, cast)
 
 import numpy as np
 from langchain_community.utils.math import (

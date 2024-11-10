@@ -1,5 +1,3 @@
-import json
-import vertexai
 from vertexai.generative_models import FunctionDeclaration, Tool, Part
 
 # Specify a function declaration and parameters for an API request
@@ -10,8 +8,25 @@ get_file_by_source_func = FunctionDeclaration(
     parameters={
         "type": "object",
         "properties": {
-            "data_source": {"type": "string", "description": "The data source", "enum": ["Apple Health", "Strava", "Garmin Connect", "Whoop"]},
-            "search_content": {"type": "string", "description": "The search text to filter content from books. The search term is compared against the document text based on cosine similarity. Expand the search term to a a sentence or two to get more exact matches."}
+            "data_source": {
+                "type": "string",
+                "description": "The data source",
+                "enum": [
+                    "Apple Health",
+                    "Strava",
+                    "Garmin Connect",
+                    "Whoop",
+                ],
+            },
+            "search_content": {
+                "type": "string",
+                "description": (
+                    "The search text to filter content from books. The search "
+                    "term is compared against the document text based on cosine "
+                    "similarity. Expand the search term to a sentence or two to "
+                    "get more exact matches."
+                ),
+            },
         },
         "required": ["data_source", "search_content"],
     },
