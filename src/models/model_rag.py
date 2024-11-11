@@ -391,9 +391,8 @@ def get_relevant_search_string(prompt):
 def chat(user, prompt, method="recursive-split"):
     print("chat()")
 
-    search_string = get_relevant_search_string(prompt)
+    search_string = get_relevant_search_string(prompt).strip()
     print("Search String: " + search_string)
-    print(type(search_string))
 
     results = query(user, prompt, search_string, method)
 

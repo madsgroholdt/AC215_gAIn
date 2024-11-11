@@ -21,7 +21,7 @@ get_file_by_source_func = FunctionDeclaration(
             "search_content": {
                 "type": "string",
                 "description": (
-                    "The search text to filter content from books. The search "
+                    "The search text to filter content from text. The search "
                     "term is compared against the document text based on cosine "
                     "similarity. Expand the search term to a sentence or two to "
                     "get more exact matches."
@@ -33,7 +33,8 @@ get_file_by_source_func = FunctionDeclaration(
 )
 
 
-def get_file_by_data_source(data_source, search_content, user, collection, embed_func):
+def get_file_by_data_source(data_source, search_content, user,
+                            collection, embed_func):
 
     query_embedding = embed_func(search_content)
 
@@ -61,7 +62,8 @@ def execute_function_calls(function_calls, user, collection, embed_func):
                   function_call.args["search_content"])
             response = get_file_by_data_source(
                 function_call.args["data_source"],
-                function_call.args["search_content"], user, collection, embed_func)
+                function_call.args["search_content"], user,
+                collection, embed_func)
             print("Response:", response)
             parts.append(
                 Part.from_function_response(

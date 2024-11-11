@@ -41,9 +41,9 @@ jobs:
         with:
           python-version: "3.11"
 
-      # Step 2.1: Set PYTHONPATH to include the root directory (or src if relevant)
+      # Step 2.1: Set PYTHONPATH to include the root directory (or src)
       - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV # Adds current directory to PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
 
       # Step 3: Install pytest and pytest-cov for coverage
       - name: Install pytest and pytest-cov
