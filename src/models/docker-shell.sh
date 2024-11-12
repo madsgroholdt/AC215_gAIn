@@ -16,7 +16,7 @@ export IMAGE_NAME="gain-rag-cli"
 docker network inspect gain-rag-network >/dev/null 2>&1 || docker network create gain-rag-network
 
 # Build the image based on the Dockerfile
-docker build -t $IMAGE_NAME -f Dockerfile .
+docker build --no-cache -t $IMAGE_NAME -f Dockerfile .
 
 # Run All Containers
 docker-compose run --rm --service-ports $IMAGE_NAME

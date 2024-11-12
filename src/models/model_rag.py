@@ -348,12 +348,14 @@ def query(user, prompt, search_string=" ", method="recursive-split"):
     print(search_string)
     # search_string = "September 12th"
     # print(search_string)
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=10,
-        where={"source": "Apple Health"},
-        # where_document={"$contains": search_string},
-    )
+    query_args = {
+        "query_embeddings": [query_embedding],
+        "n_results": 10,
+        "where": {"source": {"$ne": ""}},
+        "where_document": {"$contains": search_string}
+    }
+
+    results = collection.query(**query_args)
     print("Query:", prompt)
     print("\n\nResults:", results)
 
@@ -391,11 +393,9 @@ def get_relevant_search_string(prompt):
 def chat(user, prompt, method="recursive-split"):
     print("chat()")
 
-    search_string = get_relevant_search_string(prompt)
-    print("Search String: " + search_string)
-    print(type(search_string))
+    # search_string = get_relevant_search_string(prompt)
 
-    results = query(user, prompt, search_string, method)
+    results = query(user, prompt, method=method)
 
     print("\n\nResults:", results)
 
