@@ -1,5 +1,6 @@
 # Use the official Debian-hosted Python image
 FROM python:3.11-slim-bookworm
+# FROM --platform=linux/amd64 python:3.11-slim-bookworm as build
 
 ARG DEBIAN_PACKAGES="build-essential git screen vim"
 

@@ -35,8 +35,8 @@ EMBEDDING_DIMENSION = 256
 GENERATIVE_MODEL = "gemini-1.5-flash-001"
 # INPUT_FOLDER = "input"
 # OUTPUT_FOLDER = "output"
-CHROMADB_HOST = "gain-rag-chromadb"
-CHROMADB_PORT = 8000
+CHROMADB_HOST = "https://chromadb-service-1059187665772.us-central1.run.app" # URL of ChromaDB cloud run service
+CHROMADB_PORT = 443 # Default HTTPS port
 vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
 # https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api#python
 embedding_model = TextEmbeddingModel.from_pretrained(EMBEDDING_MODEL)
