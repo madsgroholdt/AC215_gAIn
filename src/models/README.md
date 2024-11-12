@@ -14,10 +14,10 @@
 
 ### Query the Vector Database
 - Run `python model_rag.py --query --prompt [USER PROMPT]`
-  - For example, `python model_rag.py --query "How many flights of stairs did I climn in the first week of September?"`
+  - For example, `python model_rag.py --query "How many flights of stairs did I climb in the second week of September?"`
 - This will generate an embedding for the inputted query and perform similarity searches against the embedded chunks in the database.
 
 ### Chat with the LLM
 - Run `python model_rag.py --chat --prompt [USER PROMPT]`
-  - For example, `python model_rag.py --chat --prompt "How far did I run on September 10?"`
+  - For example, `python model_rag.py --chat --prompt "How far did I run on September 11?"`
 - This will output a response from the gAIn LLM, which can inspect your personal health and fitness data to help you learn more and achieve your goals!
