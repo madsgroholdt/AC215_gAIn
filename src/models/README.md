@@ -14,7 +14,7 @@
 
 ### Query the Vector Database
 - Run `python model_rag.py --query --prompt [USER PROMPT]`
-  - For example, `python model_rag.py --query "How many flights of stairs did I climb in the second week of September?"`
+  - For example, `python model_rag.py --query --prompt "How many flights of stairs did I climb in the second week of September?"`
 - This will generate an embedding for the inputted query and perform similarity searches against the embedded chunks in the database.
 
 ### Chat with the LLM
