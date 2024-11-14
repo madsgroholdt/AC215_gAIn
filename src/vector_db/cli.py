@@ -34,6 +34,8 @@ EMBEDDING_DIMENSION = 256
 GENERATIVE_MODEL = "gemini-1.5-flash-001"
 # INPUT_FOLDER = "input"
 # OUTPUT_FOLDER = "output"
+print("CHROMADB_HOST:", os.environ.get("CHROMADB_HOST"))
+print("CHROMADB_PORT:", os.environ.get("CHROMADB_PORT"))
 CHROMADB_HOST = os.environ["CHROMADB_HOST"]
 CHROMADB_PORT = os.environ["CHROMADB_PORT"]
 vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)

@@ -9,9 +9,9 @@ import styles from './ChatInput.module.css';
 
 export default function ChatInput({
     onSendMessage,
-    selectedModel,
+    selectedModel = 'llm-rag',
     onModelChange,
-    disableModelSelect = false
+    disableModelSelect = true
 }) {
     // Component States
     const [message, setMessage] = useState('');

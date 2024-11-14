@@ -7,6 +7,7 @@ from PIL import Image
 from pathlib import Path
 import traceback
 import chromadb
+import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
 from vertexai.generative_models import GenerativeModel, ChatSession, Part
 
@@ -18,6 +19,8 @@ EMBEDDING_DIMENSION = 256
 GENERATIVE_MODEL = "gemini-1.5-flash-002"
 CHROMADB_HOST = os.environ["CHROMADB_HOST"]
 CHROMADB_PORT = os.environ["CHROMADB_PORT"]
+
+vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
 
 # Configuration settings for the content generation
 generation_config = {
