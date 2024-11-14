@@ -14,7 +14,7 @@ export CHROMADB_HOST="gain-rag-chromadb"
 export CHROMADB_PORT=8000
 
 # Create the network if we don't have it yet
-docker network inspect cheese-app-network >/dev/null 2>&1 || docker network create cheese-app-network
+docker network inspect gain-rag-network >/dev/null 2>&1 || docker network create gain-rag-network
 
 # Build the image based on the Dockerfile
 #docker build -t $IMAGE_NAME -f Dockerfile .
