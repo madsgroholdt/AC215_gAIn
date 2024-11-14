@@ -4,17 +4,10 @@ FROM python:3.11-slim-bookworm
 
 ARG DEBIAN_PACKAGES="build-essential git screen vim"
 
-# Prevent apt from showing prompts
+# Environment settings
 ENV DEBIAN_FRONTEND=noninteractive
-
-# Python wants UTF-8 locale
 ENV LANG=C.UTF-8
-
-# Tell pipenv where the shell is. This allows us to use "pipenv shell" as a
-# container entry point.
 ENV PYENV_SHELL=/bin/bash
-
-# Tell Python to disable buffering so we don't lose any logs.
 ENV PYTHONUNBUFFERED=1
 
 # Ensure we have an up to date baseline, install dependencies and
@@ -34,7 +27,7 @@ RUN set -ex; \
     chown app:app /persistent && \
     chown app:app /app
 
-
+    
 # Switch to the new user
 USER app
 WORKDIR /app
