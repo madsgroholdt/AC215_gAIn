@@ -86,6 +86,26 @@ To run Dockerfile - `Instructions here`
 **Notebooks/Reports**
 This folder contains code that is not part of container - for e.g: Application mockup, EDA, any 🔍 🕵️‍♀️ 🕵️‍♂️ crucial insights, reports or visualizations.
 
+## Pushing Dockerfile to Google Cloud Artifact Registry
+Add the below `docker-push.sh` file to a folder that has the Dockerfile for the image you want to add to the project's artifact registry.
+```sh
+#!/bin/bash
+set -e
+
+PROJECT_ID="ac215-final-project"
+REGION="us-central1"
+REPO_NAME="gcf-artifacts"
+IMAGE_NAME="chromadb-service"
+
+# Tag the image for Artifact Registry
+docker build -t $IMAGE_NAME .
+docker tag $IMAGE_NAME $REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME
+
+# Push the image to Artifact Registry
+docker push $REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME
+```
+Then run `sh docker-push.sh` to build the image and add it to the registry.
+
 ---
 
 You may adjust this template as appropriate for your project.
