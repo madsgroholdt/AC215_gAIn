@@ -1,4 +1,6 @@
-from src.models.semantic_splitter import combine_sentences
+import pytest
+from src.models.semantic_splitter import (combine_sentences,
+                                          calculate_cosine_distances)
 
 
 def test_combine_sentences_with_default_buffer():
@@ -34,4 +36,58 @@ def test_combine_sentences_with_single_sentence():
     expected_output = [{"sentence": "Single", "combined_sentence": "Single"}]
 
     result = combine_sentences(sentences)
+    assert result == expected_output
+
+
+def test_calculate_cosine_distances_basic():
+    sentences = [
+        {"combined_sentence_embedding": [1, 0, 0]},
+        {"combined_sentence_embedding": [0, 1, 0]},
+        {"combined_sentence_embedding": [0, 0, 1]},
+    ]
+
+    # Orthogonal vectors have cosine distance of 1
+    expected_distances = [1.0, 1.0]
+    expected_output = [
+        {"combined_sentence_embedding": [1, 0, 0], "distance_to_next": 1.0},
+        {"combined_sentence_embedding": [0, 1, 0], "distance_to_next": 1.0},
+        {"combined_sentence_embedding": [0, 0, 1]},
+    ]
+
+    distances, result = calculate_cosine_distances(sentences)
+    assert distances == expected_distances
+    assert result == expected_output
+
+
+def test_calculate_cosine_distances_single_sentence():
+    sentences = [
+        {"combined_sentence_embedding": [1, 0, 0]},
+    ]
+
+    expected_distances = []
+    expected_output = [{"combined_sentence_embedding": [1, 0, 0]}]
+
+    distances, result = calculate_cosine_distances(sentences)
+    assert distances == expected_distances
+    assert result == expected_output
+
+
+def test_calculate_cosine_distances_correct_sentence_updates():
+    sentences = [
+        {"combined_sentence_embedding": [1, 0, 0]},
+        {"combined_sentence_embedding": [0.5, 0.5, 0]},
+        {"combined_sentence_embedding": [0, 1, 0]},
+    ]
+
+    expected_distances = [0.2929, 0.2929]
+    expected_output = [
+        {"combined_sentence_embedding": [
+            1, 0, 0], "distance_to_next": pytest.approx(0.2929, rel=1e-3)},
+        {"combined_sentence_embedding": [
+            0.5, 0.5, 0], "distance_to_next": pytest.approx(0.2929, rel=1e-3)},
+        {"combined_sentence_embedding": [0, 1, 0]},
+    ]
+
+    distances, result = calculate_cosine_distances(sentences)
+    assert distances == pytest.approx(expected_distances, rel=1e-3)
     assert result == expected_output
