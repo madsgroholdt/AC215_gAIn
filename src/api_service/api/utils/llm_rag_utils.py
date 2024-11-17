@@ -1,15 +1,12 @@
 import os
-from typing import Dict, Any, List, Optional
+from typing import Dict, List
 from fastapi import HTTPException
-import base64
-import io
-from PIL import Image
-from pathlib import Path
+from datetime import datetime
 import traceback
 import chromadb
 import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
-from vertexai.generative_models import GenerativeModel, ChatSession, Part
+from vertexai.generative_models import GenerativeModel, ChatSession
 
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
@@ -28,6 +25,9 @@ generation_config = {
     "temperature": 0.1,  # Control randomness in output
     "top_p": 0.95,  # Use nucleus sampling
 }
+
+# Get the current date to give to the LLM
+today_date = datetime.now().strftime("%A, %B %d, %Y")
 
 # Initialize the GenerativeModel with specific system instructions
 SYSTEM_INSTRUCTION = (
@@ -72,6 +72,9 @@ SYSTEM_INSTRUCTION = (
     "Your goal is to provide accurate, helpful information about health "
     "and fitness to the user, by combining context from the provided "
     "chunks with your abundance of knowledge of the field."
+    f"Today's date is {today_date}. If you do not have data for "
+    "a specific requested timeframe, just inform the user instead "
+    "of giving them irrelevant information from the data you do have."
 )
 generative_model = GenerativeModel(
 	GENERATIVE_MODEL,
