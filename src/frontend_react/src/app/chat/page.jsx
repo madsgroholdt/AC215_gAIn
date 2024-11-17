@@ -94,6 +94,18 @@ export default function ChatPage({ searchParams }) {
                 router.push('/chat?model=' + selectedModel + '&id=' + response.data["chat_id"]);
             } catch (error) {
                 console.error('Error fetching chat:', error);
+
+                // Log all details of the error
+                if (error.response) {
+                    console.error('API Error Response:', error.response.data); // Log server's error response body
+                    console.error('API Error Status:', error.response.status); // Log HTTP status code
+                    console.error('API Error Headers:', error.response.headers); // Log response headers
+                } else if (error.request) {
+                    console.error('API Request Issue:', error.request); // Log details of the request that was made
+                } else {
+                    console.error('Unexpected Error:', error.message); // Log any other errors
+                }
+
                 setIsTyping(false);
                 setChat(null);
                 setChatId(null);

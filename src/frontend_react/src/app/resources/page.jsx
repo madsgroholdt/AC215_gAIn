@@ -10,24 +10,24 @@ import DataService from "../../services/DataService";
 import styles from "./styles.module.css";
 
 
-export default function NewslettersPage({ searchParams }) {
+export default function ResourcesPage({ searchParams }) {
     const params = use(searchParams);
-    const newsletter_id = params.id;
+    const resource_id = params.id;
 
     // Component States
-    const [newsletters, setNewsletters] = useState([]);
-    const [hasActiveNewsletter, setHasActiveNewsletter] = useState(false);
-    const [newsletter, setNewsletter] = useState(null);
+    const [resources, setResources] = useState([]);
+    const [hasActiveResource, setHasActiveResource] = useState(false);
+    const [resource, setResource] = useState(null);
 
-    const fetchNewsletter = async (id) => {
+    const fetchResource = async (id) => {
         try {
-            setNewsletter(null);
-            const response = await DataService.GetNewsletter(id);
-            setNewsletter(response.data);
-            console.log(newsletter);
+            setResource(null);
+            const response = await DataService.GetResource(id);
+            setResource(response.data);
+            console.log(resource);
         } catch (error) {
-            console.error('Error fetching newsletter:', error);
-            setNewsletter(null);
+            console.error('Error fetching resource:', error);
+            setResource(null);
         }
     };
 
@@ -35,78 +35,77 @@ export default function NewslettersPage({ searchParams }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await DataService.GetNewsletters(100);
-                setNewsletters(response.data);
+                const response = await DataService.GetResources(100);
+                setResources(response.data);
             } catch (error) {
                 console.error('Error fetching podcasts:', error);
-                setNewsletters([]); // Set empty array in case of error
+                setResources([]); // Set empty array in case of error
             }
         };
 
         fetchData();
     }, []);
     useEffect(() => {
-        if (newsletter_id) {
-            fetchNewsletter(newsletter_id);
-            setHasActiveNewsletter(true);
+        if (resource_id) {
+            fetchResource(resource_id);
+            setHasActiveResource(true);
         } else {
-            setNewsletter(null);
-            setHasActiveNewsletter(false);
+            setResource(null);
+            setHasActiveResource(false);
         }
-    }, [newsletter_id]);
+    }, [resource_id]);
 
     return (
         <div className={styles.container}>
             {/* Hero Section */}
             <section className={styles.hero}>
                 <div className={styles.heroContent}>
-                    <h1>gAIn Chronicles</h1>
-                    <p>Explore our collection of articles about the world of health and fitness</p>
+                    <h1>Cheese Chronicles</h1>
+                    <p>Explore our collection of articles about the fascinating world of cheese and AI</p>
                 </div>
             </section>
 
             {/* About Section */}
-            {!hasActiveNewsletter && (
+            {!hasActiveResource && (
                 <section className={styles.about}>
                     <div className={styles.aboutContent}>
-                        <h2>About Newsletters</h2>
+                        <h2>About Resources</h2>
                         <p>
-                        Welcome to gAIn’s Chronicles, your ultimate weekly digest on everything health and fitness!
-                        Our newsletters keep you informed with the latest articles, blogs, research, and expert insights on fitness trends, 
-                        nutrition breakthroughs, workout routines, and more. Stay ahead with cutting-edge knowledge from the very material 
-                        our LLM is fine-tuned on, curated to keep you informed and help you achieve your health and wellness goals.
+                            Welcome to Formaggio.me's Cheese Chronicles, your weekly digest of all things cheese!
+                            Our resource dive deep into the fascinating world of artisanal cheese-making,
+                            featuring expert insights, tasting notes, and the latest innovations in cheese technology.
                         </p>
                     </div>
                 </section>
             )}
 
-            {/* Newsletter Grid */}
-            {!hasActiveNewsletter && (
-                <section className={styles.newsletterSection}>
+            {/* Resource Grid */}
+            {!hasActiveResource && (
+                <section className={styles.resourceSection}>
                     <div className={styles.grid}>
-                        {newsletters.map((newsletter) => (
-                            <article key={newsletter.id} className={styles.card}>
+                        {resources.map((resource) => (
+                            <article key={resource.id} className={styles.card}>
                                 <div className={styles.imageContainer}>
                                     <img
-                                        src={DataService.GetNewsletterImage(newsletter.image)}
-                                        alt={newsletter.title}
+                                        src={DataService.GetResourceImage(resource.image)}
+                                        alt={resource.title}
                                         width={400}
                                         height={250}
                                         className={styles.image}
                                     />
-                                    <span className={styles.category}>{newsletter.category}</span>
+                                    <span className={styles.category}>{resource.category}</span>
                                 </div>
 
                                 <div className={styles.content}>
                                     <div className={styles.meta}>
-                                        <span className={styles.date}>{newsletter.date}</span>
-                                        <span className={styles.readTime}>{newsletter.readTime}</span>
+                                        <span className={styles.date}>{resource.date}</span>
+                                        <span className={styles.readTime}>{resource.readTime}</span>
                                     </div>
 
-                                    <h3 className={styles.title}>{newsletter.title}</h3>
-                                    <p className={styles.excerpt}>{newsletter.excerpt}</p>
+                                    <h3 className={styles.title}>{resource.title}</h3>
+                                    <p className={styles.excerpt}>{resource.excerpt}</p>
 
-                                    <Link href={`/newsletters?id=${newsletter.id}`} className={styles.readMore}>
+                                    <Link href={`/resources?id=${resource.id}`} className={styles.readMore}>
                                         Read More <span className={styles.arrow}>→</span>
                                     </Link>
                                 </div>
@@ -114,10 +113,10 @@ export default function NewslettersPage({ searchParams }) {
                         ))}
                     </div>
 
-                    {/* Newsletter Subscription */}
+                    {/* Resource Subscription */}
                     <div className={styles.subscriptionBox}>
                         <h3>Stay Updated</h3>
-                        <p>Subscribe to receive our latest newsletters directly in your inbox.</p>
+                        <p>Subscribe to receive our latest resource directly in your inbox.</p>
                         <form className={styles.subscriptionForm}>
                             <input
                                 type="email"
@@ -132,33 +131,33 @@ export default function NewslettersPage({ searchParams }) {
                 </section>
             )}
 
-            {/* Newsletter Detail View */}
-            {hasActiveNewsletter && newsletter && (
-                <section className={styles.newsletterDetail}>
+            {/* Resource Detail View */}
+            {hasActiveResource && resource && (
+                <section className={styles.resourceDetail}>
                     <div className={styles.detailContainer}>
-                        <Link href="/newsletters" className={styles.backButton}>
-                            ← Back to Newsletters
+                        <Link href="/resource" className={styles.backButton}>
+                            ← Back to Resources
                         </Link>
 
                         <div className={styles.detailHeader}>
-                            <span className={styles.detailCategory}>{newsletter.category}</span>
+                            <span className={styles.detailCategory}>{resource.category}</span>
                             <div className={styles.detailMeta}>
-                                <span className={styles.date}>{newsletter.date}</span>
-                                <span className={styles.readTime}>{newsletter.readTime}</span>
+                                <span className={styles.date}>{resource.date}</span>
+                                <span className={styles.readTime}>{resource.readTime}</span>
                             </div>
-                            <h1 className={styles.detailTitle}>{newsletter.title}</h1>
+                            <h1 className={styles.detailTitle}>{resource.title}</h1>
                         </div>
 
                         <div className={styles.detailImageContainer}>
                             <img
-                                src={DataService.GetNewsletterImage(newsletter.image)}
-                                alt={newsletter.title}
+                                src={DataService.GetResourceImage(resource.image)}
+                                alt={resource.title}
                                 className={styles.detailImage}
                             />
                         </div>
 
                         <div className={styles.detailContent}>
-                            <div dangerouslySetInnerHTML={{ __html: newsletter.detail }} />
+                            <div dangerouslySetInnerHTML={{ __html: resource.detail }} />
                         </div>
 
                         <div className={styles.shareSection}>
