@@ -24,7 +24,7 @@ services:
     volumes:
       - ./tests/integration_tests:/app/tests/integration_tests
     working_dir: /app
-    command: ["python",
+    command: ["pytest",
               "tests/integration_tests/test_data_preprocessing.py"]
     networks:
       - test-network
