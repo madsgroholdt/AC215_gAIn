@@ -1,6 +1,5 @@
 # Use the official Debian-hosted Python image
 FROM python:3.11-slim-bookworm
-# FROM --platform=linux/amd64 python:3.11-slim-bookworm as build
 
 ARG DEBIAN_PACKAGES="build-essential git screen vim"
 
@@ -27,7 +26,7 @@ RUN set -ex; \
     chown app:app /persistent && \
     chown app:app /app
 
-    
+
 # Switch to the new user
 USER app
 WORKDIR /app

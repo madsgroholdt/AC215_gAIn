@@ -1,6 +1,5 @@
 # Use the official Debian-hosted Python image
 FROM python:3.11-slim-bookworm
-# FROM --platform=linux/amd64 python:3.11-slim-bookworm as build
 
 ARG DEBIAN_PACKAGES="build-essential git screen vim"
 
@@ -27,7 +26,7 @@ RUN set -ex; \
     chown app:app /persistent && \
     chown app:app /app
 
-    
+
 # Switch to the new user
 USER app
 WORKDIR /app
@@ -40,6 +39,7 @@ RUN pipenv sync
 # Add the rest of the source code. This is done last so we don't invalidate all
 # layers when we change a line of code.
 ADD --chown=app:app . /app
+ADD docker-entrypoint.sh /app/docker-entrypoint.sh
 
 # Entry point
 ENTRYPOINT ["/bin/bash","./docker-entrypoint.sh"]

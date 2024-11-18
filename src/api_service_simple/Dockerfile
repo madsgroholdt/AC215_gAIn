@@ -1,17 +1,14 @@
 # Use the official Debian-hosted Python image
 FROM python:3.11-slim-bookworm
-# FROM --platform=linux/amd64 python:3.11-slim-bookworm as build
 
+# Required arguments and environment settings
 ARG DEBIAN_PACKAGES="build-essential git screen vim"
-
-# Environment settings
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
 ENV PYENV_SHELL=/bin/bash
 ENV PYTHONUNBUFFERED=1
 
-# Ensure we have an up to date baseline, install dependencies and
-# create a user so we don't run the app as root
+# Update system, install dependencies, and create non-root user
 RUN set -ex; \
     for i in $(seq 1 8); do mkdir -p "/usr/share/man/man${i}"; done && \
     apt-get update && \
@@ -22,24 +19,22 @@ RUN set -ex; \
     pip install --no-cache-dir --upgrade pip && \
     pip install pipenv && \
     useradd -ms /bin/bash app -d /home/app -u 1000 -p "$(openssl passwd -1 Passw0rd)" && \
-    mkdir -p /app && \
-    mkdir -p /persistent && \
-    chown app:app /persistent && \
-    chown app:app /app
+    mkdir -p /app /persistent && \
+    chown app:app /persistent /app
 
-    
-# Switch to the new user
+# Set user to avoid running the app as root and set working directory
 USER app
 WORKDIR /app
 
-# Install python packages
+# Install Python packages using Pipfile and Pipfile.lock
 ADD --chown=app:app Pipfile Pipfile.lock /app/
-
 RUN pipenv sync
 
-# Add the rest of the source code. This is done last so we don't invalidate all
-# layers when we change a line of code.
+# Add source code for the application
 ADD --chown=app:app . /app
 
-# Entry point
-ENTRYPOINT ["/bin/bash","./docker-entrypoint.sh"]
+# Expose port for API service
+EXPOSE 9000
+
+# Start the application
+ENTRYPOINT ["/bin/bash", "./docker-entrypoint.sh"]

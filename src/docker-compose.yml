@@ -1,0 +1,74 @@
+version: '3.8'
+
+networks:
+  gain-rag-network:
+    external: true
+
+services:
+  # Vector Database Service (ChromaDB)
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: gain-vector-db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docker-volumes/chromadb:/chroma/chroma
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+      CHROMA_SERVER_CORS_ALLOW_ORIGINS: '["*"]'
+    networks:
+      - gain-rag-network
+
+  # Data Loading Client for Vector DB
+  gain-vector-db-cli:
+    build:
+      context: ./vector_db
+    container_name: gain-vector-db-cli
+    command: ["pipenv", "run", "python", "cli.py", "--preprocess", "--chunk_type", "semantic-split"]
+    volumes:
+      - ./secrets:/secrets
+      - ./vector_db:/app
+    environment:
+      GCP_PROJECT: ac215-final-project
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/llm-service-account.json
+      CHROMADB_HOST: gain-vector-db
+      CHROMADB_PORT: 8000
+    depends_on:
+      - chromadb
+    networks:
+      - gain-rag-network
+
+  # Backend Service
+  gain-rag-api-service:
+    build:
+      context: ./api_service
+    container_name: gain-rag-api-service
+    volumes:
+      - ./secrets:/secrets
+    environment:
+      GCP_PROJECT: ac215-final-project
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/llm-service-account.json
+      CHROMADB_HOST: gain-vector-db
+      CHROMADB_PORT: 8000
+    ports:
+      - "9000:9000"
+    depends_on:
+      - chromadb
+    networks:
+      - gain-rag-network
+
+  # Frontend Service
+  gain-frontend-react:
+    build:
+      context: ./frontend_react
+      dockerfile: Dockerfile.dev  # or your actual frontend Dockerfile
+    container_name: gain-frontend-react
+    environment:
+      NEXT_PUBLIC_BASE_API_URL: http://gain-rag-api-service:9000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - gain-rag-api-service
+    networks:
+      - gain-rag-network

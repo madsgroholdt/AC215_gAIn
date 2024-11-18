@@ -22,10 +22,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 # from langchain_experimental.text_splitter import SemanticChunker
 from semantic_splitter import SemanticChunker
-import rag_agent_tools
 
 # Setup
-GCP_PROJECT = "ac215-final-project"
+GCP_PROJECT = os.environ["GCP_PROJECT"]
 GCP_LOCATION = "us-central1"
 BUCKET_NAME = "gain-bucket"  # Define your GCS bucket here
 BUCKET_INPUT_FOLDER = "processed_user_data"  # Placeholder for the bucket folder
@@ -35,15 +34,17 @@ EMBEDDING_DIMENSION = 256
 GENERATIVE_MODEL = "gemini-1.5-flash-001"
 # INPUT_FOLDER = "input"
 # OUTPUT_FOLDER = "output"
-CHROMADB_HOST = "gain-rag-chromadb"
-CHROMADB_PORT = 8000
+print("CHROMADB_HOST:", os.environ.get("CHROMADB_HOST"))
+print("CHROMADB_PORT:", os.environ.get("CHROMADB_PORT"))
+CHROMADB_HOST = os.environ["CHROMADB_HOST"]
+CHROMADB_PORT = os.environ["CHROMADB_PORT"]
 vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
 # https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api#python
 embedding_model = TextEmbeddingModel.from_pretrained(EMBEDDING_MODEL)
 # Configuration settings for the content generation
 generation_config = {
     "max_output_tokens": 8192,  # Maximum number of tokens for output
-    "temperature": 0.25,  # Control randomness in output
+    "temperature": 0.2,  # Control randomness in output
     "top_p": 0.95,  # Use nucleus sampling
 }
 # Initialize the GenerativeModel with specific system instructions
