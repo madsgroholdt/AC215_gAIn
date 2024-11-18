@@ -1,13 +1,13 @@
 version: '3.8'
 
 services:
-#   data_scraping_service:
-#     build:
-#       context: ./src/data_scraping
-#     ports:
-#       - "5000:5000"
-#     networks:
-#       - test-network
+  data_scraping_service:
+    build:
+      context: ./src/data_scraping
+    ports:
+      - "5000:5000"
+    networks:
+      - test-network
 
   data_preprocessing_service:
     build:
@@ -29,7 +29,7 @@ services:
     networks:
       - test-network
     depends_on:
-      # - data_scraping_service
+      - data_scraping_service
       - data_preprocessing_service
 
 
