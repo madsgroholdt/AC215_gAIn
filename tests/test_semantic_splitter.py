@@ -46,7 +46,6 @@ def test_calculate_cosine_distances_basic():
         {"combined_sentence_embedding": [0, 0, 1]},
     ]
 
-    # Orthogonal vectors have cosine distance of 1
     expected_distances = [1.0, 1.0]
     expected_output = [
         {"combined_sentence_embedding": [1, 0, 0], "distance_to_next": 1.0},
