@@ -3,16 +3,22 @@ repos:
     rev: v4.3.0
     hooks:
       - id: trailing-whitespace
+        always_run: true
       - id: end-of-file-fixer
+        always_run: true
       - id: check-yaml
+        always_run: true
       - id: detect-private-key
+        always_run: true
       - id: name-tests-test
+        always_run: true
         args: [--pytest-test-first]
 
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
     hooks:
       - id: flake8
+        always_run: true
         args:
           [--max-line-length=88]
           #- --ignore=E203,W503 # Ignore specific errors or warnings
