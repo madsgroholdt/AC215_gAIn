@@ -9,11 +9,11 @@ export default function WhatIs() {
 
             <div className={styles.content}>
                 <div className={styles.textContent}>
-                    <h3 className={styles.subtitle}>Optimize Your Health Journey with gAIn</h3>
+                    <h3 className={styles.subtitle}>Optimize Your Health Journey with <strong>gAIn</strong></h3>
 
                     <p>
                         Imagine having a personal health and fitness coach that not only knows the latest research but
-                        also understands your unique lifestyle. gAIn uses <strong>AI-powered</strong> technology to consolidate expert
+                        also understands your unique lifestyle. gAIn uses AI-powered technology to consolidate expert
                         advice and seamlessly integrate with your personal fitness devices to provide you with customized
                         workout plans, nutrition suggestions, and wellness insights.
                     </p>
@@ -50,12 +50,13 @@ export default function WhatIs() {
 
                 <div className={styles.imageContainer}>
                     <Image
-                        src="/assets/cheese-platter.png"
-                        alt="Cheese platter with various types of cheese"
+                        src="/assets/gain-logo.png"
+                        alt="gAIn logo with robot"
                         fill
-                        sizes="(max-width: 768px) 100vw, 400px"
+                        sizes="(max-width: 768px) 100vw, 800px"
                         style={{
-                            objectFit: 'cover',
+                            objectFit: 'cover', // Ensures the image fills the container
+                            objectPosition: 'top', // Aligns the image to the top
                         }}
                         priority
                     />

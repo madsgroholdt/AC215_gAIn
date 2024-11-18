@@ -17,7 +17,7 @@ import styles from "./styles.module.css";
 export default function ChatPage({ searchParams }) {
     const params = use(searchParams);
     const chat_id = params.id;
-    const model = params.model || 'llm';
+    const model = "llm-rag";
     console.log(chat_id, model);
 
     // Component States
@@ -26,7 +26,6 @@ export default function ChatPage({ searchParams }) {
     const [chat, setChat] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
     const [isTyping, setIsTyping] = useState(false);
-    const [selectedModel, setSelectedModel] = useState(model);
     const router = useRouter();
 
     const fetchChat = async (id) => {
@@ -51,9 +50,6 @@ export default function ChatPage({ searchParams }) {
             setHasActiveChat(false);
         }
     }, [chat_id]);
-    useEffect(() => {
-        setSelectedModel(model);
-    }, [model]);
 
     function tempChatMessage(message) {
         // Set temp values
@@ -91,14 +87,14 @@ export default function ChatPage({ searchParams }) {
 
                 setChat(response.data);
                 setChatId(response.data["chat_id"]);
-                router.push('/chat?model=' + selectedModel + '&id=' + response.data["chat_id"]);
+                router.push('/chat?id=' + response.data["chat_id"]);
             } catch (error) {
                 console.error('Error fetching chat:', error);
                 setIsTyping(false);
                 setChat(null);
                 setChatId(null);
                 setHasActiveChat(false);
-                router.push('/chat?model=' + selectedModel)
+                router.push('/chat');
             }
         };
         startChat(message);
@@ -137,15 +133,6 @@ export default function ChatPage({ searchParams }) {
     const forceRefresh = () => {
         setRefreshKey(prevKey => prevKey + 1);
     };
-    const handleModelChange = (newValue) => {
-
-        setSelectedModel(newValue);
-        var path = '/chat?model=' + newValue;
-        if (chat_id) {
-            path = path + '&id=' + chat_id;
-        }
-        router.push(path)
-    };
 
     return (
         <div className={styles.container}>
@@ -156,7 +143,7 @@ export default function ChatPage({ searchParams }) {
                     <div className={styles.heroContent}>
                         <h1>Your Personal Trainer</h1>
                         {/* Main Chat Input: ChatInput */}
-                        <ChatInput onSendMessage={newChat} className={styles.heroChatInputContainer} selectedModel={selectedModel} onModelChange={handleModelChange}></ChatInput>
+                        <ChatInput onSendMessage={newChat} className={styles.heroChatInputContainer} ></ChatInput>
                     </div>
                 </section>
             )}
@@ -184,9 +171,6 @@ export default function ChatPage({ searchParams }) {
                         <ChatInput
                             onSendMessage={appendChat}
                             chat={chat}
-                            selectedModel={selectedModel}
-                            onModelChange={setSelectedModel}
-                            disableModelSelect={true}
                         ></ChatInput>
                     </div>
                 </div>

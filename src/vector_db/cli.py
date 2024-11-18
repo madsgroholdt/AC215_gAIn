@@ -195,7 +195,7 @@ def get_collection(method="recursive-split"):
     return collection
 
 
-def chunk(method="recursive-split"):
+def chunk(method="semantic-split"):
     print("chunk()")
 
     # Make dataset folders
@@ -549,7 +549,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--chunk_type",
-        default="recursive-split",
+        default="semantic-split",
         help="recursive-split | semantic-split",
     )
     parser.add_argument("--user", default="",

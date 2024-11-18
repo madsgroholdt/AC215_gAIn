@@ -60,8 +60,8 @@ export default function NewslettersPage({ searchParams }) {
             {/* Hero Section */}
             <section className={styles.hero}>
                 <div className={styles.heroContent}>
-                    <h1>Cheese Chronicles</h1>
-                    <p>Explore our collection of articles about the fascinating world of cheese and AI</p>
+                    <h1>gAIn Chronicles</h1>
+                    <p>Explore our collection of articles about the world of health and fitness</p>
                 </div>
             </section>
 
@@ -71,9 +71,10 @@ export default function NewslettersPage({ searchParams }) {
                     <div className={styles.aboutContent}>
                         <h2>About Newsletters</h2>
                         <p>
-                            Welcome to Formaggio.me's Cheese Chronicles, your weekly digest of all things cheese!
-                            Our newsletters dive deep into the fascinating world of artisanal cheese-making,
-                            featuring expert insights, tasting notes, and the latest innovations in cheese technology.
+                        Welcome to gAIn’s Chronicles, your ultimate weekly digest on everything health and fitness!
+                        Our newsletters keep you informed with the latest articles, blogs, research, and expert insights on fitness trends,
+                        nutrition breakthroughs, workout routines, and more. Stay ahead with cutting-edge knowledge from the very material
+                        our LLM is fine-tuned on, curated to keep you informed and help you achieve your health and wellness goals.
                         </p>
                     </div>
                 </section>

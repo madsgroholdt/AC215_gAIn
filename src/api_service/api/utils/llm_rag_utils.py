@@ -1,6 +1,7 @@
 import os
 from typing import Dict, List
 from fastapi import HTTPException
+from datetime import datetime
 import traceback
 import chromadb
 import vertexai
@@ -12,7 +13,7 @@ GCP_PROJECT = os.environ["GCP_PROJECT"]
 GCP_LOCATION = "us-central1"
 EMBEDDING_MODEL = "text-embedding-004"
 EMBEDDING_DIMENSION = 256
-GENERATIVE_MODEL = "gemini-1.5-flash-002"
+GENERATIVE_MODEL = "gemini-1.5-pro"
 CHROMADB_HOST = os.environ["CHROMADB_HOST"]
 CHROMADB_PORT = os.environ["CHROMADB_PORT"]
 
@@ -24,6 +25,9 @@ generation_config = {
     "temperature": 0.1,  # Control randomness in output
     "top_p": 0.95,  # Use nucleus sampling
 }
+
+# Get the current date to give to the LLM
+today_date = datetime.now().strftime("%A, %B %d, %Y")
 
 # Initialize the GenerativeModel with specific system instructions
 SYSTEM_INSTRUCTION = (
@@ -68,6 +72,9 @@ SYSTEM_INSTRUCTION = (
     "Your goal is to provide accurate, helpful information about health "
     "and fitness to the user, by combining context from the provided "
     "chunks with your abundance of knowledge of the field."
+    f"Today's date is {today_date}. If you do not have data for "
+    "a specific requested timeframe, just inform the user instead "
+    "of giving them irrelevant information from the data you do have."
 )
 generative_model = GenerativeModel(
     GENERATIVE_MODEL,

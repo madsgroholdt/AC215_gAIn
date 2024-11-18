@@ -3,13 +3,12 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Info, Podcasts, Email, SmartToy, ChatBubbleOutline } from '@mui/icons-material';
+import { Home, Info, Email, SmartToy, ChatBubbleOutline } from '@mui/icons-material';
 import styles from './Header.module.css';
 
 const navItems = [
     { name: 'Home', path: '/', sectionId: '', icon: <Home fontSize="small" /> },
     { name: 'About', path: '/', sectionId: 'about', icon: <Info fontSize="small" /> },
-    { name: 'Podcasts', path: '/podcasts', sectionId: 'podcasts', icon: <Podcasts fontSize="small" /> },
     { name: 'Newsletters', path: '/newsletters', sectionId: 'newsletters', icon: <Email fontSize="small" /> },
     { name: 'AI Expert', path: '/chat', sectionId: '', icon: <SmartToy fontSize="small" /> }
 ];
@@ -80,9 +79,6 @@ export default function Header() {
                     <Link href="#about" className="text-white hover:text-white/90 transition-colors">
                         About
                     </Link>
-                    <Link href="#podcasts" className="text-white hover:text-white/90 transition-colors">
-                        Podcasts
-                    </Link>
                     <Link href="#newsletters" className="text-white hover:text-white/90 transition-colors">
                         Newsletters
                     </Link>
@@ -134,13 +130,6 @@ export default function Header() {
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             About
-                        </Link>
-                        <Link
-                            href="#podcasts"
-                            className="py-3 text-gray-800"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            Podcasts
                         </Link>
                     </nav>
                 </div>

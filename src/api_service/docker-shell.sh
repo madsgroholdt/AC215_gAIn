@@ -10,7 +10,7 @@ export PERSISTENT_DIR=$(pwd)/../persistent-folder/
 export SECRETS_DIR=$(pwd)/../secrets/
 export GCP_PROJECT="ac215-final-project"
 export GCS_BUCKET_NAME="gain-bucket"
-export CHROMADB_HOST="gain-rag-chromadb"
+export CHROMADB_HOST="gain-vector-db"
 export CHROMADB_PORT=8000
 
 # Create the network if we don't have it yet

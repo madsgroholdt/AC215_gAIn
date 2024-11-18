@@ -7,17 +7,10 @@ import IconButton from '@mui/material/IconButton';
 // Styles
 import styles from './ChatInput.module.css';
 
-export default function ChatInput({
-    onSendMessage,
-    selectedModel = 'llm-rag',
-    onModelChange,
-    disableModelSelect = true
-}) {
+export default function ChatInput({ onSendMessage }) {
     // Component States
     const [message, setMessage] = useState('');
-    const [selectedImage, setSelectedImage] = useState(null);
     const textAreaRef = useRef(null);
-    const fileInputRef = useRef(null);
 
     const adjustTextAreaHeight = () => {
         const textarea = textAreaRef.current;
@@ -50,80 +43,25 @@ export default function ChatInput({
     };
     const handleSubmit = () => {
 
-        if (message.trim() || selectedImage) {
+        if (message.trim()) {
             console.log('Submitting message:', message);
-            const newMessage = {
-                content: message.trim(),
-                image: selectedImage?.preview || null
-            };
+            const newMessage = { content: message.trim() };
 
             // Send the message
             onSendMessage(newMessage);
 
             // Reset
             setMessage('');
-            setSelectedImage(null);
-            if (textAreaRef.current) {
-                textAreaRef.current.style.height = 'auto';
-            }
-            if (fileInputRef.current) {
-                fileInputRef.current.value = '';
-            }
-        }
-    };
-    const handleImageClick = () => {
-        fileInputRef.current?.click();
-    };
-    const handleImageChange = (e) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            if (file.size > 5000000) { // 5MB limit
-                alert('File size should be less than 5MB');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setSelectedImage({
-                    file: file,
-                    preview: reader.result
-                });
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-    const handleModelChange = (event) => {
-        onModelChange(event.target.value);
-    };
-
-    const removeImage = () => {
-        setSelectedImage(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
         }
     };
 
     return (
         <div className={styles.chatInputContainer}>
-            {selectedImage && (
-                <div className={styles.imagePreview}>
-                    <img
-                        src={selectedImage.preview}
-                        alt="Preview"
-                    />
-                    <button
-                        className={styles.removeImageBtn}
-                        onClick={removeImage}
-                    >
-                        ×
-                    </button>
-                </div>
-            )}
             <div className={styles.textareaWrapper}>
                 <textarea
                     ref={textAreaRef}
                     className={styles.chatInput}
-                    placeholder="How can Formaggio help you today?"
+                    placeholder="How can gAIn help you today?"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={(e) => {
@@ -137,37 +75,14 @@ export default function ChatInput({
                 <button
                     className={`${styles.submitButton} ${message.trim() ? styles.active : ''}`}
                     onClick={handleSubmit}
-                    disabled={!message.trim() && !selectedImage}
+                    disabled={!message.trim()}
                 >
                     <Send />
                 </button>
             </div>
             <div className={styles.inputControls}>
-                <div className={styles.leftControls}>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        className={styles.hiddenFileInput}
-                        accept="image/*"
-                        onChange={handleImageChange}
-                    />
-                    <IconButton aria-label="camera" className={styles.iconButton} onClick={handleImageClick}>
-                        <CameraAltOutlined />
-                    </IconButton>
-                </div>
                 <div className={styles.rightControls}>
                     <span className={styles.inputTip}>Use shift + return for new line</span>
-                    <select
-                        className={styles.modelSelect}
-                        value={selectedModel}
-                        onChange={handleModelChange}
-                        disabled={disableModelSelect}
-                    >
-                        <option value="llm">Formaggio Assistant (LLM)</option>
-                        <option value="llm-cnn">Formaggio Assistant (LLM + CNN)</option>
-                        <option value="llm-rag">Cheese Expert (RAG)</option>
-                        <option value="llm-agent">Cheese Expert (Agent)</option>
-                    </select>
                 </div>
             </div>
         </div>
