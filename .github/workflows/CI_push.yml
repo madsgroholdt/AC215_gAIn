@@ -52,10 +52,6 @@ jobs:
         run: docker-compose down
         working-directory: ./
 
-      # Run pre-commit hooks
-      - name: Run pre-commit hooks
-        run: pre-commit run --all-files
-
       # Set PYTHONPATH to include the root directory (or src)
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
@@ -67,6 +63,10 @@ jobs:
           pip install pytest pytest-cov langchain-core langchain-community
           pip install numpy pre-commit
           pre-commit install-hooks
+
+      # Run pre-commit hooks
+      - name: Run pre-commit hooks
+        run: pre-commit run --all-files
 
       # Run pytest with coverage and generate HTML report
       - name: Run tests with coverage
