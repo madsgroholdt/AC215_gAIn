@@ -64,7 +64,10 @@ export default function Newsletter() {
                     />
                     <h3>About Newsletters</h3>
                     <p>
-                        Welcome to Formaggio.me's Cheese Chronicles, your weekly digest of all things cheese! Our newsletters dive deep into the fascinating world of artisanal cheese-making, featuring expert insights, tasting notes, and the latest innovations in cheese technology. From traditional techniques to AI-powered cheese analysis, we explore the intersection of time-honored craftsmanship and modern innovation. Whether you're a cheese professional, enthusiast, or just beginning your cheese journey, our newsletters provide valuable insights, pairing suggestions, and behind-the-scenes looks at the world's finest cheeses. Stay informed, inspired, and connected to the global cheese community with our weekly updates!
+                        Welcome to gAIn’s Chronicles, your ultimate weekly digest on everything health and fitness!
+                        Our newsletters keep you informed with the latest articles, blogs, research, and expert insights on fitness trends, 
+                        nutrition breakthroughs, workout routines, and more. Stay ahead with cutting-edge knowledge from the very material 
+                        our LLM is fine-tuned on, curated to keep you informed and help you achieve your health and wellness goals.
                     </p>
                 </div>
             </div>
