@@ -10,7 +10,7 @@ const navItems = [
     { name: 'Home', path: '/', sectionId: '', icon: <Home fontSize="small" /> },
     { name: 'About', path: '/', sectionId: 'about', icon: <Info fontSize="small" /> },
     { name: 'Newsletters', path: '/newsletters', sectionId: 'newsletters', icon: <Email fontSize="small" /> },
-    { name: 'AI Expert', path: '/chat', sectionId: '', icon: <SmartToy fontSize="small" /> }
+    { name: 'gAIn', path: '/chat', sectionId: '', icon: <SmartToy fontSize="small" /> }
 ];
 
 export default function Header() {

@@ -50,7 +50,7 @@ export default function WhatIs() {
 
                 <div className={styles.imageContainer}>
                     <Image
-                        src="/assets/gain-logo.png"
+                        src="/assets/gain_logo.png"
                         alt="gAIn logo with robot"
                         fill
                         sizes="(max-width: 768px) 100vw, 800px"

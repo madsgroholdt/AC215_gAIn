@@ -69,7 +69,7 @@ export default function ChatMessage({
                     >
                         <div className={styles.messageIcon}>
                             {msg.role === 'assistant' && (
-                                <SmartToy sx={{ color: '#FFD700' }} />
+                                <SmartToy sx={{ color: '#fff' }} />
                             )}
                             {msg.role === 'cnn' && (
                                 <RemoveRedEyeIcon sx={{ color: '#D700EE' }} />

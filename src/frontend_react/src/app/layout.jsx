@@ -17,7 +17,7 @@ export default async function RootLayout({ children }) {
         <html lang="en">
             <head>
                 <meta charSet="utf-8" />
-                <link href="assets/logo.png" rel="shortcut icon" type="image/x-icon"></link>
+                <link href="assets/gain_logo.png" rel="shortcut icon" type="image/x-icon"></link>
                 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1" />
                 <link
                     href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&family=Montserrat:wght@700&family=Playfair+Display:wght@400;700&display=swap"

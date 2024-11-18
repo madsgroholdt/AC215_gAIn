@@ -5,7 +5,7 @@
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        url('/assets/hero_background.png');
+        url('/assets/hero_background.jpg');
     background-size: cover;
     background-position: center;
     height: 400px;
@@ -36,13 +36,13 @@
 .heroChatInputContainer {
     max-width: 800px;
     margin: 0 auto 60px;
-    background: #363636;
+    background: #fff;
     border-radius: 12px;
     padding: 20px;
 }
 
 .chatHeader {
-    background: rgba(0, 0, 0, 0.9);
+    background: #00002b;
     height: 80px;
 }
 
