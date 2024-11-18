@@ -8,8 +8,8 @@ export default function About() {
             <div className={styles.underline}></div>
             <div className={styles.content}>
                 <p>
-                Welcome to <strong>gAIn</strong>, your one-stop AI-powered platform for personalized health and fitness guidance. 
-                Using advanced Retrieval-Augmented Generation (RAG) technology, gAIn brings expert knowledge on fitness, nutrition, and well-being directly to you.
+                Welcome to <strong>gAIn</strong>, your one-stop AI-powered platform for personalized health and fitness guidance.
+                Using advanced Retrieval-Augmented Generation (RAG) technology and state-of-the art LLMs, gAIn brings expert knowledge on fitness, nutrition, and well-being directly to you.
                 </p>
 
                 <p>

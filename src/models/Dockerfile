@@ -27,7 +27,7 @@ RUN set -ex; \
     chown app:app /persistent && \
     chown app:app /app
 
-    
+
 # Switch to the new user
 USER app
 WORKDIR /app
