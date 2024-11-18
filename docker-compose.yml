@@ -29,7 +29,7 @@ services:
     networks:
       - test-network
     depends_on:
-      - data_scraping_service
+      # - data_scraping_service
       - data_preprocessing_service
 
 
