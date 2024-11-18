@@ -1,15 +1,11 @@
 import os
-from typing import Dict, Any, List, Optional
+from typing import Dict, List
 from fastapi import HTTPException
-import base64
-import io
-from PIL import Image
-from pathlib import Path
 import traceback
 import chromadb
 import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
-from vertexai.generative_models import GenerativeModel, ChatSession, Part
+from vertexai.generative_models import GenerativeModel, ChatSession
 
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
@@ -74,8 +70,8 @@ SYSTEM_INSTRUCTION = (
     "chunks with your abundance of knowledge of the field."
 )
 generative_model = GenerativeModel(
-	GENERATIVE_MODEL,
-	system_instruction=[SYSTEM_INSTRUCTION]
+    GENERATIVE_MODEL,
+    system_instruction=[SYSTEM_INSTRUCTION]
 )
 # https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api#python
 embedding_model = TextEmbeddingModel.from_pretrained(EMBEDDING_MODEL)
@@ -90,36 +86,42 @@ collection_name = f"{method}-collection"
 # Get the collection
 collection = client.get_collection(name=collection_name)
 
+
 def generate_query_embedding(query):
-	query_embedding_inputs = [TextEmbeddingInput(task_type='RETRIEVAL_DOCUMENT', text=query)]
-	kwargs = dict(output_dimensionality=EMBEDDING_DIMENSION) if EMBEDDING_DIMENSION else {}
-	embeddings = embedding_model.get_embeddings(query_embedding_inputs, **kwargs)
-	return embeddings[0].values
+    query_embedding_inputs = [TextEmbeddingInput(
+        task_type='RETRIEVAL_DOCUMENT', text=query)]
+    kwargs = dict(
+        output_dimensionality=EMBEDDING_DIMENSION) if EMBEDDING_DIMENSION else {}
+    embeddings = embedding_model.get_embeddings(
+        query_embedding_inputs, **kwargs)
+    return embeddings[0].values
+
 
 def create_chat_session() -> ChatSession:
     """Create a new chat session with the model"""
     return generative_model.start_chat()
 
+
 def generate_chat_response(chat_session: ChatSession, message: Dict) -> str:
     """
     Generate a response using the chat session to maintain history.
-    
+
     Args:
         chat_session: The Vertex AI chat session
         message: Dict containing 'content' (text)
-    
+
     Returns:
         str: The model's response
     """
     try:
         # Initialize parts list for the message
         message_parts = []
-        
+
         # Add text content if present
         if message.get("content"):
             # Create embeddings for the message content
             query_embedding = generate_query_embedding(message["content"])
-            # Retrieve chunks based on embedding value 
+            # Retrieve chunks based on embedding value
             results = collection.query(
                 query_embeddings=[query_embedding],
                 n_results=5,
@@ -130,19 +132,19 @@ def generate_chat_response(chat_session: ChatSession, message: Dict) -> str:
             documents_text = "\n".join(results["documents"][0])
             INPUT_PROMPT = f"{content_text}\n{documents_text}"
             message_parts.append(INPUT_PROMPT)
-                    
-        
+
         if not message_parts:
-            raise ValueError("Message must contain either text content or image")
+            raise ValueError(
+                "Message must contain either text content or image")
 
         # Send message with all parts to the model
         response = chat_session.send_message(
             message_parts,
             generation_config=generation_config
         )
-        
+
         return response.text
-        
+
     except Exception as e:
         print(f"Error generating response: {str(e)}")
         traceback.print_exc()
@@ -151,12 +153,13 @@ def generate_chat_response(chat_session: ChatSession, message: Dict) -> str:
             detail=f"Failed to generate response: {str(e)}"
         )
 
+
 def rebuild_chat_session(chat_history: List[Dict]) -> ChatSession:
     """Rebuild a chat session with complete context"""
     new_session = create_chat_session()
-    
+
     for message in chat_history:
         if message["role"] == "user":
             generate_chat_response(new_session, message)
-    
+
     return new_session

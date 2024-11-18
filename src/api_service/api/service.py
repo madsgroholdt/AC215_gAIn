@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from api.routers import llm_chat, llm_cnn_chat, llm_rag_chat, llm_agent_chat
-from api.routers import newsletter, podcast
+from api.routers import llm_rag_chat
 
 # Setup FastAPI app
 app = FastAPI(title="API Server", description="API Server", version="v1")
