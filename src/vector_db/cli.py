@@ -5,7 +5,7 @@ import glob
 import hashlib
 import chromadb
 from google.cloud import storage
-from models import rag_agent_tools
+
 # Vertex AI
 import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
@@ -549,7 +549,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--chunk_type",
-        default="semantic-split",
+        default="recursive-split",
         help="recursive-split | semantic-split",
     )
     parser.add_argument("--user", default="",
