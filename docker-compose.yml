@@ -34,5 +34,5 @@ services:
 
 
 networks:
-  calc-network:
+  test-network:
     driver: bridge
