@@ -17,6 +17,14 @@ services:
     networks:
       - test-network
 
+  model_rag_service:
+    build:
+      context: ./src/models
+    ports:
+      - "5002:5002"
+    networks:
+      - test-network
+
   test_runner:
     build:
       context: .
@@ -24,13 +32,14 @@ services:
     volumes:
       - ./tests/integration_tests:/app/tests/integration_tests
     working_dir: /app
-    command: ["pytest",
+    command: ["python",
               "tests/integration_tests/test_data_preprocessing.py"]
     networks:
       - test-network
     depends_on:
       - data_scraping_service
       - data_preprocessing_service
+      - model_rag_service
 
 
 networks:
