@@ -23,6 +23,7 @@ Below is an overview of the gAIn source code repository.
     │   ├── redirect.py
     │   ├── strava_api.py
     │   ├── csv_to_txt.py
+    │   ├── README.md
     ├── datapipeline
     │   ├── Dockerfile
     │   ├── Pipfile
