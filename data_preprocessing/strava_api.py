@@ -5,10 +5,11 @@ import pandas as pd
 import json
 import time
 
+
 def get_access_token():
     token_url = "https://www.strava.com/oauth/token"
     json_path = os.path.join('../', 'secrets', 'strava_config.json')
-    
+
     with open(json_path, 'r') as file:
         strava_config = json.load(file)
 
@@ -18,9 +19,9 @@ def get_access_token():
     refresh_token = strava_config['refresh_token']
     expires_at = strava_config['expires_at']
 
-    assert(access_token)
-    assert(refresh_token)
-    assert(expires_at)
+    assert (access_token)
+    assert (refresh_token)
+    assert (expires_at)
 
     # Check if the current token is still valid
     current_time = int(time.time())
@@ -50,16 +51,17 @@ def get_access_token():
 
         with open(json_path, 'w') as file:
             json.dump(strava_config, file, indent=4)
-        print("Access token has been refreshed and strava_config.json has been updated.")
+        print("Access token has been refreshed and strava_config.json has \
+              been updated.")
         return access_token
-    
+
     print("Error refreshing access token:", token_response.json())
     exit(1)
 
 
 def get_strava_data(access_token):
     activities_url = "https://www.strava.com/api/v3/athlete/activities"
-    header = { 'Authorization': f'Bearer {access_token}' }
+    header = {'Authorization': f'Bearer {access_token}'}
 
     # GET request to get activities list
     request_page_num = 1
@@ -78,19 +80,21 @@ def get_strava_data(access_token):
         else:
             print(f"Error: {response.status_code} - {response.text}")
             exit(1)
-    
+
     return all_activities
+
 
 def create_activities_csv(all_activities, access_token):
     titles = [
-        "start_date", "name", "sport_type", "distance", "moving_time", "elapsed_time",
-        "total_elevation_gain", "average_speed", "max_speed", "average_watts", 
-        "max_watts", "average_heartrate", "max_heartrate", "kilojoules", "elev_high",
-        "elev_low", "timezone", "achievement_count", "kudos_count", "athlete_count",
+        "start_date", "name", "sport_type", "distance", "moving_time",
+        "elapsed_time", "total_elevation_gain", "average_speed", "max_speed",
+        "average_watts", "max_watts", "average_heartrate", "max_heartrate",
+        "kilojoules", "elev_high", "elev_low", "timezone", "achievement_count",
+        "kudos_count", "athlete_count",
     ]
 
     athlete_url = "https://www.strava.com/api/v3/athlete"
-    header = { 'Authorization': f'Bearer {access_token}' }
+    header = {'Authorization': f'Bearer {access_token}'}
     athlete_response = requests.get(athlete_url, headers=header)
     athlete_info = athlete_response.json()
 

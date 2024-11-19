@@ -21,7 +21,7 @@ def fetch_data(access_token):
     """Step 2: Fetch data from Strava API and store in CSV."""
     print("Fetching Activities via Strava API")
     activities = get_strava_data(access_token)
-    
+
     print("Storing Activities in CSV file")
     create_activities_csv(activities, access_token)
 
@@ -40,18 +40,27 @@ def upload():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Strava Data Processing Script")
-    parser.add_argument('--authenticate', action='store_true', help="Step 1: Authenticate")
-    parser.add_argument('--fetch_data', action='store_true', help="Step 2: Fetch + Store data")
-    parser.add_argument('--generate', action='store_true', help="Step 3: Generate TXT files")
-    parser.add_argument('--upload', action='store_true', help="Step 4: Upload Data to GCP")
+    parser = argparse.ArgumentParser(
+        description="Strava Data Processing Script"
+        )
+    parser.add_argument('--authenticate',
+                        action='store_true',
+                        help="Step 1: Authenticate")
+    parser.add_argument('--fetch_data',
+                        action='store_true',
+                        help="Step 2: Fetch + Store data")
+    parser.add_argument('--generate',
+                        action='store_true',
+                        help="Step 3: Generate TXT files")
+    parser.add_argument('--upload',
+                        action='store_true',
+                        help="Step 4: Upload Data to GCP")
 
-    
     args = parser.parse_args()
     print(args)
 
-    if args == argparse.Namespace(authenticate=False, 
-                                  fetch_data=False, 
+    if args == argparse.Namespace(authenticate=False,
+                                  fetch_data=False,
                                   generate=False,
                                   upload=False):
         access_token = authenticate()

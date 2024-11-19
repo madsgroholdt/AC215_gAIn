@@ -35,7 +35,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         if auth_code:
             self.send_response(200)
             self.end_headers()
-            self.wfile.write(b"Authorization code received. You can close this window.")
+            self.wfile.write(b"Authorization code received. \
+                             You can close this window.")
 
             # Exchange the authorization code for an access token
             token_exchange_url = "https://www.strava.com/oauth/token"
