@@ -5,16 +5,16 @@ import glob
 import hashlib
 import chromadb
 from google.cloud import storage
-from models import rag_agent_tools
+# from models import rag_agent_tools
 # Vertex AI
 import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
 from vertexai.generative_models import (
     GenerativeModel,
-    GenerationConfig,
-    Content,
-    Part,
-    ToolConfig,
+    # GenerationConfig,
+    # Content,
+    # Part,
+    # ToolConfig,
 )
 
 # Langchain
@@ -422,57 +422,57 @@ def get(user, method="recursive-split"):
     print("\n\nResults:", results)
 
 
-def agent(user, prompt, method="recursive-split"):
-    print("agent()")
+# def agent(user, prompt, method="recursive-split"):
+#     print("agent()")
 
-    collection = get_collection(method)
+#     collection = get_collection(method)
 
-    user_prompt_content = Content(
-        role="user",
-        parts=[
-            Part.from_text(prompt),
-        ],
-    )
+#     user_prompt_content = Content(
+#         role="user",
+#         parts=[
+#             Part.from_text(prompt),
+#         ],
+#     )
 
-    # Step 1: Prompt LLM to find the tool(s) to execute to find
-    # the relevant chunks in vector db
-    print("user_prompt_content: ", user_prompt_content)
-    response = generative_model.generate_content(
-        user_prompt_content,
-        generation_config=GenerationConfig(
-            temperature=0),  # Configuration settings
-        # Tools available to the model
-        tools=[rag_agent_tools.fitness_expert_tool],
-        tool_config=ToolConfig(
-            function_calling_config=ToolConfig.FunctionCallingConfig(
-                # ANY mode forces the model to predict only function calls
-                mode=ToolConfig.FunctionCallingConfig.Mode.ANY,
-            )
-        ),
-    )
-    print("LLM Response:", response)
+#     # Step 1: Prompt LLM to find the tool(s) to execute to find
+#     # the relevant chunks in vector db
+#     print("user_prompt_content: ", user_prompt_content)
+#     response = generative_model.generate_content(
+#         user_prompt_content,
+#         generation_config=GenerationConfig(
+#             temperature=0),  # Configuration settings
+#         # Tools available to the model
+#         tools=[rag_agent_tools.fitness_expert_tool],
+#         tool_config=ToolConfig(
+#             function_calling_config=ToolConfig.FunctionCallingConfig(
+#                 # ANY mode forces the model to predict only function calls
+#                 mode=ToolConfig.FunctionCallingConfig.Mode.ANY,
+#             )
+#         ),
+#     )
+#     print("LLM Response:", response)
 
-    # Step 2: Execute the function and send chunks back to LLM to answer
-    # get the final response
-    function_calls = response.candidates[0].function_calls
-    print("Function calls:")
-    print(function_calls)
-    function_responses = rag_agent_tools.execute_function_calls(
-        function_calls, user, collection, embed_func=generate_query_embedding
-    )
-    if len(function_responses) == 0:
-        print("Function calls did not result in any responses...")
-    else:
-        # Call LLM with retrieved responses
-        response = generative_model.generate_content(
-            [
-                user_prompt_content,  # User prompt
-                response.candidates[0].content,  # Function call response
-                Content(parts=function_responses),
-            ],
-            tools=[rag_agent_tools.fitness_expert_tool],
-        )
-        print("LLM Response:", response)
+#     # Step 2: Execute the function and send chunks back to LLM to answer
+#     # get the final response
+#     function_calls = response.candidates[0].function_calls
+#     print("Function calls:")
+#     print(function_calls)
+#     function_responses = rag_agent_tools.execute_function_calls(
+#         function_calls, user, collection, embed_func=generate_query_embedding
+#     )
+#     if len(function_responses) == 0:
+#         print("Function calls did not result in any responses...")
+#     else:
+#         # Call LLM with retrieved responses
+#         response = generative_model.generate_content(
+#             [
+#                 user_prompt_content,  # User prompt
+#                 response.candidates[0].content,  # Function call response
+#                 Content(parts=function_responses),
+#             ],
+#             tools=[rag_agent_tools.fitness_expert_tool],
+#         )
+#         print("LLM Response:", response)
 
 
 def main(args=None):
@@ -497,7 +497,8 @@ def main(args=None):
         get(user=args.user, method=args.chunk_type)
 
     if args.agent:
-        agent(user=args.user, prompt=args.prompt, method=args.chunk_type)
+        print('Agent not available yet')
+        # agent(user=args.user, prompt=args.prompt, method=args.chunk_type)
     if args.preprocess:
         preprocess_files(method=args.chunk_type)
 
