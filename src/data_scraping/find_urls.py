@@ -58,11 +58,15 @@ assistant = Assistant(
 
 num_urls = 500
 prompt = f"""
-            Generate a list of at least {num_urls} URLs of articles related to health, fitness, diet, and exercise. These articles
-            can be published papers, blogs, editorials, or scientific reports. Pay special attention that each URL really
-            links to an article that can be accessed publicly. Include nothing else in the list except for these URLs. Again, return just
-            a list of the URLs, no text besides the URLs, and each URL should be separated by a comma. Export a CSV file containing all
-            of these URLs and name this csv 'urls.csv'.
+            Generate a list of at least {num_urls} URLs of articles related to health, \
+                  fitness, diet, and exercise. These articles can be published \
+                  papers, blogs, editorials, or scientific reports. Pay special \
+                  attention that each URL really links to an article that can be \
+                  accessed publicly. Include nothing else in the list except for \
+                  these URLs. Again, return just a list of the URLs, no text \
+                  besides the URLs, and each URL should be separated by a comma. \
+                  Export a CSV file containing all of these URLs and name this \
+                  csv 'urls.csv'.
 """
 
 assistant.print_response(prompt)
