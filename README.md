@@ -76,7 +76,9 @@ A user-friendly React app was built to identify various species of mushrooms in 
 
 Here are some screenshots of our app:
 <img src="images/gain_home.png"  width="800">
+
 <img src="images/new_chat.png"  width="800">
+
 <img src="images/gain_convo.png"  width="800">
 
 
