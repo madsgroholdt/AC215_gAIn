@@ -25,7 +25,7 @@ services:
     build:
       context: ./vector_db
     container_name: gain-vector-db-cli
-    command: ["pipenv", "run", "python", "cli.py", "--preprocess", "--chunk_type", "semantic-split"]
+    command: ["pipenv", "run", "python", "cli.py", "--preprocess"]
     volumes:
       - ./secrets:/secrets
       - ./vector_db:/app
@@ -62,7 +62,7 @@ services:
   gain-frontend-react:
     build:
       context: ./frontend_react
-      dockerfile: Dockerfile.dev  # or your actual frontend Dockerfile
+      dockerfile: Dockerfile.dev 
     container_name: gain-frontend-react
     environment:
       NEXT_PUBLIC_BASE_API_URL: http://gain-rag-api-service:9000
