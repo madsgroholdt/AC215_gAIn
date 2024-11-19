@@ -76,7 +76,7 @@ def connect_to_strava():
     print(strava_auth_url)
 
     # Start the local server
-    server_address = ('', 8080)
+    server_address = ('0.0.0.0', 8080)
     httpd = HTTPServer(server_address, RequestHandler)
     print("Listening for redirect with authorization code...")
     httpd.handle_request()  # Handles one request, then stops
