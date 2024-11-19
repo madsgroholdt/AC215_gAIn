@@ -26,27 +26,25 @@ from semantic_splitter import SemanticChunker
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
 GCP_LOCATION = "us-central1"
-BUCKET_NAME = "gain-bucket"  # Define your GCS bucket here
-BUCKET_INPUT_FOLDER = "processed_user_data"  # Placeholder for the bucket folder
-OUTPUT_FOLDER = "output"  # Placeholder for the bucket folder
+BUCKET_NAME = "gain-bucket"
+BUCKET_INPUT_FOLDER = "processed_user_data/Mads_Grøholdt"
+OUTPUT_FOLDER = "output"
 EMBEDDING_MODEL = "text-embedding-004"
 EMBEDDING_DIMENSION = 256
 GENERATIVE_MODEL = "gemini-1.5-flash-001"
-# INPUT_FOLDER = "input"
-# OUTPUT_FOLDER = "output"
-print("CHROMADB_HOST:", os.environ.get("CHROMADB_HOST"))
-print("CHROMADB_PORT:", os.environ.get("CHROMADB_PORT"))
 CHROMADB_HOST = os.environ["CHROMADB_HOST"]
 CHROMADB_PORT = os.environ["CHROMADB_PORT"]
 vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
 # https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api#python
 embedding_model = TextEmbeddingModel.from_pretrained(EMBEDDING_MODEL)
+
 # Configuration settings for the content generation
 generation_config = {
     "max_output_tokens": 8192,  # Maximum number of tokens for output
     "temperature": 0.2,  # Control randomness in output
     "top_p": 0.95,  # Use nucleus sampling
 }
+
 # Initialize the GenerativeModel with specific system instructions
 SYSTEM_INSTRUCTION = (
     "You are an AI assistant with expert knowledge about everything "
@@ -176,11 +174,6 @@ def load_text_embeddings(df, collection, batch_size=500):
             ids=ids, documents=documents, metadatas=metadatas, embeddings=embeddings
         )
         total_inserted += len(batch)
-        print(f"Inserted {total_inserted} items...")
-
-    print(
-        f"Finished inserting {total_inserted} items into collection '{collection.name}'"
-    )
 
 
 def get_collection(method="recursive-split"):
@@ -205,11 +198,9 @@ def chunk(method="semantic-split"):
     # Get the list of text file
     # Replace with GCP bucket connection
     text_files = glob.glob(os.path.join("local_input", "*.txt"))
-    print("Number of files to process:", len(text_files))
 
     # Process
     for text_file in text_files:
-        print("Processing file:", text_file)
         filename = os.path.basename(text_file)
         doc_name = filename.split(".")[0]
 
@@ -227,7 +218,6 @@ def chunk(method="semantic-split"):
             # Perform the splitting
             text_chunks = text_splitter.create_documents([input_text])
             text_chunks = [doc.page_content for doc in text_chunks]
-            print("Number of chunks:", len(text_chunks))
 
         elif method == "semantic-split":
             # Init the splitter
@@ -237,14 +227,11 @@ def chunk(method="semantic-split"):
             text_chunks = text_splitter.create_documents([input_text])
 
             text_chunks = [doc.page_content for doc in text_chunks]
-            print("Number of chunks:", len(text_chunks))
 
         if text_chunks is not None:
             # Save the chunks
             data_df = pd.DataFrame(text_chunks, columns=["chunk"])
             data_df["doc_name"] = doc_name
-            print("Shape:", data_df.shape)
-            print(data_df.head())
 
             jsonl_filename = os.path.join(
                 OUTPUT_FOLDER, f"chunks-{method}-{doc_name}.jsonl"
@@ -259,15 +246,10 @@ def embed(method="recursive-split"):
     # Get the list of chunk files
     jsonl_files = glob.glob(os.path.join(
         OUTPUT_FOLDER, f"chunks-{method}-*.jsonl"))
-    print("Number of files to process:", len(jsonl_files))
 
     # Process
     for jsonl_file in jsonl_files:
-        print("Processing file:", jsonl_file)
-
         data_df = pd.read_json(jsonl_file, lines=True)
-        print("Shape:", data_df.shape)
-        print(data_df.head())
 
         chunks = data_df["chunk"].values
         if method == "semantic-split":
@@ -281,9 +263,6 @@ def embed(method="recursive-split"):
         data_df["embedding"] = embeddings
 
         # Save
-        print("Shape:", data_df.shape)
-        print(data_df.head())
-
         jsonl_filename = jsonl_file.replace("chunks-", "embeddings-")
         with open(jsonl_filename, "w") as json_file:
             json_file.write(data_df.to_json(orient="records", lines=True))
@@ -294,7 +273,6 @@ def load(method="recursive-split"):
 
     client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
     collection_name = f"{method}-collection"
-    print("Creating collection:", collection_name)
 
     try:
         # Clear out any existing items in the collection
@@ -306,21 +284,14 @@ def load(method="recursive-split"):
     collection = client.create_collection(
         name=collection_name, metadata={"hnsw:space": "cosine"}
     )
-    print(f"Created new empty collection '{collection_name}'")
-    print("Collection:", collection)
 
     # Get the list of embedding files
     jsonl_files = glob.glob(os.path.join(
         OUTPUT_FOLDER, f"embeddings-{method}-*.jsonl"))
-    print("Number of files to process:", len(jsonl_files))
 
     # Process
     for jsonl_file in jsonl_files:
-        print("Processing file:", jsonl_file)
-
         data_df = pd.read_json(jsonl_file, lines=True)
-        print("Shape:", data_df.shape)
-        print(data_df.head())
 
         # Load data
         load_text_embeddings(data_df, collection)
@@ -550,7 +521,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--chunk_type",
-        default="semantic-split",
+        default="recursive-split",
         help="recursive-split | semantic-split",
     )
     parser.add_argument("--user", default="",
