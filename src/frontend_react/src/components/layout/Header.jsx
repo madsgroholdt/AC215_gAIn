@@ -66,7 +66,7 @@ export default function Header() {
             className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-black/90' : 'bg-transparent'
                 }`}
         >
-            <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+            <div className="container mx-auto px-1 h-20 flex items-center justify-between">
                 <Link href="/" className="text-white hover:text-white/90 transition-colors">
                     <h1 className="text-2xl font-bold font-montserrat">gAIn</h1>
                 </Link>
