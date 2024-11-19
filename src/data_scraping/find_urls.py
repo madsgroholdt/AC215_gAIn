@@ -2,6 +2,7 @@ import os
 import json
 from phi.assistant import Assistant
 from phi.llm.openai import OpenAIChat
+from phi.tools.file import FileTools
 from phi.tools.googlesearch import GoogleSearch
 
 # Import OpenAPI key
@@ -10,9 +11,10 @@ with open(json_path, "r") as file:
     config = json.load(file)
 api_key = config["OPENAI_API_KEY"]
 os.environ['OPENAI_API_KEY'] = api_key
+
 assistant = Assistant(
     llm=OpenAIChat(model="gpt-4o-mini"),
-    tools=[GoogleSearch()],
+    tools=[GoogleSearch(), FileTools()],
     show_tool_calls=True,
     description=(
         "You are an advanced AI-powered agent, designed to efficiently "
@@ -54,11 +56,13 @@ assistant = Assistant(
     )
 )
 
-prompt = (
-    "Generate a list of 100 URLs of articles related to health, fitness, "
-    "diet, and exercise. These articles can be published papers, blogs, "
-    "editorials, or scientific reports. Pay special attention that each "
-    "URL really links to an article that can be accessed publicly. Include "
-    "nothing else in the list except for these URLs."
-)
+num_urls = 500
+prompt = f"""
+            Generate a list of at least {num_urls} URLs of articles related to health, fitness, diet, and exercise. These articles
+            can be published papers, blogs, editorials, or scientific reports. Pay special attention that each URL really
+            links to an article that can be accessed publicly. Include nothing else in the list except for these URLs. Again, return just
+            a list of the URLs, no text besides the URLs, and each URL should be separated by a comma. Export a CSV file containing all
+            of these URLs and name this csv 'urls.csv'.
+"""
+
 assistant.print_response(prompt)

@@ -87,9 +87,8 @@ def get_strava_data():
         df.to_csv(csv_file, index=False)
     else:
         print(
-            f"""Error:
-            {activities_response.status_code} - {activities_response.text}
-            """)
+            f"""Error: {activities_response.status_code} - \
+            {activities_response.text}""")
 
 
 if __name__ == "__main__":

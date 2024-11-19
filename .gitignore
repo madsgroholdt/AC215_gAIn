@@ -6,9 +6,14 @@ __pycache__/
 # C extensions
 *.so
 
+
 # GCP Secrets
 secrets/
-data-scraping/articles/
+
+# Data Scraping
+src/data_scraping/articles/
+src/data_scraping/*.csv
+src/dataset_creator/data/
 
 # Distribution / packaging
 .Python

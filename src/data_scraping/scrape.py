@@ -1,5 +1,7 @@
 import requests
+import csv
 from bs4 import BeautifulSoup
+from send_to_bucket import send_to_bucket
 
 
 def get_article_content(url, title):
@@ -30,14 +32,15 @@ def get_article_content(url, title):
         print(f"Error fetching article: {e}")
 
 
-# Replace this with the links we want to scrape
-urls = [
-    (
-        'https://www.cnn.com/2024/10/15/politics/early-voting-record-georgia/index.html'
-    )
-]
-
 # Change base index to the number of articles already stored in GCP bucket
-base_index = 1
-for i, url in enumerate(urls):
-    get_article_content(url, f"article{i+base_index}")
+base_index = 100
+
+with open('urls.csv', mode='r') as file:
+    urls = csv.reader(file)
+
+    # Access each row and element
+    for i, url in enumerate(urls):
+        get_article_content(url[0], f"article{i+base_index}")
+
+        if i % 50 == 0:
+            send_to_bucket()
