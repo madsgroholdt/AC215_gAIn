@@ -2,7 +2,7 @@ import os
 from google.cloud import storage
 
 
-def upload_to_storage(bucket_name, source_file_path, destination_file_path):
+def upload_file(bucket_name, source_file_path, destination_file_path):
     try:
         # Initialize client
         storage_client = storage.Client()
@@ -23,14 +23,19 @@ def upload_to_storage(bucket_name, source_file_path, destination_file_path):
 
 
 # Set directory names
-bucket_name = "gain-articles"
+bucket_name = "gain-ft-articles"
 source_folder = "/articles"
 destination_folder = "raw_articles"
 
-# Loop through local articles and upload
-for filename in os.listdir(source_folder):
-    source_file_path = os.path.join(source_folder, filename)
-    destination_file_path = os.path.join(destination_folder, filename)
 
-    if os.path.isfile(source_file_path):
-        upload_to_storage(bucket_name, source_file_path, destination_file_path)
+def send_to_bucket(bucket_name=bucket_name,
+                   source_folder=source_folder,
+                   destination_folder=destination_folder):
+
+    # Loop through local articles and upload
+    for filename in os.listdir(source_folder):
+        source_file_path = os.path.join(source_folder, filename)
+        destination_file_path = os.path.join(destination_folder, filename)
+
+        if os.path.isfile(source_file_path):
+            upload_file(bucket_name, source_file_path, destination_file_path)

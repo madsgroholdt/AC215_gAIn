@@ -369,7 +369,7 @@ def get_relevant_search_string(prompt):
         f"string. If you do not believe there is any substring that is "
         f'particularly relevant, then answer me with "no relevant search '
         f'string", but only do this if you truly do not believe there is '
-        f"any important substring in the text. Here is the text:\n{prompt}"
+        f"any important substring in the text. Here is the text: \n{prompt}"
     )
     print("INPUT_PROMPT: ", INPUT_PROMPT)
     response = generative_model.generate_content(
