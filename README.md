@@ -33,10 +33,10 @@ Below is an overview of the gAIn source code repository.
     └── workflow
 ```
 
-# AC215 - Milestone3 - Cheesy App
+# AC215 - Milestone3 - gAIn
 
 **Team Members**
-Vincent Hock, Tomas Arevalo, Jake **Carmine** Pappo, Mads Groeholdt
+Vincent Hock, Tomas Arevalo, Jake Carmine Pappo, Mads Groeholdt
 
 **Group Name**
 gAIn - The future of health and fitness
