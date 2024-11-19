@@ -68,14 +68,16 @@ Here is our Technical Architecture:
 
 We built backend api service using fast API to expose model functionality to the frontend. We also added APIs that will help the frontend display some key information about the model and data. As seen below, this routes the information from our backend (e.g., LLM-generated text), which can then be delivered to a user-facing frontend application.
 
-<img src="images/api-list.png"  width="800">
+<img src="images/api_list.png"  width="800">
 
 **Frontend**
 
 A user-friendly React app was built to identify various species of mushrooms in the wild using computer vision models from the backend. Using the app a user can take a picture of a mushroom and upload it. The app will send the image to the backend api to get prediction results on weather the mushroom is poisonous or not.
 
 Here are some screenshots of our app:
-
+<img src="images/gain_home.png"  width="800">
+<img src="images/new_chat.png"  width="800">
+<img src="images/gain_convo.png"  width="800">
 
 
 ## Running Dockerfile
