@@ -13,7 +13,16 @@ Below is an overview of the gAIn source code repository.
 │   └── Milestone 1.pdf
 |   └── Milestone 3.pdf
 └── src
-    ├── api-service
+    ├── data_preprocessing
+    │   ├── Dockerfile
+    │   ├── Pipfile
+    │   ├── Pipfile.lock
+    │   ├── docker-shell.sh
+    │   ├── env.dev
+    │   ├── cli.py
+    │   ├── redirect.py
+    │   ├── strava_api.py
+    │   ├── csv_to_txt.py
     ├── datapipeline
     │   ├── Dockerfile
     │   ├── Pipfile
