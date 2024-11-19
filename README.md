@@ -48,7 +48,7 @@ With the gAIn application, we seek to fill an existing gap in the health and fit
 
 ### Milestone4 - THIS NEEDS TO BE EDITED
 
-In this milestone, we have the components for frontend, API service, also components from previous milestones for data management, including versioning, as well as the computer vision and language models.
+In this milestone, we have the components for the backend (i.e., our RAG-LLM model), the API service, and the frontend. Also included are other components from previous milestones, such as data management and versioning.
 
 After completions of building a robust ML Pipeline in our previous milestone we have built a backend api service and frontend app. This will be our user-facing application that ties together the various components built in previous milestones.
 
@@ -66,17 +66,17 @@ Here is our Technical Architecture:
 
 **Backend API**
 
-We built backend api service using fast API to expose model functionality to the frontend. We also added apis that will help the frontend display some key information about the model and data.
+We built backend api service using fast API to expose model functionality to the frontend. We also added APIs that will help the frontend display some key information about the model and data. As seen below, this routes the information from our backend (e.g., LLM-generated text), which can then be delivered to a user-facing frontend application.
 
 <img src="images/api-list.png"  width="800">
 
 **Frontend**
 
-A user friendly React app was built to identify various species of mushrooms in the wild using computer vision models from the backend. Using the app a user can take a picture of a mushroom and upload it. The app will send the image to the backend api to get prediction results on weather the mushroom is poisonous or not.
+A user-friendly React app was built to identify various species of mushrooms in the wild using computer vision models from the backend. Using the app a user can take a picture of a mushroom and upload it. The app will send the image to the backend api to get prediction results on weather the mushroom is poisonous or not.
 
 Here are some screenshots of our app:
 
-`Add screenshots here`
+
 
 ## Running Dockerfile
 
