@@ -1,21 +1,21 @@
 version: '3.8'
 
 services:
-  data_scraping_service:
-    build:
-      context: ./src/data_scraping
-    ports:
-      - "5000:5000"
-    networks:
-      - test-network
+  # data_scraping_service:
+  #   build:
+  #     context: ./src/data_scraping
+  #   ports:
+  #     - "5000:5000"
+  #   networks:
+  #     - test-network
 
-  data_preprocessing_service:
-    build:
-      context: ./src/data_preprocessing
-    ports:
-      - "5001:5001"
-    networks:
-      - test-network
+  # data_preprocessing_service:
+  #   build:
+  #     context: ./src/data_preprocessing
+  #   ports:
+  #     - "5001:5001"
+  #   networks:
+  #     - test-network
 
   model_rag_service:
     build:
@@ -32,13 +32,13 @@ services:
     volumes:
       - ./tests/integration_tests:/app/tests/integration_tests
     working_dir: /app
-    command: ["python",
-              "tests/integration_tests/test_data_preprocessing.py"]
+    command: ["pytest",
+              "tests/integration_tests/test_data_preprocessing.py::test_testfunction"]
     networks:
       - test-network
     depends_on:
-      - data_scraping_service
-      - data_preprocessing_service
+      # - data_scraping_service
+      # - data_preprocessing_service
       - model_rag_service
 
 

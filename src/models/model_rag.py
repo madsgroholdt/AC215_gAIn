@@ -23,6 +23,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 # from langchain_experimental.text_splitter import SemanticChunker
 from semantic_splitter import SemanticChunker
 import rag_agent_tools
+from fastapi import FastAPI
 
 # Setup
 GCP_PROJECT = "ac215-final-project"
@@ -101,6 +102,13 @@ document_mappings = {
         "user": "Tomas Arevalo",
     }
 }
+
+app = FastAPI()
+
+
+@app.post("/test")
+def test_function():
+    return True
 
 
 def download_from_gcs(folder_name, local_path):

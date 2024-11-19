@@ -311,15 +311,12 @@ def preprocess_files(method="recursive-split"):
     print("Done loading embeddings.")
 
 
-def query(user, prompt, search_string=" ", method="recursive-split"):
+def query(prompt, search_string=" ", method="recursive-split"):
     collection = get_collection(method)
 
     query_embedding = generate_query_embedding(prompt)
 
-    # 3: Query based on embedding value + lexical search filter
     print(search_string)
-    # search_string = "September 12th"
-    # print(search_string)
     query_args = {
         "query_embeddings": [query_embedding],
         "n_results": 10,
@@ -332,118 +329,6 @@ def query(user, prompt, search_string=" ", method="recursive-split"):
     print("\n\nResults:", results)
 
     return results
-
-
-def get_relevant_search_string(prompt):
-    INPUT_PROMPT = (
-        f"Analyze the below text, and return the most important text "
-        f"string you believe is needed to get data that is the most "
-        f"relevant for the sentence. Do not return anything else other "
-        f"than that string. Do not return any other data format than a "
-        f"string. If you do not believe there is any substring that is "
-        f'particularly relevant, then answer me with "no relevant search '
-        f'string", but only do this if you truly do not believe there is '
-        f"any important substring in the text. Here is the text:\n{prompt}"
-    )
-    print("INPUT_PROMPT: ", INPUT_PROMPT)
-    response = generative_model.generate_content(
-        [INPUT_PROMPT],
-        generation_config=generation_config,
-        stream=False,
-    )
-    generated_text = response.text
-    print("LLM Response:", generated_text)
-
-    generated_text = generated_text.replace('"', "").strip()
-
-    if generated_text == "no relevant search string":
-        generated_text = " "
-
-    return generated_text
-
-
-def chat(user, prompt, method="recursive-split"):
-    print("chat()")
-
-    # search_string = get_relevant_search_string(prompt)
-
-    results = query(user, prompt, method=method)
-
-    print("\n\nResults:", results)
-
-    print(len(results["documents"][0]))
-
-    INPUT_PROMPT = f"""{prompt} {results['documents'][0]}"""
-
-    print("INPUT_PROMPT: ", INPUT_PROMPT)
-    response = generative_model.generate_content(
-        [INPUT_PROMPT],  # Input prompt
-        generation_config=generation_config,  # Configuration settings
-        stream=False,  # Enable streaming for responses
-    )
-    generated_text = response.text
-    print("LLM Response:", generated_text)
-
-
-def get(user, method="recursive-split"):
-    collection = get_collection(method)
-
-    # Get documents with filters
-    results = collection.get(where={"user": user}, limit=1)
-    print("\n\nResults:", results)
-
-
-# def agent(user, prompt, method="recursive-split"):
-#     print("agent()")
-
-#     collection = get_collection(method)
-
-#     user_prompt_content = Content(
-#         role="user",
-#         parts=[
-#             Part.from_text(prompt),
-#         ],
-#     )
-
-#     # Step 1: Prompt LLM to find the tool(s) to execute to find
-#     # the relevant chunks in vector db
-#     print("user_prompt_content: ", user_prompt_content)
-#     response = generative_model.generate_content(
-#         user_prompt_content,
-#         generation_config=GenerationConfig(
-#             temperature=0),  # Configuration settings
-#         # Tools available to the model
-#         tools=[rag_agent_tools.fitness_expert_tool],
-#         tool_config=ToolConfig(
-#             function_calling_config=ToolConfig.FunctionCallingConfig(
-#                 # ANY mode forces the model to predict only function calls
-#                 mode=ToolConfig.FunctionCallingConfig.Mode.ANY,
-#             )
-#         ),
-#     )
-#     print("LLM Response:", response)
-
-#     # Step 2: Execute the function and send chunks back to LLM to answer
-#     # get the final response
-#     function_calls = response.candidates[0].function_calls
-#     print("Function calls:")
-#     print(function_calls)
-#     function_responses = rag_agent_tools.execute_function_calls(
-#         function_calls, user, collection, embed_func=generate_query_embedding
-#     )
-#     if len(function_responses) == 0:
-#         print("Function calls did not result in any responses...")
-#     else:
-#         # Call LLM with retrieved responses
-#         response = generative_model.generate_content(
-#             [
-#                 user_prompt_content,  # User prompt
-#                 response.candidates[0].content,  # Function call response
-#                 Content(parts=function_responses),
-#             ],
-#             tools=[rag_agent_tools.fitness_expert_tool],
-#         )
-#         print("LLM Response:", response)
 
 
 def main(args=None):
@@ -459,17 +344,8 @@ def main(args=None):
         load(method=args.chunk_type)
 
     if args.query:
-        query(user=args.user, prompt=args.prompt, method=args.chunk_type)
+        query(prompt=args.prompt, method=args.chunk_type)
 
-    if args.chat:
-        chat(user=args.user, prompt=args.prompt, method=args.chunk_type)
-
-    if args.get:
-        get(user=args.user, method=args.chunk_type)
-
-    if args.agent:
-        print('Agent not available yet')
-        # agent(user=args.user, prompt=args.prompt, method=args.chunk_type)
     if args.preprocess:
         preprocess_files(method=args.chunk_type)
 
@@ -500,21 +376,6 @@ if __name__ == "__main__":
         help="Query vector db",
     )
     parser.add_argument(
-        "--chat",
-        action="store_true",
-        help="Chat with LLM",
-    )
-    parser.add_argument(
-        "--get",
-        action="store_true",
-        help="Get documents from vector db",
-    )
-    parser.add_argument(
-        "--agent",
-        action="store_true",
-        help="Chat with LLM Agent",
-    )
-    parser.add_argument(
         "--preprocess",
         action="store_true",
         help="Preprocess txt files by chunking and embedding the content",
@@ -524,8 +385,6 @@ if __name__ == "__main__":
         default="recursive-split",
         help="recursive-split | semantic-split",
     )
-    parser.add_argument("--user", default="",
-                        help="Str with the name of username")
     parser.add_argument("--prompt", default="",
                         help="Text prompt to pass to RAG model")
 
