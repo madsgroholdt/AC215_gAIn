@@ -7,7 +7,7 @@ Below is an overview of the gAIn source code repository.
 #### gAIn Milestone 4 Organization
 
 ```
-├── Readme.md
+├── README.md
 ├── reports
 │   ├── CheesyAppMidterm.pdf
 │   └── Milestone 1.pdf
@@ -22,6 +22,31 @@ Below is an overview of the gAIn source code repository.
     │   ├── docker-shell.sh
     │   ├── preprocess_cv.py
     │   └── preprocess_rag.py
+    ├── data_scraping
+    │   ├── Dockerfile
+    │   ├── Pipfile
+    │   ├── Pipfile.lock
+    │   ├── docker-shell.sh
+    │   ├── find_urls.py
+    │   ├── scrape.py
+    │   ├── send_to_bucket.py
+    │   └── README.md
+    ├── dataset_creator
+    │   ├── Dockerfile
+    │   ├── Pipfile
+    │   ├── Pipfile.lock
+    │   ├── env.dev
+    │   ├── docker-shell.sh
+    │   ├── cli.py
+    │   └── README.md
+    ├── model_finetuner
+    │   ├── Dockerfile
+    │   ├── Pipfile
+    │   ├── Pipfile.lock
+    │   ├── env.dev
+    │   ├── docker-shell.sh
+    │   ├── cli.py
+    │   └── README.md
     ├── docker-compose.yml
     ├── frontend
     ├── models
@@ -33,7 +58,7 @@ Below is an overview of the gAIn source code repository.
     └── workflow
 ```
 
-# AC215 - Milestone3 - Cheesy App
+# AC215 - gAIn
 
 **Team Members**
 Vincent Hock, Tomas Arevalo, Jake **Carmine** Pappo, Mads Groeholdt
@@ -45,8 +70,7 @@ gAIn - The future of health and fitness
 With the gAIn application, we seek to fill an existing gap in the health and fitness industry by providing users with an affordable, knowledgeable, and context-aware AI-enabled personal trainer. Our trainer seeks to replace expensive, thin-stretched personal trainers and fitness coaches, and provides an easier solution for those seeking to educate themselves compared to relying on the internet's scathered, unverified information. The main functionality of the app is a chat interface with the intelligent assistant, where users can ask their coach for advice, training plans, and more. The coach improves on other LLM's in the area of health and fitness by both being fine-tuned on quality-checked expert resources, as well as having access to each user's historical activity and fitness data powered by an AI-agent.
 
 ---
-
-### Milestone4 - THIS NEEDS TO BE EDITED
+### Milestone 4
 
 In this milestone, we have the components for frontend, API service, also components from previous milestones for data management, including versioning, as well as the computer vision and language models.
 
