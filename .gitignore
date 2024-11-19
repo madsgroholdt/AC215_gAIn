@@ -175,3 +175,7 @@ cython_debug/
 
 #docker-volumes
 /docker-volumes/
+
+#user data
+src/data_preprocessing/csv_data
+src/data_preprocessing/txt_data

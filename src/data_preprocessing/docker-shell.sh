@@ -1,17 +1,22 @@
 #!/bin/bash
 
-docker build -t data-preprocessing -f Dockerfile .
+# exit immediately if a command exits with a non-zero status
+set -e
 
-# Run Docker container
-docker run --rm -ti \
-    -v $(pwd):/app \
-    -v ~/ac215/AC215_gAIn/data-scraping/articles:/articles \
-    -v ~/ac215/AC215_gAIn/secrets:/secrets \
-    -e GOOGLE_APPLICATION_CREDENTIALS="/secrets/data-scraping-service.json" \
-    -e GCP_PROJECT="gAIn" \
-    data-scraping
+# Read the settings file
+source env.dev
 
-docker run --rm -ti \
-    -v "$(pwd)/csv_data:/app/csv_data" \
-    -v "$(pwd)/txt_data:/app/txt_data" \
-    data-preprocessing
+export IMAGE_NAME="data-preprocessing"
+
+# Build the image based on the Dockerfile
+docker build -t $IMAGE_NAME -f Dockerfile .
+
+# Run Container
+docker run --rm --name $IMAGE_NAME -ti \
+-v "$BASE_DIR":/app \
+-v "$SECRETS_DIR":/secrets \
+-p 8080:8080 \
+-e GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS \
+-e GCP_PROJECT=$GCP_PROJECT \
+-e GCS_BUCKET_NAME=$GCS_BUCKET_NAME \
+$IMAGE_NAME
