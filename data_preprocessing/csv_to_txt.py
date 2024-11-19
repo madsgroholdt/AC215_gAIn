@@ -1,10 +1,16 @@
 import os
 import string
 import pandas as pd
-from strava_api import get_strava_data 
+from google.cloud import storage
+from google.oauth2 import service_account
 
-def csv_to_txt(input_csv, output_txt):
+def get_first_last_name(filename):
+    filename_lst = filename.split("_")
+    return filename_lst[0], filename_lst[1]
+
+def csv_to_txt(input_csv, output_txt, filename):
     df = pd.read_csv(input_csv)
+    first_name, last_name = get_first_last_name(filename)
 
     with open(output_txt, 'w') as f:
         for _, row in df.iterrows():
@@ -15,7 +21,7 @@ def csv_to_txt(input_csv, output_txt):
             formatted_date += f"{day_suffix} {date.year}"
 
             # header for each entry
-            f.write(f"On {formatted_date}, I had the following health and activity metrics:\n")
+            f.write(f"On {formatted_date}, {first_name} {last_name} had the following health and activity metrics:\n")
             
             # get metric values
             for title in df.columns[1:]:
@@ -36,7 +42,7 @@ def csv_to_txt(input_csv, output_txt):
             
             f.write("\n")
 
-if __name__ == "__main__":
+def create_activities_txt():
     cwd = os.getcwd() 
     csv_folder_path = '/csv_data/'
     txt_folder_path = '/txt_data/'
@@ -45,5 +51,23 @@ if __name__ == "__main__":
             csv_file = os.path.join(cwd + csv_folder_path, filename)
             txt_file = os.path.join(cwd + txt_folder_path, filename.replace('.csv', '.txt'))
             
-            csv_to_txt(csv_file, txt_file)
+            csv_to_txt(csv_file, txt_file, filename)
             print(f"Created txt file for {filename}")
+
+def upload_to_gcp(bucket_name, folder_path, output_folder):
+    credentials = service_account.Credentials.from_service_account_file(os.getcwd() +'/../secrets/data-preprocessing.json')
+    storage_client = storage.Client(credentials=credentials)
+    bucket = storage_client.bucket(bucket_name)
+
+    file_type = '.csv' if folder_path == '/csv_data/' else '.txt'
+
+    for filename in os.listdir(os.getcwd() + folder_path):
+        if filename.endswith(file_type):
+            first_name, last_name = get_first_last_name(filename)
+
+            destination_blob_name = f"{output_folder}/{first_name}_{last_name}/{filename}"
+            blob = bucket.blob(destination_blob_name)
+
+            full_file_path = os.path.join(os.getcwd() + folder_path, filename)
+            print("Uploading:", destination_blob_name)
+            blob.upload_from_filename(full_file_path)
