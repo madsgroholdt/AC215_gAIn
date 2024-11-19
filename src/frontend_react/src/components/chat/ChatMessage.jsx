@@ -71,9 +71,6 @@ export default function ChatMessage({
                             {msg.role === 'assistant' && (
                                 <SmartToy sx={{ color: '#fff' }} />
                             )}
-                            {msg.role === 'cnn' && (
-                                <RemoveRedEyeIcon sx={{ color: '#D700EE' }} />
-                            )}
                             {msg.role === 'user' && (
                                 <Person sx={{ color: '#FFFFFF' }} />
                             )}
@@ -83,14 +80,6 @@ export default function ChatMessage({
                                 <div className={styles.messageImage}>
                                     <img
                                         src={msg.image}
-                                        alt="Chat Image"
-                                    />
-                                </div>
-                            )}
-                            {msg.image_path && (
-                                <div className={styles.messageImage}>
-                                    <img
-                                        src={DataService.GetChatMessageImage(model, msg.image_path)}
                                         alt="Chat Image"
                                     />
                                 </div>

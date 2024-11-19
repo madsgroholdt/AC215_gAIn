@@ -1,3 +1,9 @@
+.chatInputWrapper {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+}
+
 .chatInputContainer {
   /* max-width: 800px;
     margin: 0 auto 60px;
@@ -5,14 +11,16 @@
 
     padding: 20px; */
   background: #eff6ff;
-  border-top: 1px solid #222;
+  border: 1px solid #000;
   border-radius: 12px;
   padding: 20px;
+  width: 95%;
+  height: 95%
 }
 
 .textareaWrapper {
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   width: 100%;
 }
 
@@ -69,7 +77,8 @@
 
 .submitButton:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.1;
+  background: #00004b;
 }
 
 .inputControls {

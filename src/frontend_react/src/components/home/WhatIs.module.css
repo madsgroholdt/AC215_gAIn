@@ -79,12 +79,12 @@
     color: #666;
 }
 
-.imageContainer {
+/* .imageContainer {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
     height: fit-content;
-}
+} */
 
 /* .image {
     width: 100%;
@@ -99,20 +99,20 @@
     aspect-ratio: 4 / 3;
     /* This maintains the image aspect ratio */
     width: 100%;
-    max-width: 400px;
-    /* Maximum width of the image */
+    max-width: 600px;
+    height: auto;
+    margin: 0 auto;
 }
 
 /* If using the fill approach, you need position: relative and a defined height */
-.imageContainer {
+/* .imageContainer {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
     width: 100%;
     max-width: 400px;
     height: 300px;
-    /* Define a fixed height */
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 1024px) {
@@ -121,6 +121,7 @@
     }
 
     .imageContainer {
+        max-width: 80%;
         order: -1;
         margin-bottom: 30px;
     }
@@ -137,5 +138,9 @@
 
     .subtitle {
         font-size: 20px;
+    }
+
+    .imageContainer {
+        max-width: 100%;
     }
 }
