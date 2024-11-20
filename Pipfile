@@ -7,6 +7,8 @@ name = "pypi"
 pytest = "*"
 exceptiongroup = "*"
 requests = "*"
+numpy = "*"
+langchain-community = "*"
 
 [dev-packages]
 
