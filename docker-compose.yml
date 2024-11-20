@@ -5,7 +5,7 @@ services:
     build:
       context: ./src/data_scraping
     ports:
-      - "5000:5000"
+      - "5005:5005"
     networks:
       - test-network
     entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
@@ -35,7 +35,7 @@ services:
       - "5003:5003"
     networks:
       - test-network
-    # entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
+    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
 
   model_finetuner:
     build:
