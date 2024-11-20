@@ -62,7 +62,7 @@ services:
   gain-frontend-react:
     build:
       context: ./frontend_react
-      dockerfile: Dockerfile.dev 
+      dockerfile: Dockerfile.dev
     container_name: gain-frontend-react
     environment:
       NEXT_PUBLIC_BASE_API_URL: http://gain-rag-api-service:9000

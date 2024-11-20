@@ -1,27 +1,35 @@
 version: '3.8'
 
 services:
-  # data_scraping_service:
-  #   build:
-  #     context: ./src/data_scraping
-  #   ports:
-  #     - "5000:5000"
-  #   networks:
-  #     - test-network
+  data_scraping_service:
+    build:
+      context: ./src/data_scraping
+    ports:
+      - "5000:5000"
+    networks:
+      - test-network
 
-  # data_preprocessing_service:
-  #   build:
-  #     context: ./src/data_preprocessing
-  #   ports:
-  #     - "5001:5001"
-  #   networks:
-  #     - test-network
+  data_preprocessing_service:
+    build:
+      context: ./src/data_preprocessing
+    ports:
+      - "5001:5001"
+    networks:
+      - test-network
 
   model_rag_service:
     build:
       context: ./src/models
     ports:
       - "5002:5002"
+    networks:
+      - test-network
+
+  api_service_base:
+    build:
+      context: ./src/api_service
+    ports:
+      - "5003:5003"
     networks:
       - test-network
 
@@ -37,9 +45,10 @@ services:
     networks:
       - test-network
     depends_on:
-      # - data_scraping_service
-      # - data_preprocessing_service
+      - data_scraping_service
+      - data_preprocessing_service
       - model_rag_service
+      - api_service_base
 
 
 networks:
