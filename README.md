@@ -137,12 +137,7 @@ Welcome to the gAIn platform! Follow these steps to get the application up and r
 
 #### 1. Prepare the Vector Database
 
-1. Change your working directory to the `vector_db` folder:
-
-   ```bash
-   cd vector_db
-
-   ```
+1. Change your working directory to the `vector_db` folder.
 
 2. Start the container by running:
 
@@ -160,7 +155,7 @@ Welcome to the gAIn platform! Follow these steps to get the application up and r
 
 #### 2. Start the Backend API Service
 
-1. Open a **new terminal** and navigate to the `api_service` folder
+1. Open a **new terminal** and navigate to the `api_service` folder.
 
 2. Start the docker container by running:
 
@@ -176,7 +171,7 @@ Welcome to the gAIn platform! Follow these steps to get the application up and r
 
 #### 3. Start the Frontend Web Application
 
-1. Open another **new terminal** and navigate to the `frontend_react` folder
+1. Open another **new terminal** and navigate to the `frontend_react` folder.
 
 2. Start the docker container by running:
 
