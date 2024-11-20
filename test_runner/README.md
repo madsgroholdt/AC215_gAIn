@@ -9,3 +9,4 @@ All test files are located in the tests folder, with the integration_tests folde
 In the unit test functionality, we test individual, auxiliary functions that are not part of a specific container.
 
 - test_semantic_split.py: Contains tests for the semantic_split.py functionality used to preprocess text before pushing it to the vector database.
+-
