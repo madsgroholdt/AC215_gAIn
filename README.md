@@ -9,7 +9,7 @@ Below is an overview of the gAIn source code repository.
 ```
 ├── Readme.md
 ├── reports
-│   ├── CheesyAppMidterm.pdf
+│   ├── Planning and Components.pdf
 │   └── Milestone 1.pdf
 |   └── Milestone 3.pdf
 └── src
@@ -81,16 +81,16 @@ Here are some screenshots of our app:
 
 <img src="images/gain_convo.png"  width="800">
 
-
 ## gAIn Application Setup Guide
 
 Welcome to the gAIn platform! Follow these steps to get the application up and running.
 
-----
+---
 
 ### Prerequisites
 
 1. **Secrets Folder:**
+
    - Ensure you have a `secrets` folder in the directory `AC215_gAIn/src`.
    - This folder should contain the file `llm-service-account.json`.
 
@@ -100,70 +100,87 @@ Welcome to the gAIn platform! Follow these steps to get the application up and r
      - `api_service`
      - `frontend_react`
 
-----
+---
 
 ### Setup Instructions
 
 #### 1. Prepare the Vector Database
 
 1. Change your working directory to the `vector_db` folder:
+
    ```bash
    cd vector_db
 
+   ```
+
 2. Start the container by running:
-    ```bash
-    sh docker-shell.sh
+
+   ```bash
+   sh docker-shell.sh
+
+   ```
 
 3. Inside the container, preprocess the user data by running:
    ```bash
    python cli.py --preprocess
    ```
-    - This downloads the data from GCS, then chunks, embeds, and uploads it to ChromaDB
-    - The default chunking method is `recursive-split`, but you can also try semantic splitting by adding `--chunk_type semantic-split`
+   - This downloads the data from GCS, then chunks, embeds, and uploads it to ChromaDB
+   - The default chunking method is `recursive-split`, but you can also try semantic splitting by adding `--chunk_type semantic-split`
 
 #### 2. Start the Backend API Service
 
 1. Open a **new terminal** and navigate to the `api_service` folder
 
 2. Start the docker container by running:
-    ```bash
-    sh docker-shell.sh
+
+   ```bash
+   sh docker-shell.sh
+
+   ```
 
 3. Inside the container, expose the backend API server:
    ```bash
    uvicorn_server
+   ```
 
 #### 3. Start the Frontend Web Application
 
 1. Open another **new terminal** and navigate to the `frontend_react` folder
 
 2. Start the docker container by running:
-    ```bash
-    sh docker-shell.sh
+
+   ```bash
+   sh docker-shell.sh
+
+   ```
 
 3. (Optional) If this is your first time setting up the application, install the necessary dependencies:
+
    ```bash
    npm install
+
+   ```
 
 4. Start the local development server:
    ```bash
    npm run dev
+   ```
 
-----
+---
 
 ### Accessing the Application
 
-- Open your browser and navigate to:  
+- Open your browser and navigate to:
   **[http://localhost:3000/](http://localhost:3000/)**
 
 - Explore the features:
   1. **Home Page:** Learn about gAIn and its mission.
   2. **Newsletters Page:** Explore articles and blogs (content pending population).
-  3. **AI Chat Assistant:**  
-     - Chat with gAIn about health and fitness topics.  
+  3. **AI Chat Assistant:**
+     - Chat with gAIn about health and fitness topics.
      - gAIn has access to Mads’s Strava data for personalized recommendations and insights.
 
-----
+---
 
 **Notebooks/Reports**
 This folder contains code that is not part of container - for e.g: Application mockup, EDA, any 🔍 🕵️‍♀️ 🕵️‍♂️ crucial insights, reports or visualizations.
