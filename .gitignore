@@ -173,10 +173,11 @@ cython_debug/
 #secrets folder
 /secrets/
 
-#docker-volumes
-/docker-volumes/
+
 
 #user data
 src/data_preprocessing/csv_data
 src/data_preprocessing/txt_data
-chat-history/*
+src/api_service/chat-history
+#
+src/docker-volumes
