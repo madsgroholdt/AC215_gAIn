@@ -79,7 +79,7 @@ With the gAIn application, we seek to fill an existing gap in the health and fit
 
 ### Milestone 4
 
-In this milestone, we have the components for the backend (i.e., our RAG-LLM model), the API service, and the frontend. Also included are other components from previous milestones, such as data storage and versioning.
+In this milestone, we have the components for the backend (i.e., our LLM-RAG model), the back-end API service, and the front-end web app. Also included are components from previous milestones, such as data storage and versioning.
 
 After building a robust ML Pipeline in our previous milestone, we have now built a backend api service and frontend app. This will be our user-facing application that ties together the various components built in previous milestones.
 
