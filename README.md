@@ -9,59 +9,81 @@ Below is an overview of the gAIn source code repository.
 │   └── Milestone 1.pdf
 |   └── Milestone 3.pdf
 └── src
-    ├── data_preprocessing
-    │   ├── Dockerfile
-    │   ├── Pipfile
-    │   ├── Pipfile.lock
-    │   ├── docker-shell.sh
-    │   ├── env.dev
-    │   ├── cli.py
-    │   ├── redirect.py
-    │   ├── strava_api.py
-    │   ├── csv_to_txt.py
-    │   ├── README.md
-    ├── datapipeline
-    │   ├── Dockerfile
-    │   ├── Pipfile
-    │   ├── Pipfile.lock
-    │   ├── dataloader.py
-    │   ├── docker-shell.sh
-    │   ├── preprocess_cv.py
-    │   └── preprocess_rag.py
-    ├── data_scraping
-    │   ├── Dockerfile
-    │   ├── Pipfile
-    │   ├── Pipfile.lock
-    │   ├── docker-shell.sh
-    │   ├── find_urls.py
-    │   ├── scrape.py
-    │   ├── send_to_bucket.py
-    │   └── README.md
-    ├── dataset_creator
-    │   ├── Dockerfile
-    │   ├── Pipfile
-    │   ├── Pipfile.lock
-    │   ├── env.dev
-    │   ├── docker-shell.sh
-    │   ├── cli.py
-    │   └── README.md
-    ├── model_finetuner
-    │   ├── Dockerfile
-    │   ├── Pipfile
-    │   ├── Pipfile.lock
-    │   ├── env.dev
-    │   ├── docker-shell.sh
-    │   ├── cli.py
-    │   └── README.md
-    ├── docker-compose.yml
-    ├── frontend
-    ├── models
-    │   ├── Dockerfile
-    │   ├── docker-shell.sh
-    │   ├── infer_model.py
-    │   ├── model_rag.py
-    │   └── train_model.py
-    └── workflow
+│   ├── api_service
+│   │   ├── api
+│   │   │   ├── routers
+│   │   │   │   └── llm_rag_chat.py
+│   │   │   └── utils
+│   │   │   │   ├── chat_utils.py
+│   │   │   │   ├── llm_rag_utils.py
+│   │   │   └── service.py
+│   │   ├── Dockerfile
+│   │   ├── Pipfile
+│   │   ├── Pipfile.lock
+│   │   ├── docker-entrypoint.sh
+│   │   ├── docker-shell.sh
+│   ├── data_preprocessing
+│   │   ├── Dockerfile
+│   │   ├── Pipfile
+│   │   ├── Pipfile.lock
+│   │   ├── docker-shell.sh
+│   │   ├── env.dev
+│   │   ├── cli.py
+│   │   ├── redirect.py
+│   │   ├── strava_api.py
+│   │   ├── csv_to_txt.py
+│   │   ├── README.md
+│   ├── data_scraping
+│   │   ├── Dockerfile
+│   │   ├── Pipfile
+│   │   ├── Pipfile.lock
+│   │   ├── docker-shell.sh
+│   │   ├── find_urls.py
+│   │   ├── scrape.py
+│   │   ├── send_to_bucket.py
+│   │   └── README.md
+│   ├── dataset_creator
+│   │   ├── Dockerfile
+│   │   ├── Pipfile
+│   │   ├── Pipfile.lock
+│   │   ├── env.dev
+│   │   ├── docker-shell.sh
+│   │   ├── cli.py
+│   │   └── README.md
+│   ├── model_finetuner
+│   │   ├── Dockerfile
+│   │   ├── Pipfile
+│   │   ├── Pipfile.lock
+│   │   ├── env.dev
+│   │   ├── docker-shell.sh
+│   │   ├── cli.py
+│   │   └── README.md
+│   ├── docker-compose.yml
+│   ├── frontend_react
+│   ├── models
+│   │   ├── Dockerfile
+│   │   ├── docker-shell.sh
+│   │   ├── infer_model.py
+│   │   ├── model_rag.py
+│   │   └── train_model.py
+│   ├── vector_db
+│   │   ├── Dockerfile
+│   │   ├── Pipfile
+│   │   ├── Pipfile.lock
+│   │   ├── cli.py
+│   │   ├── docker-compose.yml
+│   │   ├── docker-entrypoint.sh
+│   │   ├── docker-shell.sh
+│   │   └── semantic_splitter.py
+├── test_runner
+│   ├── Dockerfile
+│   ├── Pipfile
+│   ├── Pipfile.lock
+│   └── README.md
+└── tests
+    ├── integration_tests
+    │   └── test_data_preprocessing.py
+    └── test_semantic_splitter.py
 ```
 
 # AC215 - gAIn
