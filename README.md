@@ -66,13 +66,13 @@ Below is an overview of the gAIn source code repository.
 
 # AC215 - gAIn
 
-**Team Members**  
+**Team Members**
 Vincent Hock, Tomas Arevalo, Jake Carmine Pappo, Mads Groeholdt
 
-**Group Name**  
+**Group Name**
 gAIn - The future of health and fitness
 
-**Project**  
+**Project**
 With the gAIn application, we seek to fill an existing gap in the health and fitness industry by providing users with an affordable, knowledgeable, and context-aware AI-enabled personal trainer. Our trainer seeks to replace expensive, thin-stretched personal trainers and fitness coaches, and provides an easier solution for those seeking to educate themselves compared to relying on the internet's scathered, unverified information. The main functionality of the app is a chat interface with the intelligent assistant, where users can ask their coach for advice, training plans, and more. The coach improves on other LLM's in the area of health and fitness by both being fine-tuned on quality-checked expert resources, as well as having access to each user's historical activity and fitness data powered by an AI-agent.
 
 ---
