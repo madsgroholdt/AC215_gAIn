@@ -1,0 +1,17 @@
+{
+  "chat_id": "8347529d-884a-4576-ad6c-46a07e22b5d8",
+  "title": "How many steps did I walk on September 14th?...",
+  "dts": 1732047921,
+  "messages": [
+    {
+      "content": "How many steps did I walk on September 14th?",
+      "message_id": "7683c797-d367-46d3-ade7-dedd76187ba3",
+      "role": "user"
+    },
+    {
+      "message_id": "91d6bdad-d3ee-4a73-962e-c0fa4340f675",
+      "role": "assistant",
+      "content": "On Saturday, September 14th, 2024, you walked 11,097 steps. It's great that you are keeping track of your activity metrics. Keep up the good work! \n"
+    }
+  ]
+}

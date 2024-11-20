@@ -17,51 +17,63 @@ jobs:
     steps:
       # Checkout the repository code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # # Build the Docker image
-      # - name: Build the Docker image
-      #   run: docker build -t gain-rag-cli -f src/models/Dockerfile src/models
-
-      # # Run the container in detached mode
-      # - name: Start container in detached mode
-      #   run: docker run -d --name test_container gain-rag-cli
-
-      # # Optional: Run a test script or command
-      # - name: Run test script in container
-      #   run: docker exec test_container python /app/tests/test_script.py
-
-      # # Step 5: Stop and remove the container
-      # - name: Stop and remove the container
-      #   run: docker rm -f my_app_container
-
-      # Step 2: Set up Python environment (specifically Python 3.11)
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # Step 2.1: Set PYTHONPATH to include the root directory (or src if relevant)
-      - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV # Adds current directory to PYTHONPATH
+      - name: Cache Docker Compose binary
+        id: docker-compose-cache
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/bin/docker-compose
+          key: docker-compose-${{ runner.os }}
 
-      # Step 3: Install pytest and pytest-cov for coverage
+      - name: Install Docker Compose if not cached
+        if: steps.docker-compose-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Install Pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies with Pipenv
+        run: pipenv install
+
+      - name: Build and start services with Docker Compose
+        run: docker-compose up --abort-on-container-exit --exit-code-from test_runner
+        working-directory: ./
+
+      - name: Tear down services
+        if: always()
+        run: docker-compose down
+        working-directory: ./
+
+      # Set PYTHONPATH to include the root directory (or src)
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+
+      # Install pytest and pytest-cov for coverage
       - name: Install pytest and pytest-cov
         run: |
           python -m pip install --upgrade pip
-          pip install pytest pytest-cov langchain-core langchain-community numpy pre-commit
+          pip install pytest pytest-cov langchain-core langchain-community
+          pip install numpy pre-commit
           pre-commit install-hooks
 
       # Run pre-commit hooks
       - name: Run pre-commit hooks
         run: pre-commit run --all-files
 
-      # Step 4: Run pytest with coverage and generate HTML report
+      # Run pytest with coverage and generate HTML report
       - name: Run tests with coverage
         run: |
           pytest --cov=. --cov-report=html
 
-      # Step 5: Upload coverage report as an artifact
+      # Upload coverage report as an artifact
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:

@@ -9,6 +9,7 @@ chromadb = "*"
 vertexai = "*"
 langchain = "*"
 langchain-community = "*"
+fastapi = "*"
 
 [dev-packages]
 

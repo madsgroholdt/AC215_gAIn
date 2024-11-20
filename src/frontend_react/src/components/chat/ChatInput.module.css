@@ -1,0 +1,118 @@
+.chatInputWrapper {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+.chatInputContainer {
+  /* max-width: 800px;
+    margin: 0 auto 60px;
+    background: #363636;
+
+    padding: 20px; */
+  background: #eff6ff;
+  border: 1px solid #000;
+  border-radius: 12px;
+  padding: 20px;
+  width: 95%;
+  height: 95%
+}
+
+.textareaWrapper {
+  position: relative;
+  margin-bottom: 6px;
+  width: 100%;
+}
+
+.chatInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #000;
+  font-size: 18px;
+  padding: 10px;
+  padding-right: 50px;
+  /* Make room for submit button */
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  min-height: 24px;
+  max-height: 400px;
+  /* Optional: set a max height if desired */
+  overflow-y: hidden;
+  /* Hide scrollbar as we're auto-expanding */
+  line-height: 1.5;
+}
+
+.chatInput::placeholder {
+  color: #000;
+  opacity: 0.5;
+}
+
+.submitButton {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.submitButton.active {
+  color: #fff;
+  background: #00002b;
+}
+
+.submitButton.active:hover {
+  background: #00004b;
+  transform: scale(1.05);
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.1;
+  background: #00004b;
+}
+
+.inputControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  border-top: 1px solid #444444;
+  padding-top: 20px;
+}
+
+.leftControls,
+.rightControls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.iconButton {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.iconButton:hover {
+  background: #444444;
+}
+
+.inputTip {
+  color: #666;
+  font-size: 14px;
+  margin-right: 16px;
+}
