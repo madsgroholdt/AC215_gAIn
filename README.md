@@ -103,7 +103,7 @@ We built a backend API service using FastAPI to expose model functionality to th
 
 **Frontend**
 
-A user-friendly React app was built to identify various species of mushrooms in the wild using computer vision models from the backend. Using the app a user can take a picture of a mushroom and upload it. The app will send the image to the backend api to get prediction results on weather the mushroom is poisonous or not.
+A user-friendly React app was built to allow users to interact with their personalized LLM-RAG model from the backend. In the app, the user can ask their AI personal trainer about anything health- and fitness-related, and they can also get specific insights and advice on their own personal data (e.g., from Strava). There is also a newsletters section that allows users to access and read primary source material, much of which contributes to the knowledge base for gAIn's fine-tuned LLM.
 
 Here are some screenshots of our app:
 <img src="images/gain_home.png"  width="800">
@@ -114,7 +114,7 @@ Here are some screenshots of our app:
 
 ## gAIn Application Setup Guide
 
-Welcome to the gAIn platform! Follow these steps to get the application up and running.
+Follow these steps to get the application up and running locally.
 
 ---
 
