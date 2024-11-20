@@ -17,9 +17,9 @@ services:
     networks:
       - test-network
 
-  model_rag_service:
+  vector_db_service:
     build:
-      context: ./src/models
+      context: ./src/vector_db
     ports:
       - "5002:5002"
     networks:
@@ -47,7 +47,7 @@ services:
     depends_on:
       - data_scraping_service
       - data_preprocessing_service
-      - model_rag_service
+      - vector_db_service
       - api_service_base
 
 
