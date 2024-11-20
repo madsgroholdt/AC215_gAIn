@@ -124,7 +124,7 @@ We built a backend API service using FastAPI to expose model functionality to th
 
 **Frontend**
 
-A user-friendly React app was built to allow users to interact with their personalized LLM-RAG model from the backend. In the app, the user can ask their AI personal trainer about anything health- and fitness-related, and they can also get specific insights and advice on their own personal data (e.g., from Strava). There is also a newsletters section that allows users to access and read primary source material, much of which contributes to the knowledge base for gAIn's fine-tuned LLM.
+A user-friendly React app was built to allow users to interact with their personalized LLM-RAG model from the backend. In the app, the user can ask their AI personal trainer about anything health- and fitness-related from the fine-tuned LLM. Even more, they can get personalized insights and advice since the gAIn chatbot's RAG pipeline grants it access to user health data (e.g., from Strava). There is also a Newsletters section that allows users to browse and read primary source material, much of which contributes to the knowledge base for gAIn's fine-tuning.
 
 Here are some screenshots of our app:
 <img src="images/gain_home.png"  width="800">
