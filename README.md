@@ -183,14 +183,14 @@ Welcome to the gAIn platform! Follow these steps to get the application up and r
 
 ### Accessing the Application
 
-- Open your browser and navigate to:  
+- Open your browser and navigate to:
   **[http://localhost:3000/](http://localhost:3000/)**
 
 - Explore the features:
   1. **Home Page:** Learn about gAIn and its mission.
   2. **Newsletters Page:** Explore articles and blogs (content pending population).
-  3. **AI Chat Assistant:**  
-     - Chat with gAIn about health and fitness topics.  
+  3. **AI Chat Assistant:**
+     - Chat with gAIn about health and fitness topics.
      - gAIn has access to Mads’s Strava data for personalized recommendations and insights.
 
 ## Pushing Dockerfile to Google Cloud Artifact Registry
