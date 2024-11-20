@@ -32,7 +32,7 @@ services:
     volumes:
       - ./tests/integration_tests:/app/tests/integration_tests
     working_dir: /app
-    command: ["pytest",
+    command: ["pipenv", "run", "pytest",
               "tests/integration_tests/test_data_preprocessing.py::test_testfunction"]
     networks:
       - test-network
