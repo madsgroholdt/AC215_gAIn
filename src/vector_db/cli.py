@@ -5,7 +5,6 @@ import glob
 import hashlib
 import chromadb
 from google.cloud import storage
-# from models import rag_agent_tools
 # Vertex AI
 import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel

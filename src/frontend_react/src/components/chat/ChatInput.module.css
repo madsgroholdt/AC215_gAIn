@@ -1,18 +1,26 @@
+.chatInputWrapper {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+}
+
 .chatInputContainer {
   /* max-width: 800px;
     margin: 0 auto 60px;
     background: #363636;
 
     padding: 20px; */
-  background: #363636;
-  border-top: 1px solid #444;
+  background: #eff6ff;
+  border: 1px solid #000;
   border-radius: 12px;
   padding: 20px;
+  width: 95%;
+  height: 95%
 }
 
 .textareaWrapper {
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   width: 100%;
 }
 
@@ -20,7 +28,7 @@
   width: 100%;
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: #000;
   font-size: 18px;
   padding: 10px;
   padding-right: 50px;
@@ -34,6 +42,11 @@
   overflow-y: hidden;
   /* Hide scrollbar as we're auto-expanding */
   line-height: 1.5;
+}
+
+.chatInput::placeholder {
+  color: #000;
+  opacity: 0.5;
 }
 
 .submitButton {
@@ -54,17 +67,18 @@
 
 .submitButton.active {
   color: #fff;
-  background: #444;
+  background: #00002b;
 }
 
 .submitButton.active:hover {
-  background: #555;
+  background: #00004b;
   transform: scale(1.05);
 }
 
 .submitButton:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.1;
+  background: #00004b;
 }
 
 .inputControls {
@@ -97,56 +111,8 @@
   background: #444444;
 }
 
-.modelSelect {
-  background: #444444;
-  color: #ffffff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
 .inputTip {
-  color: #888;
+  color: #666;
   font-size: 14px;
   margin-right: 16px;
-}
-
-.hiddenFileInput {
-  display: none;
-}
-
-.imagePreview {
-  position: relative;
-  margin-bottom: 12px;
-  display: inline-block;
-}
-
-.imagePreview img {
-  max-width: 200px;
-  max-height: 200px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.removeImageBtn {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #444;
-  border: none;
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-}
-
-.removeImageBtn:hover {
-  background: #555;
 }

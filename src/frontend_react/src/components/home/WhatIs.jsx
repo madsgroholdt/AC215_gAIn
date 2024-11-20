@@ -50,13 +50,13 @@ export default function WhatIs() {
 
                 <div className={styles.imageContainer}>
                     <Image
-                        src="/assets/gain-logo.png"
+                        src="/assets/gain_logo.png"
                         alt="gAIn logo with robot"
                         fill
-                        sizes="(max-width: 768px) 100vw, 800px"
+                        sizes="(max-width: 768px) 100vw, 1600px"
                         style={{
-                            objectFit: 'cover', // Ensures the image fills the container
-                            objectPosition: 'top', // Aligns the image to the top
+                            objectFit: 'contain',
+                            objectPosition: 'top',
                         }}
                         priority
                     />

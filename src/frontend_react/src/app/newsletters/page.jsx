@@ -113,22 +113,6 @@ export default function NewslettersPage({ searchParams }) {
                             </article>
                         ))}
                     </div>
-
-                    {/* Newsletter Subscription */}
-                    <div className={styles.subscriptionBox}>
-                        <h3>Stay Updated</h3>
-                        <p>Subscribe to receive our latest newsletters directly in your inbox.</p>
-                        <form className={styles.subscriptionForm}>
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className={styles.emailInput}
-                            />
-                            <button type="submit" className={styles.subscribeButton}>
-                                Subscribe
-                            </button>
-                        </form>
-                    </div>
                 </section>
             )}
 
