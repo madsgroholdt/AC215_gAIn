@@ -58,7 +58,6 @@ Below is an overview of the gAIn source code repository.
 │   │   ├── docker-shell.sh
 │   │   ├── cli.py
 │   │   └── README.md
-│   ├── docker-compose.yml
 │   ├── frontend_react
 │   ├── models
 │   │   ├── Dockerfile
