@@ -8,6 +8,7 @@ services:
       - "5000:5000"
     networks:
       - test-network
+    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
 
   data_preprocessing_service:
     build:
@@ -16,6 +17,7 @@ services:
       - "5001:5001"
     networks:
       - test-network
+    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
 
   vector_db_service:
     build:
@@ -24,6 +26,7 @@ services:
       - "5002:5002"
     networks:
       - test-network
+    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
 
   api_service_base:
     build:
@@ -32,6 +35,7 @@ services:
       - "5003:5003"
     networks:
       - test-network
+    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
 
   model_finetuner:
     build:
@@ -40,6 +44,7 @@ services:
       - "5004:5004"
     networks:
       - test-network
+    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
 
   test_runner:
     build:
@@ -48,8 +53,8 @@ services:
     volumes:
       - ./tests/integration_tests:/app/tests/integration_tests
     working_dir: /app
-    command: ["python",
-              "tests/integration_tests/test_data_preprocessing.py"]
+    command: ["pipenv", "run", "pytest",
+              "tests/integration_tests/"]
     networks:
       - test-network
     depends_on:
