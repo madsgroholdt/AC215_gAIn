@@ -97,7 +97,7 @@ Here is our Technical Architecture:
 
 **Backend API**
 
-We built a backend API service using FastAPI to expose model functionality to the frontend. We also added APIs that will help the frontend display some key information about the model and data. As seen below, this routes the information from our backend (e.g., LLM-generated text), which can then be delivered to a user-facing frontend application.
+We built a backend API service using FastAPI to expose model functionality to the frontend. We also added APIs that will help the front-end display some key information about the model and data. As seen below, this routes output from our back-end (e.g., LLM-generated text) to the user-facing front-end application.
 
 <img src="images/api_list.png"  width="800">
 
