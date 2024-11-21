@@ -9,6 +9,7 @@ uvicorn_server() {
 
 uvicorn_server_production() {
     pipenv run uvicorn api.service:app --host 0.0.0.0 --port 9000 --lifespan on
+    echo "uvicorn_server running"
 }
 
 export -f uvicorn_server
@@ -22,7 +23,11 @@ The following commands are available:
 "
 
 if [ "${DEV}" = 1 ]; then
-  pipenv shell
+  echo "DEV = 1"
+  # pipenv shell
+  pipenv run uvicorn api.service:app --host 0.0.0.0 --port 9000 --lifespan on
 else
+  echo "DEV != 1"
+  echo "Credentials: {$GOOGLE_APPLICATION_CREDENTIALS}"
   uvicorn_server_production
 fi

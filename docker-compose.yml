@@ -1,51 +1,68 @@
-version: '3.8'
-
 services:
-  data_scraping_service:
-    build:
-      context: ./src/data_scraping
-    ports:
-      - "5005:5005"
-    networks:
-      - test-network
-    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
+  # vector_db_service:
+  #   build:
+  #     context: ./src/vector_db
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8000:8000"
+  #   networks:
+  #     - test-network
+  #   volumes:
+  #     - ./src/vector_db:/app/src/vector_db
+  #   working_dir: /app
+  #   secrets:
+  #     - google_application_credentials
+  #   environment:
+  #     - GCP_PROJECT="ac215-final-project"
+  #     - GCS_BUCKET_NAME="gain-bucket"
+  #     - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+  #   command: ["pipenv", "run", "python", "src/vector_db/cli.py", "--preprocess"]
 
-  data_preprocessing_service:
-    build:
-      context: ./src/data_preprocessing
-    ports:
-      - "5001:5001"
-    networks:
-      - test-network
-    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
-
-  vector_db_service:
+  gain-vector-db-cli:
     build:
       context: ./src/vector_db
+      dockerfile: Dockerfile
+    secrets:
+      - google_application_credentials
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+      - GCP_PROJECT="ac215-final-project"
+      - CHROMADB_HOST="gain-vector-db"
+      - CHROMADB_PORT=8000
+    depends_on:
+    - chromadb
+
+  chromadb:
+    image: chromadb/chroma:latest
     ports:
-      - "5002:5002"
-    networks:
-      - test-network
-    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
+      - 8000:8000
+    volumes:
+      - ./src/vector_db/docker-volumes/chromadb:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+      - CHROMA_SERVER_CORS_ALLOW_ORIGINS=["*"]
 
   api_service_base:
     build:
       context: ./src/api_service
+      dockerfile: Dockerfile
     ports:
-      - "5003:5003"
+      - "9000:9000"
+    environment:
+      - IMAGE_NAME="gain-rag-api-service"
+      - GCP_PROJECT="ac215-final-project"
+      - GCS_BUCKET_NAME="gain-bucket"
+      - CHROMADB_HOST="gain-vector-db"
+      - CHROMADB_PORT=8000
+      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+    secrets:
+      - google_application_credentials
     networks:
       - test-network
-    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
-    command: ["uvicorn_server"]
-
-  model_finetuner:
-    build:
-      context: ./src/model_finetuner
-    ports:
-      - "5004:5004"
-    networks:
-      - test-network
-    entrypoint: ["/bin/sh", "-c", "echo 'Overriding docker-entrypoint.sh...'"]
+    depends_on:
+      - gain-vector-db-cli
+      - chromadb
 
   test_runner:
     build:
@@ -59,11 +76,13 @@ services:
     networks:
       - test-network
     depends_on:
-      - data_scraping_service
-      - data_preprocessing_service
-      - vector_db_service
+      - gain-vector-db-cli
       - api_service_base
-      - model_finetuner
+      - chromadb
+
+secrets:
+  google_application_credentials:
+    file: ./src/secrets/llm-service-account.json
 
 
 networks:
