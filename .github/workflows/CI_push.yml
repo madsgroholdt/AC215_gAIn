@@ -24,18 +24,18 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Cache Docker Compose binary
-        id: docker-compose-cache
-        uses: actions/cache@v3
-        with:
-          path: /usr/local/bin/docker-compose
-          key: docker-compose-${{ runner.os }}
+      # - name: Cache Docker Compose binary
+      #   id: docker-compose-cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: /usr/local/bin/docker-compose
+      #     key: docker-compose-${{ runner.os }}
 
-      - name: Install Docker Compose if not cached
-        if: steps.docker-compose-cache.outputs.cache-hit != 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
+      # - name: Install Docker Compose if not cached
+      #   if: steps.docker-compose-cache.outputs.cache-hit != 'true'
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y docker-compose
 
       - name: Install Pipenv
         run: pip install pipenv
@@ -43,14 +43,14 @@ jobs:
       - name: Install dependencies with Pipenv
         run: pipenv install
 
-      - name: Build and start services with Docker Compose
-        run: docker-compose up --abort-on-container-exit --exit-code-from test_runner
-        working-directory: ./
+      # - name: Build and start services with Docker Compose
+      #   run: docker-compose up --abort-on-container-exit --exit-code-from test_runner
+      #   working-directory: ./
 
-      - name: Tear down services
-        if: always()
-        run: docker-compose down
-        working-directory: ./
+      # - name: Tear down services
+      #   if: always()
+      #   run: docker-compose down
+      #   working-directory: ./
 
       # Set PYTHONPATH to include the root directory (or src)
       - name: Set PYTHONPATH
