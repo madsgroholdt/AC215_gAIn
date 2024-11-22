@@ -26,6 +26,6 @@ Secondly, the same checks are run upon push to milestone4 and main branch, as a 
 
 ### Running tests locally
 
-To run the integration tests - first navigate to the vector_db folder and run **sh docker-shell.sh**. Then in a separate terminal, navigate to the api_service folder and run **sh docker-shell.sh**. Then with those two containers running, run **pipenv run pytest tests/integration_tests/test_rag_chat.py**. This will run the file with tests for the rag llm functionality.
+To run the integration tests - first navigate to the vector_db folder and run **sh docker-shell.sh**. Then in a separate terminal, navigate to the api_service folder and run **sh docker-shell.sh**. Then with those two containers running, run **pipenv run pytest tests/integration_tests/test_rag_chat.py**. This will run the file with tests for the rag llm functionality. The final implementation of the testing suite will be implemented using a docker-compose.yml file, but the existing version of this is unfortunately not functioning in the desired way.
 
 To run the system tests, simply run **pipenv run pytest tests/test_semantic_splitter.py** in the root directory of the project.
