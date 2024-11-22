@@ -71,7 +71,7 @@ jobs:
       # Run pytest with coverage and generate HTML report
       - name: Run tests with coverage
         run: |
-          pytest --cov=. --cov-report=html
+          pytest tests/test_semantic_splitter.py --cov=. --cov-report=html
 
       # Upload coverage report as an artifact
       - name: Upload coverage report
