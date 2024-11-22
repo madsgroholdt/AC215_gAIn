@@ -1,15 +1,15 @@
 ### Test Documentation
 
-The testing of gAIn source code is two-fold. Firstly, integration tests are run on the relevant containers in gAIn's infrastructure, to ensure that they all build correctly. Secondly, non-containerized utility functions are tested using the pytest library. Future testing efforts will include testing of functions in containerized applications as well, but because of the non-functional design of some of the code in each infrastructure container, such as data_scraping and data_preprocessing, this is not yet implemented.
+The testing of gAIn source code is two-fold. Firstly, integration tests are run on the relevant containers in gAIn's infrastructure to ensure that they all build correctly and that the user-interacting functions run properly. Secondly, non-containerized utility functions are tested using the pytest library. Future testing efforts may also be expanded to cover infrastructure functionality such as data_preprocessing and fine_tuning, but integration testing is currently focused on end-user interacting and other application-critical functions.
 
-All test files are located in the tests folder, with the integration_tests folder intended to hold future test functions for containerized functions.
+All test files are located in the tests folder, with the integration_tests folder intended to hold test functions for containerized functions.
 
 ### Unit Tests
 
 In the unit test functionality, we test individual, auxiliary functions that are not part of a specific container.
 
 - test_semantic_split.py: Contains tests for the semantic_split.py functionality used to preprocess text before pushing it to the vector database.
-- integration_tests: Placeholder for future tests of containerized functions.
+- integration_tests: Tests of containerized functions.
 
 ### CI Pipeline
 
@@ -26,6 +26,6 @@ Secondly, the same checks are run upon push to milestone4 and main branch, as a 
 
 ### Running tests locally
 
-To run the integration tests and build the containers, run **docker-compose up** in the root directory of the project.
+To run the integration tests - first navigate to the vector_db folder and run **sh docker-shell.sh**. Then in a separate terminal, navigate to the api_service folder and run **sh docker-shell.sh**. Then with those two containers running, run **pipenv run pytest tests/integration_tests/test_rag_chat.py**. This will run the file with tests for the rag llm functionality.
 
-To run the system tests, simply run **pipenv run pytest** in the root directory of the project.
+To run the system tests, simply run **pipenv run pytest tests/test_semantic_splitter.py** in the root directory of the project.
