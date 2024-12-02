@@ -40,7 +40,7 @@ networks:
     driver: bridge
 secrets:
   google_application_credentials:
-    file: ./src/secrets/llm-service-account.json
+    file: /src/secrets/llm-service-account.json
 
 
 # services:
