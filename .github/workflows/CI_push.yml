@@ -81,27 +81,27 @@ jobs:
       - name: Install dependencies with Pipenv
         run: pipenv install --python $(which python3.11)
 
-      - name: Reinstall pytest in src/api_service
-        working-directory: ./src/api_service
+      - name: Reinstall pytest
+        working-directory: .
         run: pipenv install pytest
 
       # Check that docker compose file exists
       - name: Check that docker-compose exists
-        working-directory: ./src/api_service
+        working-directory: .
         run: ls -al
 
       # Ensure that pytest has been installed
       - name: Ensure Pytest is Installed
-        working-directory: ./src/api_service
+        working-directory: .
         run: pipenv run pytest --version
 
       # Run services and tests
       - name: Build and start services with Docker Compose
-        working-directory: ./src/api_service
+        working-directory: .
         run: docker-compose -f docker-compose.yml up -d
 
       - name: Run integration tests
-        working-directory: ./src/api_service
+        working-directory: .
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           pipenv run pytest ./tests
@@ -110,7 +110,7 @@ jobs:
       - name: Tear down services
         if: always()
         run: docker-compose down
-        working-directory: ./src/api_service
+        working-directory: .
 # name: CI on Merge to Main
 
 # on:
