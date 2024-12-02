@@ -1,4 +1,22 @@
 services:
+  vector_db_service:
+    build:
+      context: ./src/vector_db
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - test-network
+    volumes:
+      - ./src/vector_db:/app/src/vector_db
+    working_dir: /app
+    secrets:
+      - google_application_credentials
+    environment:
+      - GCP_PROJECT="ac215-final-project"
+      - GCS_BUCKET_NAME="gain-bucket"
+      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+    command: ["pipenv", "run", "python", "src/vector_db/cli.py", "--preprocess"]
   backend_service:
     build:
       context: ./src/api_service
