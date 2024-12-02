@@ -1,81 +1,191 @@
-name: CI on Merge to Main
+name: Multi-Container Integration Test
 
 on:
   push:
     branches:
-      - main # Triggers when code is pushed to the main branch
-      - milestone4
-      - milestone4-RAG
+      - main
   pull_request:
     branches:
-      - main # Runs on PRs to main branch
+      - main
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository code
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      # Cache Docker Compose
+      - name: Cache Docker Compose
+        id: docker-compose-cache
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/bin/docker-compose
+          key: ${{ runner.os }}-docker-compose-${{ hashFiles('/usr/local/bin/docker-compose') }}
+
+      # Install Docker Compose if not cached
+      - name: Install Docker Compose if not cached
+        if: steps.docker-compose-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      # Build Docker image
+      - name: Build and cache Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./src/api_service
+          push: false
+          load: true
+          tags: myapp:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      # Move cache
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      # Set up Python and cache pip packages
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # - name: Cache Docker Compose binary
-      #   id: docker-compose-cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: /usr/local/bin/docker-compose
-      #     key: docker-compose-${{ runner.os }}
+      - name: Cache pip packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-      # - name: Install Docker Compose if not cached
-      #   if: steps.docker-compose-cache.outputs.cache-hit != 'true'
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y docker-compose
-
+      # Install Pipenv and dependencies
       - name: Install Pipenv
         run: pip install pipenv
 
       - name: Install dependencies with Pipenv
-        run: pipenv install
+        run: pipenv install --python $(which python3.11)
 
-      # - name: Build and start services with Docker Compose
-      #   run: docker-compose up --abort-on-container-exit --exit-code-from test_runner
-      #   working-directory: ./
+      - name: Reinstall pytest in src/api_service
+        working-directory: ./src/api_service
+        run: pipenv install pytest
 
-      # - name: Tear down services
-      #   if: always()
-      #   run: docker-compose down
-      #   working-directory: ./
+      # Check that docker compose file exists
+      - name: Check that docker-compose exists
+        working-directory: ./src/api_service
+        run: ls -al
 
-      # Set PYTHONPATH to include the root directory (or src)
-      - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+      # Ensure that pytest has been installed
+      - name: Ensure Pytest is Installed
+        working-directory: ./src/api_service
+        run: pipenv run pytest --version
 
-      # Install pytest and pytest-cov for coverage
-      - name: Install pytest and pytest-cov
+      # Run services and tests
+      - name: Build and start services with Docker Compose
+        working-directory: ./src/api_service
+        run: docker-compose -f docker-compose.yml up -d
+
+      - name: Run integration tests
+        working-directory: ./src/api_service
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov langchain-core langchain-community
-          pip install numpy pre-commit
-          pre-commit install-hooks
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          pipenv run pytest ./tests
 
-      # Run pre-commit hooks
-      - name: Run pre-commit hooks
-        run: pre-commit run --all-files
+      # Cleanup
+      - name: Tear down services
+        if: always()
+        run: docker-compose down
+        working-directory: ./src/api_service
+# name: CI on Merge to Main
 
-      # Run pytest with coverage and generate HTML report
-      - name: Run tests with coverage
-        run: |
-          pytest tests/test_semantic_splitter.py --cov=. --cov-report=html
+# on:
+#   push:
+#     branches:
+#       - main # Triggers when code is pushed to the main branch
+#   pull_request:
+#     branches:
+#       - main # Runs on PRs to main branch
 
-      # Upload coverage report as an artifact
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: htmlcov # The folder where pytest-cov stores HTML reports
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Checkout the repository code
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Set up Python
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.11"
+
+#       - name: Cache Docker Compose binary
+#         id: docker-compose-cache
+#         uses: actions/cache@v3
+#         with:
+#           path: /usr/local/bin/docker-compose
+#           key: docker-compose-${{ runner.os }}
+
+#       - name: Install Docker Compose if not cached
+#         if: steps.docker-compose-cache.outputs.cache-hit != 'true'
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install -y docker-compose
+
+#       - name: Install Pipenv
+#         run: pip install pipenv
+
+#       - name: Install dependencies with Pipenv
+#         run: pipenv install
+
+#       # - name: Build and start services with Docker Compose
+#       #   run: docker-compose -d up --abort-on-container-exit --exit-code-from test_runner
+#       #   working-directory: ./
+
+#       # - name: Tear down services
+#       #   if: always()
+#       #   run: docker-compose down
+#       #   working-directory: ./
+
+#       # Set PYTHONPATH to include the root directory (or src)
+#       - name: Set PYTHONPATH
+#         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+
+#       # Install pytest and pytest-cov for coverage
+#       - name: Install pytest and pytest-cov
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install pytest pytest-cov langchain-core langchain-community
+#           pip install numpy pre-commit
+#           pre-commit install-hooks
+
+#       # Run pre-commit hooks
+#       - name: Run pre-commit hooks
+#         run: pre-commit run --all-files
+
+#       # Run pytest with coverage and generate HTML report
+#       - name: Run tests with coverage
+#         run: |
+#           pytest tests/test_semantic_splitter.py --cov=. --cov-report=html
+
+#       # Upload coverage report as an artifact
+#       - name: Upload coverage report
+#         uses: actions/upload-artifact@v3
+#         with:
+#           name: coverage-report
+#           path: htmlcov # The folder where pytest-cov stores HTML reports
