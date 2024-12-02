@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - milestone5-testing
   pull_request:
     branches:
       - main
