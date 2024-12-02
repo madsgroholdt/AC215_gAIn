@@ -38,6 +38,9 @@ services:
 networks:
   backend-network:
     driver: bridge
+secrets:
+  google_application_credentials:
+    file: ./src/secrets/llm-service-account.json
 
 
 # services:
