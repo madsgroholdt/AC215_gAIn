@@ -180,5 +180,6 @@ src/data_preprocessing/csv_data
 src/data_preprocessing/txt_data
 src/api_service/chat-history
 #
-src/docker-volumes
 src/vector_db/docker-volumes
+src/vector_db/docker-volumes/chromadb
+src/vector_db/output

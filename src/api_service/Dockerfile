@@ -40,5 +40,7 @@ RUN pipenv sync
 # layers when we change a line of code.
 ADD --chown=app:app . /app
 
+EXPOSE 9000
+
 # Entry point
 ENTRYPOINT ["/bin/bash","./docker-entrypoint.sh"]
