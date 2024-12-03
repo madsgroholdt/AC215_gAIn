@@ -13,7 +13,7 @@ export GCP_REGION="us-central1"
 export GOOGLE_APPLICATION_CREDENTIALS=/secrets/deployment.json
 export GCS_BUCKET_NAME="gain-workflow-demo"
 export GCS_SERVICE_ACCOUNT="deployment@ac215-final-project.iam.gserviceaccount.com"
-export GCS_PACKAGE_URI="gs://cheese-app-trainer-code" #
+export GCS_PACKAGE_URI="gs://cheese-app-trainer-code" # what this?
 
 # Build the image based on the Dockerfile
 #docker build -t $IMAGE_NAME -f Dockerfile .
@@ -26,7 +26,7 @@ docker run --rm --name $IMAGE_NAME -ti \
 -v "$SECRETS_DIR":/secrets \
 -v "$HOME/.ssh":/home/app/.ssh \
 -v "$BASE_DIR/../api_service":/api_service \
--v "$BASE_DIR/../frontend_react":/fronten_react \
+-v "$BASE_DIR/../frontend_react":/frontend_react \
 -v "$BASE_DIR/../data_preprocessing":/data_preprocessing \
 -v "$BASE_DIR/../data_scraping":/data_scraping \
 -v "$BASE_DIR/../dataset_cerator":/dataset_creator \
