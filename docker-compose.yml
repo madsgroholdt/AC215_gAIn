@@ -1,38 +1,129 @@
 services:
-  vector_db_service:
+  # vector_db_service:
+  #   build:
+  #     context: ./src/vector_db
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8000:8000"
+  #   networks:
+  #     - test-network
+  #   volumes:
+  #     - ./src/vector_db:/app/src/vector_db
+  #   working_dir: /app
+  #   secrets:
+  #     - google_application_credentials
+  #   environment:
+  #     - GCP_PROJECT="ac215-final-project"
+  #     - GCS_BUCKET_NAME="gain-bucket"
+  #     - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+  #   command: ["pipenv", "run", "python", "src/vector_db/cli.py", "--preprocess"]
+
+  gain-vector-db-cli:
     build:
       context: ./src/vector_db
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    networks:
-      - backend-network
-    volumes:
-      - ./src/vector_db:/app/src/vector_db
-    working_dir: /app
+    secrets:
+      - google_application_credentials
     environment:
-      - GCP_PROJECT="ac215-final-project"
-      - GCS_BUCKET_NAME="gain-bucket"
       - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
-    command: ["pipenv", "run", "python", "src/vector_db/cli.py", "--preprocess"]
-  backend_service:
+      - GCP_PROJECT="ac215-final-project"
+      - CHROMADB_HOST="gain-vector-db"
+      - CHROMADB_PORT=8000
+    depends_on:
+    - chromadb
+
+  chromadb:
+    image: chromadb/chroma:latest
+    ports:
+      - 8000:8000
+    volumes:
+      - ./src/vector_db/docker-volumes/chromadb:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+      - CHROMA_SERVER_CORS_ALLOW_ORIGINS=["*"]
+
+  api_service_base:
     build:
       context: ./src/api_service
+      dockerfile: Dockerfile
     ports:
       - "9000:9000"
-    networks:
-      - backend-network
-  react-app:
-    build:
-      context: ./src/frontend_react
-      dockerfile: Dockerfile
-    volumes:
-      - .:/app
-      - /app/frontend_react
-    ports:
-      - "3000:3000"
     environment:
-      - CHOKIDAR_USEPOLLING=true
+      - IMAGE_NAME="gain-rag-api-service"
+      - GCP_PROJECT="ac215-final-project"
+      - GCS_BUCKET_NAME="gain-bucket"
+      - CHROMADB_HOST="gain-vector-db"
+      - CHROMADB_PORT=8000
+      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+    secrets:
+      - google_application_credentials
+    networks:
+      - test-network
+    depends_on:
+      - gain-vector-db-cli
+      - chromadb
+
+  test_runner:
+    build:
+      context: .
+      dockerfile: test_runner/Dockerfile
+    volumes:
+      - ./tests/integration_tests:/app/tests/integration_tests
+    working_dir: /app
+    command: ["pipenv", "run", "pytest",
+              "tests/integration_tests/"]
+    networks:
+      - test-network
+    depends_on:
+      - gain-vector-db-cli
+      - api_service_base
+      - chromadb
+
+secrets:
+  google_application_credentials:
+    file: ./src/secrets/llm-service-account.json
+
+
 networks:
-  backend-network:
+  test-network:
     driver: bridge
+
+# services:
+#   vector_db_service:
+#     build:
+#       context: ./src/vector_db
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8000:8000"
+#     networks:
+#       - backend-network
+#     volumes:
+#       - ./src/vector_db:/app/src/vector_db
+#     working_dir: /app
+#     environment:
+#       - GCP_PROJECT="ac215-final-project"
+#       - GCS_BUCKET_NAME="gain-bucket"
+#       - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+#     command: ["pipenv", "run", "python", "src/vector_db/cli.py", "--preprocess"]
+#   backend_service:
+#     build:
+#       context: ./src/api_service
+#     ports:
+#       - "9000:9000"
+#     networks:
+#       - backend-network
+#   react-app:
+#     build:
+#       context: ./src/frontend_react
+#       dockerfile: Dockerfile
+#     volumes:
+#       - .:/app
+#       - /app/frontend_react
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       - CHOKIDAR_USEPOLLING=true
+# networks:
+#   backend-network:
+#     driver: bridge
