@@ -10,8 +10,8 @@ services:
     volumes:
       - ./src/vector_db:/app/src/vector_db
     working_dir: /app
-    secrets:
-      - google_application_credentials
+    # secrets:
+    #   - google_application_credentials
     environment:
       - GCP_PROJECT="ac215-final-project"
       - GCS_BUCKET_NAME="gain-bucket"
@@ -38,9 +38,9 @@ services:
 networks:
   backend-network:
     driver: bridge
-secrets:
-  google_application_credentials:
-    file: /src/secrets/llm-service-account.json
+# secrets:
+#   google_application_credentials:
+#     file: ./src/secrets/llm-service-account.json
 
 
 # services:
