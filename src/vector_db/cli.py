@@ -115,18 +115,6 @@ def download_from_gcs(folder_name, local_path):
             print(f"Downloaded {blob.name} to {destination}")
 
 
-def generate_query_embedding(query):
-    query_embedding_inputs = [
-        TextEmbeddingInput(task_type="RETRIEVAL_DOCUMENT", text=query)
-    ]
-    kwargs = (
-        dict(output_dimensionality=EMBEDDING_DIMENSION) if EMBEDDING_DIMENSION else {}
-    )
-    embeddings = embedding_model.get_embeddings(
-        query_embedding_inputs, **kwargs)
-    return embeddings[0].values
-
-
 def generate_text_embeddings(chunks, dimensionality: int = 256,
                              batch_size=250):
     # Max batch size is 250 for Vertex AI
@@ -152,11 +140,8 @@ def load_text_embeddings(df, collection, batch_size=500):
     df["id"] = hashed_doc_names + "-" + df["id"]
 
     metadata = {"doc_name": df["doc_name"].tolist()[0]}
-    if metadata["doc_name"] in document_mappings:
-        document_mapping = document_mappings[metadata["doc_name"]]
-        metadata["type"] = document_mapping["type"]
-        metadata["source"] = document_mapping["source"]
-        metadata["user"] = document_mapping["user"]
+    metadata["type"] = "Activity Log"
+    metadata["source"] = "Strava"
 
     # Process data in batches
     total_inserted = 0
@@ -173,18 +158,6 @@ def load_text_embeddings(df, collection, batch_size=500):
             ids=ids, documents=documents, metadatas=metadatas, embeddings=embeddings
         )
         total_inserted += len(batch)
-
-
-def get_collection(method="recursive-split"):
-    # Connect to chroma DB
-    client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
-    # Get a collection object from an existing collection, by name.
-    # If it doesn't exist, create it.
-    collection_name = f"{method}-collection"
-    # Get the collection
-    collection = client.get_collection(name=collection_name)
-
-    return collection
 
 
 def chunk(method="semantic-split"):
@@ -310,26 +283,6 @@ def preprocess_files(method="recursive-split"):
     print("Done loading embeddings.")
 
 
-def query(prompt, search_string=" ", method="recursive-split"):
-    collection = get_collection(method)
-
-    query_embedding = generate_query_embedding(prompt)
-
-    print(search_string)
-    query_args = {
-        "query_embeddings": [query_embedding],
-        "n_results": 10,
-        "where": {"source": {"$ne": ""}},
-        "where_document": {"$contains": search_string}
-    }
-
-    results = collection.query(**query_args)
-    print("Query:", prompt)
-    print("\n\nResults:", results)
-
-    return results
-
-
 def main(args=None):
     print("CLI Arguments:", args)
 
@@ -341,9 +294,6 @@ def main(args=None):
 
     if args.load:
         load(method=args.chunk_type)
-
-    if args.query:
-        query(prompt=args.prompt, method=args.chunk_type)
 
     if args.preprocess:
         preprocess_files(method=args.chunk_type)
@@ -368,11 +318,6 @@ if __name__ == "__main__":
         "--load",
         action="store_true",
         help="Load embeddings to vector db",
-    )
-    parser.add_argument(
-        "--query",
-        action="store_true",
-        help="Query vector db",
     )
     parser.add_argument(
         "--preprocess",
