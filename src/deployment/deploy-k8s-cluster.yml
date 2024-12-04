@@ -332,7 +332,6 @@
               containers:
               - name: vector-db-loader
                 image: "gcr.io/{{ gcp_project }}/gain-vector-db-cli:{{ tag.stdout}}"
-                command: ["python", "cli.py", "--preprocess"]
                 env:
                 - name: GCP_PROJECT
                   value: "{{ gcp_project }}"
