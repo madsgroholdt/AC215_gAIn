@@ -7,6 +7,7 @@ all:
       gcp_auth_kind: "serviceaccount"
       gcp_scopes: "https://www.googleapis.com/auth/compute"
       gcp_project: "ac215-final-project"
+      artifact_repo: "gcf-artifacts"
       gcp_region: "us-east1"
       gcp_zone: "us-east1-c"
       docker_network_name: "appnetwork"
