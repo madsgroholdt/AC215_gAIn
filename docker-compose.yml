@@ -1,4 +1,18 @@
 services:
+  vector_db_service:
+    build:
+      context: ./src/vector_db
+      dockerfile: Dockerfile
+    secrets:
+      - google_application_credentials
+    volumes:
+      - ./src/vector_db:/app/vector_db
+    working_dir: /app
+    command: ["pipenv", "run", "python", "vector_db/cli.py", "--preprocess"]
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+      - GCP_PROJECT="ac215-final-project"
+      - CHROMADB_HOST="gain-vector-db"
   backend_service:
     build:
       context: ./src/api_service
@@ -14,20 +28,31 @@ services:
       CHROMADB_PORT: 8000
     secrets:
       - google_application_credentials
-  react-app:
+    depends_on:
+      - vector_db_service
+  react_app:
     build:
       context: ./src/frontend_react
       dockerfile: Dockerfile
     volumes:
       - ./src/frontend_react:/app
-      - /app/node_modules
     ports:
       - "3000:3000"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - backend-network
+  test_runner:
+    build:
+      context: .
+      dockerfile: test_runner/Dockerfile
+    volumes:
+      - ./tests/integration_tests:/app/tests/integration_tests
+    working_dir: /app
+    command: ["pipenv", "run", "pytest", "tests/integration_tests/test_rag_chat.py"]
+    networks:
+      - backend-network
+    depends_on:
+      - backend_service
+      - react_app
 networks:
   backend-network:
     driver: bridge
-secrets:
-  google_application_credentials:
-    file: ./src/secrets/llm-service-account.json
