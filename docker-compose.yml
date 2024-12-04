@@ -10,7 +10,7 @@ services:
     working_dir: /app
     command: ["pipenv", "run", "python", "vector_db/cli.py", "--preprocess"]
     environment:
-      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
+      # - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google_application_credentials
       - GCP_PROJECT="ac215-final-project"
       - CHROMADB_HOST="gain-vector-db"
   backend_service:
