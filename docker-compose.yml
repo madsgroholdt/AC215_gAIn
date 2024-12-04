@@ -26,7 +26,6 @@ services:
       GCS_BUCKET_NAME: "gain-bucket"
       CHROMADB_HOST: "gain-vector-db"
       CHROMADB_PORT: 8000
-    command: ["pipenv", "run", "uvicorn_server"]
     # secrets:
     #   - google_application_credentials
     depends_on:

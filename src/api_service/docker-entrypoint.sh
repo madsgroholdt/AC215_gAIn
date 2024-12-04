@@ -2,32 +2,33 @@
 
 echo "Container is running!!!"
 
-# this will run the api/service.py file with the instantiated app FastAPI
-uvicorn_server() {
-    uvicorn api.service:app --host 0.0.0.0 --port 9000 --log-level debug --reload --reload-dir api/ "$@"
-}
+# # this will run the api/service.py file with the instantiated app FastAPI
+# uvicorn_server() {
+#     uvicorn api.service:app --host 0.0.0.0 --port 9000 --log-level debug --reload --reload-dir api/ "$@"
+# }
 
-uvicorn_server_production() {
-    pipenv run uvicorn api.service:app --host 0.0.0.0 --port 9000 --lifespan on
-    echo "uvicorn_server running"
-}
+# uvicorn_server_production() {
+#     pipenv run uvicorn api.service:app --host 0.0.0.0 --port 9000 --lifespan on
+#     echo "uvicorn_server running"
+# }
 
-export -f uvicorn_server
-export -f uvicorn_server_production
+# export -f uvicorn_server
+# export -f uvicorn_server_production
 
-echo -en "\033[92m
-The following commands are available:
-    uvicorn_server
-        Run the Uvicorn Server
-\033[0m
-"
+# echo -en "\033[92m
+# The following commands are available:
+#     uvicorn_server
+#         Run the Uvicorn Server
+# \033[0m
+# "
 
-if [ "${DEV}" = 1 ]; then
-  echo "DEV = 1"
+# if [ "${DEV}" = 1 ]; then
+  # echo "DEV = 1"
   # pipenv shell
-  pipenv run uvicorn api.service:app --host 0.0.0.0 --port 9000 --lifespan on
-else
-  echo "DEV != 1"
-  echo "Credentials: {$GOOGLE_APPLICATION_CREDENTIALS}"
-  uvicorn_server_production
-fi
+pipenv run uvicorn api.service:app --host 0.0.0.0 --port 9000 --lifespan on
+echo "Backend API is running"
+# else
+#   echo "DEV != 1"
+#   echo "Credentials: {$GOOGLE_APPLICATION_CREDENTIALS}"
+#   uvicorn_server_production
+# fi
