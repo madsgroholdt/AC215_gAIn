@@ -66,21 +66,21 @@ jobs:
           sudo apt-get install -y docker-compose
 
       # Build Docker image
-      - name: Build and cache Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./src/api_service
-          push: false
-          load: true
-          tags: myapp:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      # - name: Build and cache Docker image
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: ./src/api_service
+      #     push: false
+      #     load: true
+      #     tags: myapp:latest
+      #     cache-from: type=local,src=/tmp/.buildx-cache
+      #     cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
-      # Move cache
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      # # Move cache
+      # - name: Move cache
+      #   run: |
+      #     rm -rf /tmp/.buildx-cache
+      #     mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       # Set up Python and cache pip packages
       - name: Set up Python

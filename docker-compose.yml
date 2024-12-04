@@ -2,10 +2,16 @@ services:
   backend_service:
     build:
       context: ./src/api_service
+      dockerfile: Dockerfile
     ports:
       - "9000:9000"
     networks:
       - backend-network
+    environment:
+      GCP_PROJECT: "ac215-final-project"
+      GCS_BUCKET_NAME: "gain-bucket"
+      CHROMADB_HOST: "gain-vector-db"
+      CHROMADB_PORT: 8000
   react-app:
     build:
       context: ./src/frontend_react
