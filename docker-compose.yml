@@ -3,14 +3,14 @@ services:
     build:
       context: ./src/vector_db
       dockerfile: Dockerfile
-    secrets:
-      - google_application_credentials
+    # secrets:
+    #   - google_application_credentials
     volumes:
       - ./src:/app
     working_dir: /app
     command: ["pipenv", "run", "python", "src/vector_db/cli.py", "--preprocess"]
     environment:
-      - GOOGLE_APPLICATION_CREDENTIALS=/run/src/secrets/google_application_credentials
+      # - GOOGLE_APPLICATION_CREDENTIALS=/run/src/secrets/google_application_credentials
       - GCP_PROJECT="ac215-final-project"
       - CHROMADB_HOST="gain-vector-db"
   backend_service:
@@ -26,8 +26,8 @@ services:
       GCS_BUCKET_NAME: "gain-bucket"
       CHROMADB_HOST: "gain-vector-db"
       CHROMADB_PORT: 8000
-    secrets:
-      - google_application_credentials
+    # secrets:
+    #   - google_application_credentials
     depends_on:
       - vector_db_service
   react_app:
@@ -56,6 +56,6 @@ services:
 networks:
   backend-network:
     driver: bridge
-secrets:
-  google_application_credentials:
-    file: ./src/secrets/llm-service-account.json
+# secrets:
+#   google_application_credentials:
+#     file: ./src/secrets/llm-service-account.json
