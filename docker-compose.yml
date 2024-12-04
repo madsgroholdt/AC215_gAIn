@@ -12,6 +12,8 @@ services:
       GCS_BUCKET_NAME: "gain-bucket"
       CHROMADB_HOST: "gain-vector-db"
       CHROMADB_PORT: 8000
+    secrets:
+      - google_application_credentials
   react-app:
     build:
       context: ./src/frontend_react

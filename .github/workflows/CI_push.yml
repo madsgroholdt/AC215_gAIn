@@ -1,4 +1,4 @@
-name: Multi-Container Integration Test
+name: Pre-Merge Linting and Testing
 
 on:
   push:
