@@ -3,7 +3,6 @@ import argparse
 import time
 import vertexai
 from vertexai.preview.tuning import sft
-from vertexai.generative_models import GenerativeModel
 
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
@@ -53,34 +52,11 @@ def train(wait_for_job=False):
     print(f"Experiment: {sft_tuning_job.experiment}")
 
 
-def chat():
-    print("chat()")
-
-    # Get the finetuned model endpoint from Vertex AI
-    MODEL_ENDPOINT = \
-        "projects/129349313346/locations/us-central1/endpoints/3319822527953371136"
-
-    generative_model = GenerativeModel(MODEL_ENDPOINT)
-
-    query = "How can I lose weight?"
-    print("query: ", query)
-    response = generative_model.generate_content(
-        [query],  # Input prompt
-        generation_config=generation_config,  # Configuration settings
-        stream=False,  # Enable streaming for responses
-    )
-    generated_text = response.text
-    print("Fine-tuned LLM Response:", generated_text)
-
-
 def main(args=None):
     print("CLI Arguments:", args)
 
     if args.train:
         train()
-
-    if args.chat:
-        chat()
 
 
 if __name__ == "__main__":
@@ -92,11 +68,6 @@ if __name__ == "__main__":
         "--train",
         action="store_true",
         help="Train model",
-    )
-    parser.add_argument(
-        "--chat",
-        action="store_true",
-        help="Chat with model",
     )
 
     args = parser.parse_args()

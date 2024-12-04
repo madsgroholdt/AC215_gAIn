@@ -1,7 +1,7 @@
 ### Run Container
 Run the startup script which makes building & running the container easy.
 
-- Make sure you are inside the `dataset_creator` folder and open a terminal at this location
+- Make sure you are inside the `article-processor` folder and open a terminal at this location
 - Run `sh docker-shell.sh`
 - After container startup, test the shell by running `python cli.py --help`
 

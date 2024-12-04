@@ -273,6 +273,8 @@ def upload():
         blob = bucket.blob(destination_blob_name)
         print("Uploading file:", data_file, destination_blob_name)
         blob.upload_from_filename(data_file, timeout=timeout)
+        print("Removing local file:", data_file)
+        os.remove(data_file)
 
 
 def main(args=None):
