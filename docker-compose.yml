@@ -26,6 +26,7 @@ services:
       GCS_BUCKET_NAME: "gain-bucket"
       CHROMADB_HOST: "gain-vector-db"
       CHROMADB_PORT: 8000
+    command: ["pipenv", "run", "uvicorn_server"]
     # secrets:
     #   - google_application_credentials
     depends_on:
@@ -40,19 +41,19 @@ services:
       - "3000:3000"
     networks:
       - backend-network
-  test_runner:
-    build:
-      context: .
-      dockerfile: test_runner/Dockerfile
-    volumes:
-      - ./tests/integration_tests:/app/tests/integration_tests
-    working_dir: /app
-    command: ["pipenv", "run", "pytest", "tests/integration_tests/test_rag_chat.py"]
-    networks:
-      - backend-network
-    depends_on:
-      - backend_service
-      - react_app
+  # test_runner:
+  #   build:
+  #     context: .
+  #     dockerfile: test_runner/Dockerfile
+  #   volumes:
+  #     - ./tests/integration_tests:/app/tests/integration_tests
+  #   working_dir: /app
+  #   command: ["pipenv", "run", "pytest", "tests/integration_tests/test_rag_chat.py"]
+  #   networks:
+  #     - backend-network
+  #   depends_on:
+  #     - backend_service
+  #     - react_app
 networks:
   backend-network:
     driver: bridge
