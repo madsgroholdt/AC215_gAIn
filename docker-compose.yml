@@ -1,5 +1,5 @@
 services:
-  data_scraping_service:
+  # data_scraping_service:
   #   build:
   #     context: ./src/data_scraping
   #   ports:
