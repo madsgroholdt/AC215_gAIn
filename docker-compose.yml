@@ -1,25 +1,25 @@
 services:
   data_scraping_service:
-    build:
-      context: ./src/data_scraping
-    ports:
-      - "5000:5000"
-    networks:
-      - test-network
+  #   build:
+  #     context: ./src/data_scraping
+  #   ports:
+  #     - "5000:5000"
+  #   networks:
+  #     - test-network
 
-  data_preprocessing_service:
-    build:
-      context: ./src/data_preprocessing
-    ports:
-      - "5001:5001"
-    networks:
-      - test-network
+  # data_preprocessing_service:
+  #   build:
+  #     context: ./src/data_preprocessing
+  #   ports:
+  #     - "5001:5001"
+  #   networks:
+  #     - test-network
 
   vector_db_service:
     build:
       context: ./src/vector_db
     ports:
-      - "5002:5002"
+      - "8000:8000"
     networks:
       - test-network
 
@@ -27,35 +27,35 @@ services:
     build:
       context: ./src/api_service
     ports:
-      - "5003:5003"
+      - "9000:9000"
     networks:
       - test-network
 
-  model_finetuner:
-    build:
-      context: ./src/model_finetuner
-    ports:
-      - "5004:5004"
-    networks:
-      - test-network
+  # model_finetuner:
+  #   build:
+  #     context: ./src/model_finetuner
+  #   ports:
+  #     - "5004:5004"
+  #   networks:
+  #     - test-network
 
-  test_runner:
-    build:
-      context: .
-      dockerfile: test_runner/Dockerfile
-    volumes:
-      - ./tests/integration_tests:/app/tests/integration_tests
-    working_dir: /app
-    command: ["python",
-              "tests/integration_tests/test_data_preprocessing.py"]
-    networks:
-      - test-network
-    depends_on:
-      - data_scraping_service
-      - data_preprocessing_service
-      - vector_db_service
-      - api_service_base
-      - model_finetuner
+  # test_runner:
+  #   build:
+  #     context: .
+  #     dockerfile: test_runner/Dockerfile
+  #   volumes:
+  #     - ./tests/integration_tests:/app/tests/integration_tests
+  #   working_dir: /app
+  #   command: ["python",
+  #             "tests/integration_tests/test_data_preprocessing.py"]
+  #   networks:
+  #     - test-network
+  #   depends_on:
+  #     - data_scraping_service
+  #     - data_preprocessing_service
+  #     - vector_db_service
+  #     - api_service_base
+  #     - model_finetuner
 
 
 networks:
