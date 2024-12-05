@@ -24,54 +24,64 @@ jobs:
         with:
           python-version: "3.11"
 
-      # - name: Cache Docker Compose binary
-      #   id: docker-compose-cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: /usr/local/bin/docker-compose
-      #     key: docker-compose-${{ runner.os }}
+      - name: Cache Docker Compose binary
+        id: docker-compose-cache
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/bin/docker-compose
+          key: docker-compose-${{ runner.os }}
 
-      # - name: Install Docker Compose if not cached
-      #   if: steps.docker-compose-cache.outputs.cache-hit != 'true'
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y docker-compose
+      - name: Install Docker Compose if not cached
+        if: steps.docker-compose-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
       - name: Install Pipenv
         run: pip install pipenv
 
       - name: Install dependencies with Pipenv
-        run: pipenv install
+        run: pipenv install --python $(which python3.11)
 
-      # - name: Build and start services with Docker Compose
-      #   run: docker-compose up --abort-on-container-exit --exit-code-from test_runner
-      #   working-directory: ./
+      - name: Reinstall pytest
+        working-directory: .
+        run: pipenv install pytest
 
-      # - name: Tear down services
-      #   if: always()
-      #   run: docker-compose down
-      #   working-directory: ./
+      # Check that docker compose file exists
+      - name: Check that docker-compose exists
+        working-directory: .
+        run: ls -al
+
+      # Ensure that pytest has been installed
+      - name: Ensure Pytest is Installed
+        working-directory: .
+        run: pipenv run pytest --version
+
+      - name: Build and start services with Docker Compose
+        run: docker-compose up -d
+        working-directory: ./
 
       # Set PYTHONPATH to include the root directory (or src)
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
 
-      # Install pytest and pytest-cov for coverage
-      - name: Install pytest and pytest-cov
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov langchain-core langchain-community
-          pip install numpy pre-commit
-          pre-commit install-hooks
+      # # Install pytest and pytest-cov for coverage
+      # - name: Install pytest and pytest-cov
+      #   run: |
+      #     python -m pip install --upgrade pip
+      #     pip install pytest pytest-cov langchain-core langchain-community
+      #     pip install numpy pre-commit
+      #     pre-commit install-hooks
 
-      # Run pre-commit hooks
-      - name: Run pre-commit hooks
-        run: pre-commit run --all-files
+      # # Run pre-commit hooks
+      # - name: Run pre-commit hooks
+      #   run: pre-commit run --all-files
 
-      # Run pytest with coverage and generate HTML report
-      - name: Run tests with coverage
+      - name: Run integration tests
+        working-directory: .
         run: |
-          pytest tests/test_semantic_splitter.py --cov=. --cov-report=html
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          pipenv run pytest ./tests
 
       # Upload coverage report as an artifact
       - name: Upload coverage report
@@ -79,3 +89,8 @@ jobs:
         with:
           name: coverage-report
           path: htmlcov # The folder where pytest-cov stores HTML reports
+
+      - name: Tear down services
+        if: always()
+        run: docker-compose down
+        working-directory: ./

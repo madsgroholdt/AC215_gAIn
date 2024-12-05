@@ -181,4 +181,5 @@ src/data_preprocessing/txt_data
 src/api_service/chat-history
 #
 src/docker-volumes
+src/vector_db/output
 src/vector_db/docker-volumes
