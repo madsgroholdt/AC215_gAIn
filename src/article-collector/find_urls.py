@@ -1,16 +1,16 @@
 import os
-import json
 from phi.assistant import Assistant
 from phi.llm.openai import OpenAIChat
 from phi.tools.file import FileTools
 from phi.tools.googlesearch import GoogleSearch
+from google.cloud import secretmanager
 
 # Import OpenAPI key
-json_path = os.path.join("..", "secrets", "opensecret.json")
-with open(json_path, "r") as file:
-    config = json.load(file)
-api_key = config["OPENAI_API_KEY"]
-os.environ['OPENAI_API_KEY'] = api_key
+client = secretmanager.SecretManagerServiceClient()
+name = "projects/ac215-final-project/secrets/OPENAI/versions/latest"
+response = client.access_secret_version(request={"name": name})
+secret = response.payload.data.decode("UTF-8")
+os.environ['OPENAI_API_KEY'] = secret
 
 assistant = Assistant(
     llm=OpenAIChat(model="gpt-4o-mini"),
@@ -68,4 +68,6 @@ def get_urls(num_urls=100):
                 new line character. Export a CSV file containing all of these URLs and \
                 name this file 'urls.csv'."
 
+    print('t1')
     assistant.print_response(prompt)
+    print('t2')

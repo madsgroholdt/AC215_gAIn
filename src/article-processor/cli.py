@@ -9,12 +9,13 @@ import vertexai
 from vertexai.generative_models import GenerativeModel
 
 # Setup
-GCP_PROJECT = os.environ["GCP_PROJECT"]
+GCP_PROJECT = "ac215-final-project"
 GCP_LOCATION = "us-central1"
 GENERATIVE_MODEL = "gemini-1.5-flash-002"
-OUTPUT_FOLDER = "data"
-GCS_BUCKET_NAME = os.environ["GCS_BUCKET_NAME"]
-INPUT_FOLDER = "raw_articles/"
+QA_PAIRS = "data"
+PROCESSED_DATA = "processed_data"
+GCS_BUCKET_NAME = "gain-ml-pipeline"
+INPUT_FOLDER = "articles/"
 # Configuration settings for the content generation
 generation_config = {
     "max_output_tokens": 8192,  # Maximum number of tokens for output
@@ -133,24 +134,20 @@ Note: The sample JSON includes two Q&A pairs for brevity. Generate 5-10 pairs \
     for each article, following these guidelines. """
 
 
-# Helper function to get articles from GCS
-def download_articles():
-    client = storage.Client()
-    bucket = client.bucket(GCS_BUCKET_NAME)
-    blobs = bucket.list_blobs(prefix=INPUT_FOLDER)
-    articles = []
-    for blob in blobs:
-        if blob.name.endswith('.txt'):  # Assuming articles are in text files
-            content = blob.download_as_text()
-            articles.append(content)
-    return articles
+# Upload a file's content to GCS
+def upload_to_gcs(bucket_name, folder, title, content):
+    try:
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(f"{folder}/{title}.txt")
+        blob.upload_from_string(content)
+        print(f"File uploaded to bucket {bucket_name} in folder {folder}/{title}.txt\n")
+    except Exception:
+        print(f"Error uploading file {title}.txt to GCP bucket\n")
 
 
 def generate():
     print("generate()")
-
-    # Make dataset folders
-    os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
     # Initialize Vertex AI project and location
     vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
@@ -161,16 +158,23 @@ def generate():
         system_instruction=[SYSTEM_INSTRUCTION]
     )
 
-    # Download articles
-    articles = download_articles()
+    # Access saved articles
+    client = storage.Client()
+    bucket = client.bucket(GCS_BUCKET_NAME)
+    articles = bucket.list_blobs(prefix=INPUT_FOLDER)
 
-    # Loop to generate and save the content
+    # Generate QA pairs for each article
     for i, article in enumerate(articles):
+        # Get article content
+        if article.name.endswith('.txt'):
+            content = article.download_as_text()
+        else:
+            continue
+
+        # Create prompt from content
         INPUT_PROMPT = f"""Generate diverse, informative, and engaging \
         question-answer pairs about health and fitness using the following \
-        article and these guidelines. ARTICLE CONTENT: {article}."""
-
-        print(f"Generating batch: {i}")
+        article and these guidelines. ARTICLE CONTENT: {content}."""
 
         try:
             responses = model.generate_content(
@@ -180,11 +184,8 @@ def generate():
             )
             generated_text = responses.text
 
-            # Create a unique filename for each article
-            file_name = f"{OUTPUT_FOLDER}/health_qa_{i}.txt"
-            # Save
-            with open(file_name, "w") as file:
-                file.write(generated_text)
+            # Upload QA pair to GCS
+            upload_to_gcs(GCS_BUCKET_NAME, QA_PAIRS, f"health_qa_{i}", generated_text)
         except Exception as e:
             print(f"Error occurred while generating content: {e}")
 
@@ -192,8 +193,8 @@ def generate():
 def prepare():
     print("prepare()")
 
-    # Get the generated files
-    output_files = glob.glob(os.path.join(OUTPUT_FOLDER, "health_qa_*.txt"))
+    # Get the generated QA
+    output_files = glob.glob(os.path.join(QA_PAIRS, "health_qa_*.txt"))
     output_files.sort()
 
     # Consolidate the data
@@ -222,7 +223,7 @@ def prepare():
     output_pairs_df = output_pairs_df.dropna()
     print("Shape:", output_pairs_df.shape)
     print(output_pairs_df.head())
-    filename = os.path.join(OUTPUT_FOLDER, "instruct-dataset.csv")
+    filename = "instruct-dataset.csv"
     output_pairs_df.to_csv(filename, index=False)
 
     # Build training formats
@@ -240,18 +241,17 @@ def prepare():
     df_train, df_test = train_test_split(output_pairs_df,
                                          test_size=0.1,
                                          random_state=42)
-    df_train[["text"]].to_csv(os.path.join(OUTPUT_FOLDER, "train.csv"),
-                              index=False)
-    df_test[["text"]].to_csv(os.path.join(OUTPUT_FOLDER, "test.csv"),
-                             index=False)
+    df_train[["text"]].to_csv("train.csv", index=False)
+    df_test[["text"]].to_csv("test.csv", index=False)
 
     # Gemini : Max numbers of examples in validation dataset: 256
     df_test = df_test[:256]
 
     # JSONL
-    with open(os.path.join(OUTPUT_FOLDER, "train.jsonl"), "w") as json_file:
+    with open("train.jsonl", "w") as json_file:
         json_file.write(df_train[["contents"]].to_json(orient='records', lines=True))
-    with open(os.path.join(OUTPUT_FOLDER, "test.jsonl"), "w") as json_file:
+
+    with open("test.jsonl", "w") as json_file:
         json_file.write(df_test[["contents"]].to_json(orient='records', lines=True))
 
 
@@ -262,14 +262,13 @@ def upload():
     bucket = storage_client.bucket(GCS_BUCKET_NAME)
     timeout = 300
 
-    data_files = glob.glob(os.path.join(OUTPUT_FOLDER, "*.jsonl")) + \
-        glob.glob(os.path.join(OUTPUT_FOLDER, "*.csv"))
+    data_files = glob.glob("*.jsonl") + glob.glob("*.csv")
     data_files.sort()
 
     # Upload
     for index, data_file in enumerate(data_files):
         filename = os.path.basename(data_file)
-        destination_blob_name = os.path.join("llm-finetune-dataset-small", filename)
+        destination_blob_name = os.path.join(PROCESSED_DATA, filename)
         blob = bucket.blob(destination_blob_name)
         print("Uploading file:", data_file, destination_blob_name)
         blob.upload_from_filename(data_file, timeout=timeout)

@@ -8,44 +8,21 @@ from find_urls import get_urls
 
 
 # Set directory names
-bucket_name = "gain-ft-articles"
+bucket_name = "gain-ml-pipeline"
 source_folder = "/articles"
 destination_folder = "raw_articles"
 
 
-# Helper functions for uploading files
-def upload_single_file(bucket_name, source_file_path, destination_file_path):
+# Upload a file's content to GCS
+def upload_to_gcs(bucket_name, title, content):
     try:
-        # Initialize client
-        storage_client = storage.Client()
-
-        # Get target destination
-        bucket = storage_client.get_bucket(bucket_name)
-        blob = bucket.blob(destination_file_path)
-
-        # Upload file to cloud and delete locally
-        blob.upload_from_filename(source_file_path)
-        print(f"\n{source_file_path} uploaded to GCP bucket")
-
-        os.remove(source_file_path)
-        print(f"{source_file_path} DELETED locally")
-
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(f"articles/{title}.txt")
+        blob.upload_from_string(content)
+        print(f"File uploaded to bucket {bucket_name} in folder articles/{title}.txt\n")
     except Exception:
-        print(f"\nError uploading file {source_file_path} to GCP bucket")
-
-
-# Send all local files to bucket
-def send_to_bucket(bucket_name=bucket_name,
-                   source_folder=source_folder,
-                   destination_folder=destination_folder):
-
-    # Loop through local articles and upload
-    for filename in os.listdir(source_folder):
-        source_file_path = os.path.join(source_folder, filename)
-        destination_file_path = os.path.join(destination_folder, filename)
-
-        if os.path.isfile(source_file_path):
-            upload_single_file(bucket_name, source_file_path, destination_file_path)
+        print(f"Error uploading file {title}.txt to GCP bucket\n")
 
 
 # Scrape the content of a given article
@@ -62,31 +39,31 @@ def get_article_content(url, title):
         # 'p' = paragraphs
         paragraphs = soup.find_all('p')
 
-        # title = soup.title.get_text() if soup.title else 'No title found'
-
         # Extract and combine the text from each paragraph
         content = '\n'.join([para.get_text() for para in paragraphs])
-
-        # Save the content to a text file
-        with open(f"/articles/{title}.txt", 'w') as file:
-            file.write(content)
-
-        print(f"Article saved to {title}.txt")
+        upload_to_gcs(bucket_name, title, content)
 
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching article: {e}")
+        print(f"Error fetching article content: {e}")
 
 
-def scrape(source, base_index=0):
-    with open(source, mode='r') as file:
+def scrape(base_index=0):
+    # Get urls.csv
+    print("Getting URLs from GCP bucket...\n")
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob('urls/urls.csv')
+    blob.download_to_filename('urls.csv')
+
+    print("Scraping article content...\n")
+
+    os.makedirs('/articles', exist_ok=True)
+    with open('urls.csv') as file:
         urls = csv.reader(file)
 
         # Access each row and element
         for i, url in enumerate(urls):
             get_article_content(url[0], f"article{i+base_index}")
-
-            if i % 50 == 0:
-                send_to_bucket()
 
 
 def main(args=None):
@@ -96,9 +73,15 @@ def main(args=None):
         print("Finding health and fitness articles from across the internet...\n")
         get_urls()
 
+        # Initialize client
+        storage_client = storage.Client()
+        bucket = storage_client.get_bucket(bucket_name)
+        blob = bucket.blob('urls/urls.csv')
+        blob.upload_from_filename('urls.csv')
+        print("URLs uploaded to GCP bucket")
+
     if args.scrape:
-        print("Scraping article content...\n")
-        scrape('urls.csv', base_index=100)  # Change base index to prevent overwrite
+        scrape(base_index=200)  # Change base index to prevent overwrite
 
 
 if __name__ == "__main__":

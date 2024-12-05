@@ -6,8 +6,8 @@ from vertexai.preview.tuning import sft
 
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
-TRAIN_DATASET = "gs://gain-ft-articles/llm-finetune-dataset-small/train.jsonl"
-VALIDATION_DATASET = "gs://gain-ft-articles/llm-finetune-dataset-small/test.jsonl"
+TRAIN_DATASET = "gs://gain-ml-pipeline/llm-finetune-dataset-small/train.jsonl"
+VALIDATION_DATASET = "gs://gain-ml-pipeline/llm-finetune-dataset-small/test.jsonl"
 GCP_LOCATION = "us-central1"
 GENERATIVE_SOURCE_MODEL = "gemini-1.5-pro-002"  # base model
 # Configuration settings for the content generation

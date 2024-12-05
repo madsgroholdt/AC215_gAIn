@@ -7,7 +7,7 @@ set -e
 export BASE_DIR=$(pwd)
 export SECRETS_DIR=$(pwd)/../../secrets/
 export GCP_PROJECT="ac215-final-project"
-export GCS_BUCKET_NAME="gain-ft-articles"
+export GCS_BUCKET_NAME="gain-ml-pipeline"
 export IMAGE_NAME="article-collector"
 
 docker build -t $IMAGE_NAME -f Dockerfile .
@@ -17,7 +17,7 @@ docker run --rm -ti \
 -v "$BASE_DIR":/app \
 -v "$SECRETS_DIR":/secrets \
 -v "$BASE_DIR"/articles:/articles \
--e GOOGLE_APPLICATION_CREDENTIALS=/secrets/web-scraping-service.json \
+-e GOOGLE_APPLICATION_CREDENTIALS=/secrets/ml-pipeline.json \
 -e GCP_PROJECT=$GCP_PROJECT \
 -e GCS_BUCKET_NAME=$GCS_BUCKET_NAME \
 $IMAGE_NAME
