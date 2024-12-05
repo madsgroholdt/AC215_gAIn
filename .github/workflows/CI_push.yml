@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main # Triggers when code is pushed to the main branch
-      - milestone4
-      - milestone4-RAG
+      - milestone5_testing2
   pull_request:
     branches:
       - main # Runs on PRs to main branch
