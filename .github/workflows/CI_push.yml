@@ -43,7 +43,7 @@ jobs:
         run: pipenv install
 
       - name: Build and start services with Docker Compose
-        run: docker-compose up -d #--abort-on-container-exit --exit-code-from test_runner
+        run: docker-compose up #--abort-on-container-exit --exit-code-from test_runner
         working-directory: ./
 
       # Set PYTHONPATH to include the root directory (or src)
