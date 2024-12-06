@@ -7,7 +7,7 @@ set -e
 export IMAGE_NAME="gain-api-service"
 export BASE_DIR=$(pwd)
 export PERSISTENT_DIR=$(pwd)/../persistent-folder/
-export SECRETS_DIR=$(pwd)/../secrets/
+export SECRETS_DIR=$(pwd)/../../../secrets/
 export GCP_PROJECT="ac215-final-project"
 export GCS_BUCKET_NAME="gain-bucket"
 export CHROMADB_HOST="gain-vector-db"

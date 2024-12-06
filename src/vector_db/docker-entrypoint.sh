@@ -1,12 +1,19 @@
+#!/bin/bash
+
 echo "Container is running!!!"
 
-args="$@"
-echo $args
+# args="$@"
+# echo $args
 
-if [[ -z ${args} ]]; then
-    echo "Running 'python cli.py --preprocess'..."
-    pipenv run python cli.py --preprocess
+# if [[ -z ${args} ]]; 
+# then
+#     pipenv shell
+# else
+#   pipenv run python $args
+# fi
+
+if [ "${DEV}" = 1 ]; then
+  pipenv shell
 else
-    echo "Running custom command: $args"
-    pipenv run python $args
+  pipenv run python cli.py --preprocess
 fi

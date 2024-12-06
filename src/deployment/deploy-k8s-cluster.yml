@@ -4,7 +4,7 @@
   gather_facts: false
 
   vars:
-    cluster_name: "gain-cluster"
+    cluster_name: "cheese-app-cluster"
     machine_type: "n2d-standard-2"
     machine_disk_size: 30
     initial_node_count: 2
@@ -163,7 +163,7 @@
                 run: frontend
             spec:
               containers:
-              - image: "gcr.io/{{ gcp_project }}/gain-frontend-react:{{ tag.stdout}}"
+              - image: "gcr.io/{{ gcp_project }}/cheese-app-frontend-react:{{ tag.stdout}}"
                 imagePullPolicy: IfNotPresent
                 name: frontend
                 ports:
@@ -234,7 +234,7 @@
                   secret:
                     secretName: gcp-service-key
               containers:
-              - image: gcr.io/{{ gcp_project }}/gain-api-service:{{ tag.stdout}}
+              - image: gcr.io/{{ gcp_project }}/cheese-app-api-service:{{ tag.stdout}}
                 imagePullPolicy: IfNotPresent
                 name: api
                 ports:
@@ -249,7 +249,7 @@
                   - name: GOOGLE_APPLICATION_CREDENTIALS
                     value: /secrets/gcp-service.json
                   - name: GCS_BUCKET_NAME
-                    value: gain-models
+                    value: cheese-app-models
                   - name: CHROMADB_HOST
                     value: vector-db
                   - name: CHROMADB_PORT
@@ -331,7 +331,7 @@
                   do echo "Waiting for ChromaDB..."; sleep 5; done;']
               containers:
               - name: vector-db-loader
-                image: "gcr.io/{{ gcp_project }}/gain-vector-db-cli:{{ tag.stdout}}"
+                image: "gcr.io/{{ gcp_project }}/cheese-app-vector-db-cli:{{ tag.stdout}}"
                 env:
                 - name: GCP_PROJECT
                   value: "{{ gcp_project }}"
