@@ -23,11 +23,7 @@ The following commands are available:
 "
 
 if [ "${DEV}" = 1 ]; then
-  echo "DEV = 1"
-  # pipenv shell
-  pipenv run uvicorn api.service:app --host 0.0.0.0 --port 9000 --lifespan on
+  pipenv shell
 else
-  echo "DEV != 1"
-  echo "Credentials: {$GOOGLE_APPLICATION_CREDENTIALS}"
   uvicorn_server_production
 fi
