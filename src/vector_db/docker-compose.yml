@@ -1,6 +1,6 @@
 networks:
     default:
-        name: gain-rag-network
+        name: gain-network
         external: true
 services:
     gain-vector-db-cli:

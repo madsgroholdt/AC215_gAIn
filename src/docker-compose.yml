@@ -1,7 +1,7 @@
 version: '3.8'
 
 networks:
-  gain-rag-network:
+  gain-network:
     external: true
 
 services:
@@ -18,7 +18,7 @@ services:
       ANONYMIZED_TELEMETRY: "FALSE"
       CHROMA_SERVER_CORS_ALLOW_ORIGINS: '["*"]'
     networks:
-      - gain-rag-network
+      - gain-network
 
   # Data Loading Client for Vector DB
   gain-vector-db-cli:
@@ -37,13 +37,13 @@ services:
     depends_on:
       - chromadb
     networks:
-      - gain-rag-network
+      - gain-network
 
   # Backend Service
-  gain-rag-api-service:
+  gain-api-service:
     build:
       context: ./api_service
-    container_name: gain-rag-api-service
+    container_name: gain-api-service
     volumes:
       - ./secrets:/secrets
     environment:
@@ -56,19 +56,19 @@ services:
     depends_on:
       - chromadb
     networks:
-      - gain-rag-network
+      - gain-network
 
   # Frontend Service
-  gain-frontend-react:
+  gain-frontend:
     build:
       context: ./frontend_react
       dockerfile: Dockerfile.dev
-    container_name: gain-frontend-react
+    container_name: gain-frontend
     environment:
-      NEXT_PUBLIC_BASE_API_URL: http://gain-rag-api-service:9000
+      NEXT_PUBLIC_BASE_API_URL: http://gain-api-service:9000
     ports:
       - "3000:3000"
     depends_on:
-      - gain-rag-api-service
+      - gain-api-service
     networks:
-      - gain-rag-network
+      - gain-network

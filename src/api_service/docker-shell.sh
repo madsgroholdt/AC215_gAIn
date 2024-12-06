@@ -4,7 +4,7 @@
 set -e
 
 # Define some environment variables
-export IMAGE_NAME="gain-rag-api-service"
+export IMAGE_NAME="gain-api-service"
 export BASE_DIR=$(pwd)
 export PERSISTENT_DIR=$(pwd)/../persistent-folder/
 export SECRETS_DIR=$(pwd)/../secrets/
@@ -14,7 +14,7 @@ export CHROMADB_HOST="gain-vector-db"
 export CHROMADB_PORT=8000
 
 # Create the network if we don't have it yet
-docker network inspect gain-rag-network >/dev/null 2>&1 || docker network create gain-rag-network
+docker network inspect gain-network >/dev/null 2>&1 || docker network create gain-network
 
 # Build the image based on the Dockerfile
 #docker build -t $IMAGE_NAME -f Dockerfile .
@@ -33,5 +33,5 @@ docker run --rm --name $IMAGE_NAME -ti \
 -e GCS_BUCKET_NAME=$GCS_BUCKET_NAME \
 -e CHROMADB_HOST=$CHROMADB_HOST \
 -e CHROMADB_PORT=$CHROMADB_PORT \
---network gain-rag-network \
+--network gain-network \
 $IMAGE_NAME
