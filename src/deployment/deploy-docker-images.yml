@@ -12,40 +12,40 @@
   - name: Build frontend container image
     community.general.docker_image:
       build:
-        path: /frontend-react
+        path: /frontend_react
         platform: linux/amd64/v2
-      name: gcr.io/{{ gcp_project }}/cheese-app-frontend-react:{{ tag.stdout}}
+      name: gcr.io/{{ gcp_project }}/gain-frontend:{{ tag.stdout}}
       source: build
   - name: Push frontend image to GCR
     community.general.docker_image:
-      name: gcr.io/{{ gcp_project }}/cheese-app-frontend-react:{{ tag.stdout}}
-      repository: gcr.io/{{ gcp_project }}/cheese-app-frontend-react:{{ tag.stdout}}
+      name: gcr.io/{{ gcp_project }}/gain-frontend:{{ tag.stdout}}
+      repository: gcr.io/{{ gcp_project }}/gain-frontend:{{ tag.stdout}}
       push: yes
       source: local
   - name: Build api-service container image
     community.general.docker_image:
       build:
-        path: /api-service
+        path: /api_service
         platform: linux/amd64/v2
-      name: gcr.io/{{ gcp_project }}/cheese-app-api-service:{{ tag.stdout}}
+      name: gcr.io/{{ gcp_project }}/gain-api-service:{{ tag.stdout}}
       source: build
   - name: Push api-service image to GCR
     community.general.docker_image:
-      name: gcr.io/{{ gcp_project }}/cheese-app-api-service:{{ tag.stdout}}
-      repository: gcr.io/{{ gcp_project }}/cheese-app-api-service:{{ tag.stdout}}
+      name: gcr.io/{{ gcp_project }}/gain-api-service:{{ tag.stdout}}
+      repository: gcr.io/{{ gcp_project }}/gain-api-service:{{ tag.stdout}}
       push: yes
       source: local
   - name: Build vector-db-cli container image
     community.general.docker_image:
       build:
-        path: /vector-db
+        path: /vector_db
         platform: linux/amd64/v2
-      name: gcr.io/{{ gcp_project }}/cheese-app-vector-db-cli:{{ tag.stdout}}
+      name: gcr.io/{{ gcp_project }}/gain-vector-db-cli:{{ tag.stdout}}
       source: build
   - name: Push vector-db-cli image to GCR
     community.general.docker_image:
-      name: gcr.io/{{ gcp_project }}/cheese-app-vector-db-cli:{{ tag.stdout}}
-      repository: gcr.io/{{ gcp_project }}/cheese-app-vector-db-cli:{{ tag.stdout}}
+      name: gcr.io/{{ gcp_project }}/gain-vector-db-cli:{{ tag.stdout}}
+      repository: gcr.io/{{ gcp_project }}/gain-vector-db-cli:{{ tag.stdout}}
       push: yes
       source: local
   - name: "Save docker tag"

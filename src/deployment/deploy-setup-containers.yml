@@ -39,7 +39,7 @@
     - name: Create frontend container
       docker_container:
         name: "frontend"
-        image: "gcr.io/{{ gcp_project }}/cheese-app-frontend-react:{{ tag.stdout}}"
+        image: "gcr.io/{{ gcp_project }}/gain-frontend:{{ tag.stdout}}"
         state: started
         recreate: yes
         pull: yes
@@ -64,7 +64,7 @@
     - name: Create vector-db container
       docker_container:
         name: "vector-db"
-        image: "chromadb/chroma:0.5.6"
+        image: "chromadb/chroma:latest"
         state: started
         recreate: yes
         published_ports:
@@ -78,12 +78,12 @@
           - /mnt/disk-1/chromadb:/chroma/chroma
 
     - name: Load Vector DB
-      shell: docker run --rm -it -e GCP_PROJECT="{{ gcp_project }}" -e CHROMADB_HOST="vector-db" -e CHROMADB_PORT="8000" -e GOOGLE_APPLICATION_CREDENTIALS="/secrets/gcp-service.json" -v /srv/secrets:/secrets --network "{{docker_network_name}}" "gcr.io/{{ gcp_project }}/cheese-app-vector-db-cli:{{ tag.stdout}}" cli.py --download --load --chunk_type recursive-split
+      shell: docker run --rm -it -e GCP_PROJECT="{{ gcp_project }}" -e CHROMADB_HOST="vector-db" -e CHROMADB_PORT="8000" -e GOOGLE_APPLICATION_CREDENTIALS="/secrets/gcp-service.json" -v /srv/secrets:/secrets --network "{{docker_network_name}}" "gcr.io/{{ gcp_project }}/gain-vector-db-cli:{{ tag.stdout}}" cli.py --preprocess
 
     - name: Create api-service container
       docker_container:
         name: "api-service"
-        image: "gcr.io/{{ gcp_project }}/cheese-app-api-service:{{ tag.stdout}}"
+        image: "gcr.io/{{ gcp_project }}/gain-api-service:{{ tag.stdout}}"
         state: started
         recreate: yes
         published_ports:
@@ -91,7 +91,7 @@
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "/secrets/gcp-service.json"
           GCP_PROJECT: "{{ gcp_project }}"
-          GCS_BUCKET_NAME: "cheese-app-models"
+          GCS_BUCKET_NAME: "gain-bucket"
           CHROMADB_HOST: "vector-db"
           CHROMADB_PORT: "8000"
         networks:
