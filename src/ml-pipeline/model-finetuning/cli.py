@@ -35,7 +35,7 @@ def train(wait_for_job=True):
         epochs=1,   # between 2-3
         adapter_size=4,
         learning_rate_multiplier=1.0,
-        tuned_model_display_name="gain-ft-v2",
+        tuned_model_display_name="gain-finetuned",
     )
     print("Training job started. Monitoring progress...\n\n")
 

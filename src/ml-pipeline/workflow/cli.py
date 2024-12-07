@@ -5,6 +5,7 @@ import string
 from kfp import dsl
 from kfp import compiler
 import google.cloud.aiplatform as aip
+from model_deployment import model_deploy
 
 GCP_PROJECT = os.environ["GCP_PROJECT"]
 GCS_BUCKET_NAME = os.environ["GCS_BUCKET_NAME"]
@@ -149,6 +150,34 @@ def model_finetuning():
     job.run(service_account=GCS_SERVICE_ACCOUNT)
 
 
+def model_deploying():
+    print("model_deploy()")
+
+    # Define a Pipeline
+    @dsl.pipeline
+    def model_deploy_pipeline():
+        model_deploy()
+
+    # Build yaml file for pipeline
+    compiler.Compiler().compile(
+        model_deploy_pipeline, package_path="model_deploy.yaml"
+    )
+
+    # Submit job to Vertex AI
+    aip.init(project=GCP_PROJECT, staging_bucket=BUCKET_URI)
+
+    job_id = generate_uuid()
+    DISPLAY_NAME = "gain-model-deploy-" + job_id
+    job = aip.PipelineJob(
+        display_name=DISPLAY_NAME,
+        template_path="model_deploy.yaml",
+        pipeline_root=PIPELINE_ROOT,
+        enable_caching=False,
+    )
+
+    job.run(service_account=GCS_SERVICE_ACCOUNT)
+
+
 def pipeline(num_articles):
     print("pipeline()")
 
@@ -217,7 +246,14 @@ def pipeline(num_articles):
             .after(article_processor_task)
         )
 
-        _ = model_finetuning_task
+        # Model Deployment
+        model_deploy_task = (
+            model_deploy()
+            .set_display_name("Model Deploy")
+            .after(model_finetuning_task)
+        )
+
+        _ = model_deploy_task
 
     # Build yaml file for pipeline
     compiler.Compiler().compile(ml_pipeline, package_path="pipeline.yaml")
@@ -249,6 +285,9 @@ def main(args=None):
     if args.model_finetuning:
         model_finetuning()
 
+    if args.model_deploy:
+        model_deploying()
+
     if args.pipeline:
         pipeline(args.pipeline)
 
@@ -273,6 +312,12 @@ if __name__ == "__main__":
         "--model_finetuning",
         action="store_true",
         help="Run just the Model Finetuning",
+    )
+
+    parser.add_argument(
+        "--model_deploy",
+        action="store_true",
+        help="Run just model deployment",
     )
 
     parser.add_argument(
