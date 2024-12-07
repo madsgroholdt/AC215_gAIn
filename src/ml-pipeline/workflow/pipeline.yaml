@@ -1,0 +1,64 @@
+# PIPELINE DEFINITION
+# Name: ml-pipeline
+components:
+  comp-article-collector:
+    executorLabel: exec-article-collector
+  comp-article-processor:
+    executorLabel: exec-article-processor
+  comp-model-finetuning:
+    executorLabel: exec-model-finetuning
+deploymentSpec:
+  executors:
+    exec-article-collector:
+      container:
+        args:
+        - cli.py
+        - --urls 2
+        - --scrape
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/article-collector
+    exec-article-processor:
+      container:
+        args:
+        - cli.py
+        - --generate
+        - --prepare
+        - --upload
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/article-processor
+    exec-model-finetuning:
+      container:
+        args:
+        - cli.py
+        - --train
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/model-finetuning
+pipelineInfo:
+  name: ml-pipeline
+root:
+  dag:
+    tasks:
+      article-collector:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-article-collector
+        taskInfo:
+          name: Article Collector
+      article-processor:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-article-processor
+        dependentTasks:
+        - article-collector
+        taskInfo:
+          name: Article Processor
+      model-finetuning:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-model-finetuning
+        dependentTasks:
+        - article-processor
+        taskInfo:
+          name: Model Finetuning
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.10.1

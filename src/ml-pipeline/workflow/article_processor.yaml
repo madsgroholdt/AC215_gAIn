@@ -1,0 +1,29 @@
+# PIPELINE DEFINITION
+# Name: article-processor-pipeline
+components:
+  comp-article-processor:
+    executorLabel: exec-article-processor
+deploymentSpec:
+  executors:
+    exec-article-processor:
+      container:
+        args:
+        - cli.py
+        - --generate
+        - --prepare
+        - --upload
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/article-processor
+pipelineInfo:
+  name: article-processor-pipeline
+root:
+  dag:
+    tasks:
+      article-processor:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-article-processor
+        taskInfo:
+          name: article-processor
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.10.1

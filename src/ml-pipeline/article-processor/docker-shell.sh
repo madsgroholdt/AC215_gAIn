@@ -4,14 +4,8 @@
 set -e
 
 # Define some environment variables
-export BASE_DIR=$(pwd)
-export SECRETS_DIR=$(pwd)/../../secrets/
-export GCP_PROJECT="ac215-final-project"
-export GCS_BUCKET_NAME="gain-ml-pipeline"
-export GOOGLE_APPLICATION_CREDENTIALS="/secrets/finetuning-service-account.json"
-export GCP_SERVICE_ACCOUNT="finetuning-service-account@ac215-final-project.iam.gserviceaccount.com"
-export LOCATION="us-central1"
-export IMAGE_NAME="llm-article-processor"
+source ../env.dev
+export IMAGE_NAME="article-processor"
 
 # Build the image based on the Dockerfile
 docker build -t $IMAGE_NAME -f Dockerfile .

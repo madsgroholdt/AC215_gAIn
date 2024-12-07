@@ -4,6 +4,7 @@ from phi.llm.openai import OpenAIChat
 from phi.tools.file import FileTools
 from phi.tools.googlesearch import GoogleSearch
 from google.cloud import secretmanager
+from google.cloud import storage
 
 # Import OpenAPI key
 client = secretmanager.SecretManagerServiceClient()
@@ -57,17 +58,26 @@ assistant = Assistant(
 )
 
 
-def get_urls(num_urls=100):
+def get_urls(bucket, num_urls=100):
     prompt = f"Generate a list of at least {num_urls} URLs of articles related to \
                 health, fitness, diet, and exercise. These articles can be published \
                 papers, blogs, editorials, or scientific reports. Pay special \
                 attention that each URL really links to an article that can be \
-                accessed publicly. Include nothing else in the list except for \
+                accessed publicly. Additionally, articles that have been published \
+                recently are preferable, but this is not a strict limitation. \
+                Include nothing else in the list except for \
                 these URLs. Again, return just a list of the URLs, no text \
                 besides the URLs, and each URL should be separated by a comma and a \
-                new line character. Export a CSV file containing all of these URLs and \
-                name this file 'urls.csv'."
+                new line character. There should be {num_urls} entries. \
+                Export a CSV file containing all of these URLs and name this \
+                file 'urls.csv'."
 
-    print('t1')
     assistant.print_response(prompt)
-    print('t2')
+    print("URLs collected")
+
+    # Send URLs to GCS
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(bucket)
+    blob = bucket.blob('urls/urls.csv')
+    blob.upload_from_filename('urls.csv')
+    print("URLs uploaded to GCP bucket")

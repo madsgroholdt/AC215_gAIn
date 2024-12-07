@@ -1,15 +1,14 @@
 import argparse
 import requests
 import csv
-import os
+import re
 from bs4 import BeautifulSoup
 from google.cloud import storage
 from find_urls import get_urls
 
+GCS_BUCKET_NAME = "gain-ml-pipeline"
 
 # Set directory names
-bucket_name = "gain-ml-pipeline"
-source_folder = "/articles"
 destination_folder = "raw_articles"
 
 
@@ -18,9 +17,9 @@ def upload_to_gcs(bucket_name, title, content):
     try:
         client = storage.Client()
         bucket = client.bucket(bucket_name)
-        blob = bucket.blob(f"articles/{title}.txt")
+        blob = bucket.blob(f"{destination_folder}/{title}.txt")
         blob.upload_from_string(content)
-        print(f"File uploaded to bucket {bucket_name} in folder articles/{title}.txt\n")
+        print(f"File uploaded to {destination_folder}/{title}.txt\n")
     except Exception:
         print(f"Error uploading file {title}.txt to GCP bucket\n")
 
@@ -36,34 +35,41 @@ def get_article_content(url, title):
         soup = BeautifulSoup(response.content, 'html.parser')
 
         # Find the main content (adjust for different websites)
-        # 'p' = paragraphs
         paragraphs = soup.find_all('p')
 
         # Extract and combine the text from each paragraph
         content = '\n'.join([para.get_text() for para in paragraphs])
-        upload_to_gcs(bucket_name, title, content)
+        upload_to_gcs(GCS_BUCKET_NAME, title, content)
 
     except requests.exceptions.RequestException as e:
         print(f"Error fetching article content: {e}")
 
 
-def scrape(base_index=0):
+def scrape():
     # Get urls.csv
     print("Getting URLs from GCP bucket...\n")
     storage_client = storage.Client()
-    bucket = storage_client.bucket(bucket_name)
+    bucket = storage_client.bucket(GCS_BUCKET_NAME)
     blob = bucket.blob('urls/urls.csv')
     blob.download_to_filename('urls.csv')
 
     print("Scraping article content...\n")
 
-    os.makedirs('/articles', exist_ok=True)
     with open('urls.csv') as file:
         urls = csv.reader(file)
 
-        # Access each row and element
         for i, url in enumerate(urls):
-            get_article_content(url[0], f"article{i+base_index}")
+            # Convert link to unique filename
+            title = re.sub(r'[^a-zA-Z0-9]', '', str(url[0]))
+
+            # Get file content
+            get_article_content(url[0], title)
+
+    # Add url list to archive
+    num_url_lists = sum(1 for _ in bucket.list_blobs(prefix='archive/urls'))
+    destination_blob = bucket.blob(f'archive/urls/urls{num_url_lists}.csv')
+    destination_blob.rewrite(blob)
+    blob.delete()
 
 
 def main(args=None):
@@ -71,17 +77,10 @@ def main(args=None):
 
     if args.urls:
         print("Finding health and fitness articles from across the internet...\n")
-        get_urls()
-
-        # Initialize client
-        storage_client = storage.Client()
-        bucket = storage_client.get_bucket(bucket_name)
-        blob = bucket.blob('urls/urls.csv')
-        blob.upload_from_filename('urls.csv')
-        print("URLs uploaded to GCP bucket")
+        get_urls(GCS_BUCKET_NAME, args.urls)
 
     if args.scrape:
-        scrape(base_index=200)  # Change base index to prevent overwrite
+        scrape()
 
 
 if __name__ == "__main__":
@@ -91,7 +90,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--urls",
-        action="store_true",
+        type=int,
         help="Get URLs",
     )
 

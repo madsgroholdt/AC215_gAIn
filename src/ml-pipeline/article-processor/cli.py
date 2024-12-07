@@ -10,12 +10,13 @@ from vertexai.generative_models import GenerativeModel
 
 # Setup
 GCP_PROJECT = "ac215-final-project"
-GCP_LOCATION = "us-central1"
-GENERATIVE_MODEL = "gemini-1.5-flash-002"
-QA_PAIRS = "data"
-PROCESSED_DATA = "processed_data"
 GCS_BUCKET_NAME = "gain-ml-pipeline"
-INPUT_FOLDER = "articles/"
+GCP_REGION = "us-central1"
+
+GENERATIVE_MODEL = "gemini-1.5-flash-002"
+QA_PAIRS = "qa_data"
+PROCESSED_DATA = "processed_data"
+INPUT_FOLDER = "raw_articles/"
 # Configuration settings for the content generation
 generation_config = {
     "max_output_tokens": 8192,  # Maximum number of tokens for output
@@ -150,7 +151,7 @@ def generate():
     print("generate()")
 
     # Initialize Vertex AI project and location
-    vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
+    vertexai.init(project=GCP_PROJECT, location=GCP_REGION)
 
     # Initialize the GenerativeModel with specific system instructions
     model = GenerativeModel(
@@ -168,8 +169,14 @@ def generate():
         # Get article content
         if article.name.endswith('.txt'):
             content = article.download_as_text()
+
         else:
             continue
+
+        # Move article to archive when done
+        article_archive = bucket.blob(f"archive/{article.name}")
+        article_archive.rewrite(article)
+        article.delete()
 
         # Create prompt from content
         INPUT_PROMPT = f"""Generate diverse, informative, and engaging \
@@ -194,16 +201,21 @@ def prepare():
     print("prepare()")
 
     # Get the generated QA
-    output_files = glob.glob(os.path.join(QA_PAIRS, "health_qa_*.txt"))
-    output_files.sort()
+    client = storage.Client()
+    bucket = client.bucket(GCS_BUCKET_NAME)
+    qa_files = bucket.list_blobs(prefix={QA_PAIRS})
 
     # Consolidate the data
     output_pairs = []
     errors = []
-    for output_file in output_files:
-        print("Processing file:", output_file)
-        with open(output_file, "r") as read_file:
-            text_response = read_file.read()
+    for qa_file in qa_files:
+        print("Processing file:", qa_file.name)
+
+        if qa_file.name.endswith('.txt'):
+            text_response = qa_file.download_as_text()
+
+        # Remove QA file when done
+        qa_file.delete()
 
         text_response = text_response.replace("```json", "").replace("```", "")
 
@@ -212,7 +224,7 @@ def prepare():
             output_pairs.extend(json_responses)
 
         except Exception as e:
-            errors.append({"file": output_file, "error": str(e)})
+            errors.append({"file": qa_file.name, "error": str(e)})
 
     print("Number of errors:", len(errors))
     print(errors[:5])

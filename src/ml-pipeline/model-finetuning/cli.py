@@ -1,37 +1,41 @@
-import os
 import argparse
 import time
 import vertexai
 from vertexai.preview.tuning import sft
 
 # Setup
-GCP_PROJECT = os.environ["GCP_PROJECT"]
-TRAIN_DATASET = "gs://gain-ml-pipeline/llm-finetune-dataset-small/train.jsonl"
-VALIDATION_DATASET = "gs://gain-ml-pipeline/llm-finetune-dataset-small/test.jsonl"
-GCP_LOCATION = "us-central1"
-GENERATIVE_SOURCE_MODEL = "gemini-1.5-pro-002"  # base model
+GCP_PROJECT = "ac215-final-project"
+GCS_BUCKET_NAME = "gain-ml-pipeline"
+GCP_REGION = "us-central1"
+
+DATASET = "gs:" + f"//{GCS_BUCKET_NAME}/processed_data"
+TRAIN_DATASET = f"{DATASET}/train.jsonl"
+VALIDATION_DATASET = f"{DATASET}/test.jsonl"
+
+
 # Configuration settings for the content generation
+GENERATIVE_SOURCE_MODEL = "gemini-1.5-pro-002"  # base model
 generation_config = {
     "max_output_tokens": 3000,  # Maximum number of tokens for output
     "temperature": 0.75,  # Control randomness in output
     "top_p": 0.95,  # Use nucleus sampling
 }
 
-vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
 
-
-def train(wait_for_job=False):
+def train(wait_for_job=True):
     print("train()")
+
+    vertexai.init(project=GCP_PROJECT, location=GCP_REGION)
 
     # Supervised Fine Tuning
     sft_tuning_job = sft.train(
         source_model=GENERATIVE_SOURCE_MODEL,
         train_dataset=TRAIN_DATASET,
         validation_dataset=VALIDATION_DATASET,
-        epochs=2,   # between 2-3
+        epochs=1,   # between 2-3
         adapter_size=4,
         learning_rate_multiplier=1.0,
-        tuned_model_display_name="gain-ft-v1",
+        tuned_model_display_name="gain-ft-v2",
     )
     print("Training job started. Monitoring progress...\n\n")
 

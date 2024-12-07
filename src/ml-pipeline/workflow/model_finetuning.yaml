@@ -1,0 +1,27 @@
+# PIPELINE DEFINITION
+# Name: model-finetuning-pipeline
+components:
+  comp-model-finetuning:
+    executorLabel: exec-model-finetuning
+deploymentSpec:
+  executors:
+    exec-model-finetuning:
+      container:
+        args:
+        - cli.py
+        - --train
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/model-finetuning
+pipelineInfo:
+  name: model-finetuning-pipeline
+root:
+  dag:
+    tasks:
+      model-finetuning:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-model-finetuning
+        taskInfo:
+          name: model-finetuning
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.10.1
