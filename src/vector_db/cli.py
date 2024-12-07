@@ -187,7 +187,7 @@ def get_collection(method="recursive-split"):
     return collection
 
 
-def chunk(method="semantic-split"):
+def chunk(method="recursive-split"):
     print("chunk()")
 
     # Make dataset folders

@@ -28,5 +28,5 @@ async def favicon():
     return FileResponse("static/favicon.ico")
 
 # Additional routers here
-app.include_router(llm_rag_chat.router, prefix="/llm-rag")
+app.include_router(llm_rag_chat.router, prefix="/api/llm-rag")
 # app.include_router(newsletter.router, prefix="/resources")

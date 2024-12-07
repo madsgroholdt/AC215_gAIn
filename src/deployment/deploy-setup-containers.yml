@@ -48,6 +48,8 @@
           - 3000:3000
         networks:
           - name: "{{docker_network_name}}"
+        env:
+          NEXTAUTH_SECRET: "k5NCFwirrmdd9FMswLRlml/ouor+SPSLE55YBFcKc3M="
 
     # Create a folder on persistent disk
     - name: Create persistent directory

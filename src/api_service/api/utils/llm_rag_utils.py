@@ -88,7 +88,7 @@ chat_sessions: Dict[str, ChatSession] = {}
 
 # Connect to chroma DB
 client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
-method = "semantic-split"
+method = "recursive-split"
 collection_name = f"{method}-collection"
 # Get the collection
 collection = client.get_collection(name=collection_name)
