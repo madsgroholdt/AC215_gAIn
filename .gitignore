@@ -179,6 +179,7 @@ cython_debug/
 src/data_preprocessing/csv_data
 src/data_preprocessing/txt_data
 src/api_service/chat-history
+src/vector_db/output
 #
 src/docker-volumes
-src/vector_db/docker-volumes
+src/vector_db/docker-volumes/chromadb
