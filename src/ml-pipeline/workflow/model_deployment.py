@@ -11,7 +11,7 @@ def model_deploy():
     import google.cloud.aiplatform as aip
 
     # Get endpoint
-    endpoint = aip.Endpoint(endpoint_name="gain-endpoint",
+    endpoint = aip.Endpoint(endpoint_name="1336804928747732992",
                             project="ac215-final-project",
                             location="us-central1")
 

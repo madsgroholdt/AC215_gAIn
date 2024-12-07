@@ -2,6 +2,7 @@ import argparse
 import time
 import vertexai
 from vertexai.preview.tuning import sft
+from vertexai.generative_models import GenerativeModel
 
 # Setup
 GCP_PROJECT = "ac215-final-project"
@@ -14,7 +15,10 @@ VALIDATION_DATASET = f"{DATASET}/test.jsonl"
 
 
 # Configuration settings for the content generation
-GENERATIVE_SOURCE_MODEL = "gemini-1.5-pro-002"  # base model
+model_resource_name = f"projects/{GCP_PROJECT}/\
+                        locations/{GCP_REGION}/\
+                        models/gain-finetuned"
+GENERATIVE_SOURCE_MODEL = GenerativeModel.get(model_resource_name)  # previous model
 generation_config = {
     "max_output_tokens": 3000,  # Maximum number of tokens for output
     "temperature": 0.75,  # Control randomness in output
@@ -32,7 +36,7 @@ def train(wait_for_job=True):
         source_model=GENERATIVE_SOURCE_MODEL,
         train_dataset=TRAIN_DATASET,
         validation_dataset=VALIDATION_DATASET,
-        epochs=1,   # between 2-3
+        epochs=3,
         adapter_size=4,
         learning_rate_multiplier=1.0,
         tuned_model_display_name="gain-finetuned",
