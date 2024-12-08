@@ -11,9 +11,9 @@ __pycache__/
 secrets/
 
 # Data Scraping
-src/data_scraping/articles/
-src/data_scraping/*.csv
-src/dataset_creator/data/
+src/article-collector/articles/
+src/article-collector/*.csv
+src/article-processor/data/
 
 # Distribution / packaging
 .Python

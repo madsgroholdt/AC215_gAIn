@@ -26,7 +26,7 @@ def test_endpoint_limit():
 
 def test_chat_history_return_status():
     chat_id = "38d61d80-bbf9-4849-a7e9-f4decacc279d"
-    url = f"http://0.0.0.0:9000/llm-rag/chats/{chat_id}"
+    url = f"http: //0.0.0.0: 9000/llm-rag/chats/{chat_id}"
     headers = {
         "X-Session-ID": "test-session"
     }
@@ -37,7 +37,7 @@ def test_chat_history_return_status():
 
 def test_chat_history_return_value():
     chat_id = "38d61d80-bbf9-4849-a7e9-f4decacc279d"
-    url = f"http://0.0.0.0:9000/llm-rag/chats/{chat_id}"
+    url = f"http: //0.0.0.0: 9000/llm-rag/chats/{chat_id}"
     headers = {
         "X-Session-ID": "test-session"
     }
@@ -85,7 +85,7 @@ def test_new_chat_llm_return_value():
 
 def test_continue_chat_return_status():
     chat_id = "38d61d80-bbf9-4849-a7e9-f4decacc279d"
-    url = f"http://0.0.0.0:9000/llm-rag/chats/{chat_id}"
+    url = f"http: //0.0.0.0: 9000/llm-rag/chats/{chat_id}"
     headers = {
         "accept": "application/json",
         "X-Session-ID": "test-session",
@@ -103,7 +103,7 @@ def test_continue_chat_return_status():
 
 def test_continue_chat_return_value():
     chat_id = "38d61d80-bbf9-4849-a7e9-f4decacc279d"
-    url = f"http://0.0.0.0:9000/llm-rag/chats/{chat_id}"
+    url = f"http: //0.0.0.0: 9000/llm-rag/chats/{chat_id}"
     headers = {
         "accept": "application/json",
         "X-Session-ID": "test-session",

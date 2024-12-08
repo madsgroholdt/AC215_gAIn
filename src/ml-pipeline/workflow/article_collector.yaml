@@ -1,0 +1,28 @@
+# PIPELINE DEFINITION
+# Name: article-collector-pipeline
+components:
+  comp-article-collector:
+    executorLabel: exec-article-collector
+deploymentSpec:
+  executors:
+    exec-article-collector:
+      container:
+        args:
+        - cli.py
+        - --urls 2
+        - --scrape
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/article-collector
+pipelineInfo:
+  name: article-collector-pipeline
+root:
+  dag:
+    tasks:
+      article-collector:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-article-collector
+        taskInfo:
+          name: article-collector
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.10.1

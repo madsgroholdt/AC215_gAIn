@@ -1,16 +1,17 @@
 import os
-import json
 from phi.assistant import Assistant
 from phi.llm.openai import OpenAIChat
 from phi.tools.file import FileTools
 from phi.tools.googlesearch import GoogleSearch
+from google.cloud import secretmanager
+from google.cloud import storage
 
 # Import OpenAPI key
-json_path = os.path.join("..", "secrets", "opensecret.json")
-with open(json_path, "r") as file:
-    config = json.load(file)
-api_key = config["OPENAI_API_KEY"]
-os.environ['OPENAI_API_KEY'] = api_key
+client = secretmanager.SecretManagerServiceClient()
+name = "projects/ac215-final-project/secrets/OPENAI/versions/latest"
+response = client.access_secret_version(request={"name": name})
+secret = response.payload.data.decode("UTF-8")
+os.environ['OPENAI_API_KEY'] = secret
 
 assistant = Assistant(
     llm=OpenAIChat(model="gpt-4o-mini"),
@@ -56,17 +57,27 @@ assistant = Assistant(
     )
 )
 
-num_urls = 500
-prompt = f"""
-            Generate a list of at least {num_urls} URLs of articles related to health, \
-                  fitness, diet, and exercise. These articles can be published \
-                  papers, blogs, editorials, or scientific reports. Pay special \
-                  attention that each URL really links to an article that can be \
-                  accessed publicly. Include nothing else in the list except for \
-                  these URLs. Again, return just a list of the URLs, no text \
-                  besides the URLs, and each URL should be separated by a comma. \
-                  Export a CSV file containing all of these URLs and name this \
-                  csv 'urls.csv'.
-"""
 
-assistant.print_response(prompt)
+def get_urls(bucket, num_urls=100):
+    prompt = f"Generate a list of at least {num_urls} URLs of articles related to \
+                health, fitness, diet, and exercise. These articles can be published \
+                papers, blogs, editorials, or scientific reports. Pay special \
+                attention that each URL really links to an article that can be \
+                accessed publicly. Additionally, articles that have been published \
+                recently are preferable, but this is not a strict limitation. \
+                Include nothing else in the list except for \
+                these URLs. Again, return just a list of the URLs, no text \
+                besides the URLs, and each URL should be separated by a comma and a \
+                new line character. There should be {num_urls} entries. \
+                Export a CSV file containing all of these URLs and name this \
+                file 'urls.csv'."
+
+    assistant.print_response(prompt)
+    print("URLs collected")
+
+    # Send URLs to GCS
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(bucket)
+    blob = bucket.blob('urls/urls.csv')
+    blob.upload_from_filename('urls.csv')
+    print("URLs uploaded to GCP bucket")

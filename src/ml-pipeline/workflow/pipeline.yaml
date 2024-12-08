@@ -1,0 +1,113 @@
+# PIPELINE DEFINITION
+# Name: ml-pipeline
+components:
+  comp-article-collector:
+    executorLabel: exec-article-collector
+  comp-article-processor:
+    executorLabel: exec-article-processor
+  comp-model-deploy:
+    executorLabel: exec-model-deploy
+  comp-model-finetuning:
+    executorLabel: exec-model-finetuning
+deploymentSpec:
+  executors:
+    exec-article-collector:
+      container:
+        args:
+        - cli.py
+        - --urls 2
+        - --scrape
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/article-collector
+    exec-article-processor:
+      container:
+        args:
+        - cli.py
+        - --generate
+        - --prepare
+        - --upload
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/article-processor
+    exec-model-deploy:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - model_deploy
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.10.1'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'google-cloud-aiplatform'\
+          \ && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef model_deploy():\n    print(\"Model Deployment\")\n\n    import\
+          \ google.cloud.aiplatform as aip\n\n    # Get endpoint\n    endpoint = aip.Endpoint(endpoint_name=\"\
+          gain-endpoint\",\n                            project=\"ac215-final-project\"\
+          ,\n                            location=\"us-central1\")\n\n    # Get most\
+          \ recently trained model\n    model = aip.Model.list(filter=\"display_name=gain-finetuned\"\
+          )[0]\n\n    # Deploy model to existing endpoint\n    model.deploy(\n   \
+          \     endpoint=endpoint,\n        machine_type=\"n1-standard-4\",  # Choose\
+          \ a machine type\n        traffic_split={\"0\": 100},  # Route 100% of traffic\
+          \ to this model\n        accelerator_count=0,\n        min_replica_count=1,\n\
+          \        max_replica_count=1,\n        sync=True,\n    )\n\n"
+        image: python:3.10
+    exec-model-finetuning:
+      container:
+        args:
+        - cli.py
+        - --train
+        image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/model-finetuning
+pipelineInfo:
+  name: ml-pipeline
+root:
+  dag:
+    tasks:
+      article-collector:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-article-collector
+        taskInfo:
+          name: Article Collector
+      article-processor:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-article-processor
+        dependentTasks:
+        - article-collector
+        taskInfo:
+          name: Article Processor
+      model-deploy:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-model-deploy
+        dependentTasks:
+        - model-finetuning
+        taskInfo:
+          name: Model Deploy
+      model-finetuning:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-model-finetuning
+        dependentTasks:
+        - article-processor
+        taskInfo:
+          name: Model Finetuning
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.10.1

@@ -3,20 +3,19 @@
 # exit immediately if a command exits with a non-zero status
 set -e
 
-
-# Read the settings file
-source env.dev
-
-export IMAGE_NAME="llm-dataset-creator"
+# Define some environment variables
+source ../env.dev
+export IMAGE_NAME="article-collector"
 
 # Build the image based on the Dockerfile
 docker build -t $IMAGE_NAME -f Dockerfile .
 
-# Run Container
-docker run --rm --name $IMAGE_NAME -ti \
+# Run Docker container
+docker run --rm -ti \
 -v "$BASE_DIR":/app \
 -v "$SECRETS_DIR":/secrets \
--e GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS \
+-v "$BASE_DIR"/articles:/articles \
 -e GCP_PROJECT=$GCP_PROJECT \
 -e GCS_BUCKET_NAME=$GCS_BUCKET_NAME \
+-e GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS \
 $IMAGE_NAME

@@ -2,7 +2,7 @@
 
 Run the startup script which makes building & running the container easy.
 
-- Make sure you are inside the `data_scraping` folder and open a terminal at this location
+- Make sure you are inside the `article-collector` folder and open a terminal at this location
 - Run `sh docker-shell.sh`
 
 ### Scrape & Upload Articles
@@ -16,8 +16,8 @@ This folder should contain:
  - data-scraping-service.json: The credentials file connected to the gAIn GCP Service account.
 
 To generate a list of URLs, run 'python3 find_urls.py'. This will create a file called
-`urls.txt` in the `data_scraping` folder.
+`urls.txt` in the `article-collector` folder.
 
-To scrape and upload articles, ensure that `find_urls.py` has been run and that a valid
-`urls.txt` file exists in the `data_scraping` folder. Then, run 'python3 scrape.py'. The
+To scrape and upload articles, ensure that `get_urls` has been run and that a valid
+`urls.txt` file exists in the `article-collector` folder. Then, run 'python3 scrape.py'. The
 scraped articles will be saved in the `/raw_articles` folder within the GCP bucket.
