@@ -23,8 +23,8 @@ const DataService = {
     GetNewsletters: async function (limit) {
         return await api.get(BASE_API_URL + "/newsletters?limit=" + limit);
     },
-    GetNewsletter: async function (newsletter_id) {
-        return await api.get(BASE_API_URL + "/newsletters/" + newsletter_id);
+    GetNewsletter: async function (newsletter_title) {
+        return await api.get(BASE_API_URL + "/newsletters/" + newsletter_title);
     },
     GetNewsletterImage: function (image_path) {
         return BASE_API_URL + "/newsletters/image/" + image_path;

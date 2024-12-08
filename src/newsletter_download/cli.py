@@ -1,6 +1,7 @@
 import os
 import json
 import argparse
+import random
 from google.cloud import storage
 
 GCP_PROJECT = os.environ["GCP_PROJECT"]
@@ -36,10 +37,16 @@ def preprocess_files():
         with open(file_path, 'r', encoding='utf-8') as file:
             # Read file content
             content = file.read()
+            reading_time = random.randint(2, 6)
 
             json_data = {
+                "id": file_name[-14:-4],
                 "title": file_name[-14:-4],
-                "text": content
+                "excerpt": content[:100],
+                "detail": content,
+                "readTime": str(reading_time) + " min read",
+                "category": "Health and Fitness",
+                "image": "newsletter.jpg"
             }
             print(json_data["title"])
             # File path to save the JSON
