@@ -28,5 +28,11 @@ async def favicon():
     return FileResponse("static/favicon.ico")
 
 # Additional routers here
-app.include_router(llm_rag_chat.router, prefix="/api/llm-rag")
+app.include_router(llm_rag_chat.router, prefix="/llm-rag")
 # app.include_router(newsletter.router, prefix="/resources")
+
+@app.on_event("startup")
+async def print_routes():
+    print("Available routes:")
+    for route in app.routes:
+        print(f"Path: {route.path} | Name: {route.name} | Methods: {route.methods}")
