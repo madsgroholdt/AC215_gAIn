@@ -21,25 +21,25 @@ const DataService = {
         // Any application initialization logic comes here
     },
     GetNewsletters: async function (limit) {
-        return await api.get(BASE_API_URL + "/newsletters?limit=" + limit);
+        return await api.get("/newsletters?limit=" + limit);
     },
-    GetNewsletter: async function (newsletter_title) {
-        return await api.get(BASE_API_URL + "/newsletters/" + newsletter_title);
+    GetNewsletter: async function (newsletter_id) {
+        return await api.get("/newsletters/" + newsletter_id);
     },
     GetNewsletterImage: function (image_path) {
         return BASE_API_URL + "/newsletters/image/" + image_path;
     },
     GetChats: async function (model, limit) {
-        return await api.get(BASE_API_URL + "/" + model + "/chats?limit=" + limit);
+        return await api.get("/" + model + "/chats?limit=" + limit);
     },
     GetChat: async function (model, chat_id) {
-        return await api.get(BASE_API_URL + "/" + model + "/chats/" + chat_id);
+        return await api.get("/" + model + "/chats/" + chat_id);
     },
     StartChatWithLLM: async function (model, message) {
-        return await api.post(BASE_API_URL + "/" + model + "/chats/", message);
+        return await api.post("/" + model + "/chats", message);
     },
     ContinueChatWithLLM: async function (model, chat_id, message) {
-        return await api.post(BASE_API_URL + "/" + model + "/chats/" + chat_id, message);
+        return await api.post("/" + model + "/chats/" + chat_id, message);
     },
     GetChatMessageImage: function (model, image_path) {
         return BASE_API_URL + "/" + model + "/" + image_path;

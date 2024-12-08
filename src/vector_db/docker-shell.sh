@@ -11,7 +11,7 @@ export GOOGLE_APPLICATION_CREDENTIALS="/secrets/llm-service-account.json"
 export IMAGE_NAME="gain-vector-db-cli"
 
 # Create the network if we don't have it yet
-docker network inspect gain-rag-network >/dev/null 2>&1 || docker network create gain-rag-network
+docker network inspect gain-network >/dev/null 2>&1 || docker network create gain-network
 
 # Build the image based on the Dockerfile
 docker build -t $IMAGE_NAME -f Dockerfile .

@@ -273,27 +273,42 @@ def load(method="recursive-split"):
     client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
     collection_name = f"{method}-collection"
 
+    # Check if the collection exists
     try:
-        # Clear out any existing items in the collection
-        client.delete_collection(name=collection_name)
-        print(f"Deleted existing collection '{collection_name}'")
-    except Exception:
-        print(f"Collection '{collection_name}' did not exist. Creating new.")
-
-    collection = client.create_collection(
-        name=collection_name, metadata={"hnsw:space": "cosine"}
-    )
+        existing_collections = client.list_collections()
+        if collection_name in [c.name for c in existing_collections]:
+            print(
+                f"Collection '{collection_name}' already exists. Using existing.")
+            collection = client.get_collection(name=collection_name)
+        else:
+            print(
+                f"Collection '{collection_name}' does not exist. Creating new.")
+            collection = client.create_collection(
+                name=collection_name, metadata={"hnsw:space": "cosine"}
+            )
+    except Exception as e:
+        print(f"Error checking or creating collection: {e}")
+        return
 
     # Get the list of embedding files
     jsonl_files = glob.glob(os.path.join(
         OUTPUT_FOLDER, f"embeddings-{method}-*.jsonl"))
 
+    if not jsonl_files:
+        print(
+            f"No embedding files found in {OUTPUT_FOLDER} for method '{method}'.")
+        return
+
     # Process
     for jsonl_file in jsonl_files:
-        data_df = pd.read_json(jsonl_file, lines=True)
-
-        # Load data
-        load_text_embeddings(data_df, collection)
+        try:
+            data_df = pd.read_json(jsonl_file, lines=True)
+            # Load data
+            load_text_embeddings(data_df, collection)
+            print(f"""Loaded embeddings from {jsonl_file} into collection
+                        '{collection_name}'.""")
+        except Exception as e:
+            print(f"Error processing file {jsonl_file}: {e}")
 
 
 def preprocess_files(method="recursive-split"):

@@ -7,5 +7,5 @@ if [[ -z ${args} ]];
 then
     pipenv shell
 else
-  pipenv run python $args
+  pipenv run python cli.py --preprocess
 fi
