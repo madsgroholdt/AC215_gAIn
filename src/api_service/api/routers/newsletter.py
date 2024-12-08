@@ -1,5 +1,6 @@
 import os
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse
 from typing import Optional
 import glob
 import json
@@ -48,11 +49,12 @@ async def get_newsletter(newsletter_title: str):
     return newsletter
 
 
-# @router.get("/image/{image_name}")
-# async def get_newsletter_image(image_name: str):
-#     content_type = "application/octet-stream"
-#     image_path = os.path.join(data_folder, "assets", image_name)
-#     return FileResponse(
-#         path=image_path,
-#         media_type=content_type
-#     )
+@router.get("/image/{image_name}")
+async def get_newsletter_image(image_name: str):
+    content_type = "application/octet-stream"
+    image_path = os.path.join(data_folder, "assets", image_name)
+    print(image_path)
+    return FileResponse(
+        path=image_path,
+        media_type=content_type
+    )
