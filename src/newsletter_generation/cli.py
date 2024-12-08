@@ -79,6 +79,20 @@ def send_to_bucket(bucket_name=BUCKET_NAME,
 def generate_newsletter():
     print("Generating newsletter...")
 
+    # Get previous newsletters to pass as context
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(BUCKET_NAME)
+
+    blobs = bucket.list_blobs(prefix=BUCKET_FOLDER)
+    texts = []
+
+    for blob in blobs:
+        if blob.name.endswith('.txt'):  # Check if the file is a .txt file
+            print(f"Processing {blob.name}")
+            content = blob.download_as_text()
+            texts.append(content)
+    documents_text = "\n".join(texts[:10])
+
     INPUT_PROMPT = (
         "Generate a 250-500 word newsletter about a recent development within "
         "health and fitness. Make your writing clear and concise, and try to "
@@ -91,9 +105,13 @@ def generate_newsletter():
         "their health consequences, the best exercises to do for your "
         "core strength. Please do not write about those specific topics, "
         "but use them as a guideline for the types of topics that would "
-        "be relevant for the newsletter."
+        "be relevant for the newsletter. All the historical newsletters "
+        "are attached below. Please make sure you do not write about a "
+        "topic that has already been written about in one of the previous "
+        "newsletters. Please format your response in html tags, such that "
+        "it can be used as part of a website."
     )
-
+    INPUT_PROMPT = f"{INPUT_PROMPT}\n{documents_text}"
     print("INPUT_PROMPT: ", INPUT_PROMPT)
     response = generative_model.generate_content(
         [INPUT_PROMPT],

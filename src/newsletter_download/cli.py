@@ -2,6 +2,7 @@ import os
 import json
 import argparse
 import random
+import re
 from google.cloud import storage
 
 GCP_PROJECT = os.environ["GCP_PROJECT"]
@@ -17,8 +18,8 @@ def download_from_gcp():
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(BUCKET_NAME)
 
-    blob = bucket.blob(BUCKET_FOLDER)
-    destination = os.path.join(OUTPUT_FOLDER, os.path.basename(blob.name))
+    # blob = bucket.blob(BUCKET_FOLDER)
+    # destination = os.path.join(OUTPUT_FOLDER, os.path.basename(blob.name))
     blobs = bucket.list_blobs(prefix=BUCKET_FOLDER)
     for blob in blobs:
         if not blob.name.endswith("/"):
@@ -37,12 +38,23 @@ def preprocess_files():
         with open(file_path, 'r', encoding='utf-8') as file:
             # Read file content
             content = file.read()
-            reading_time = random.randint(2, 6)
+            reading_time = random.randint(3, 6)
+            title_match = re.search(r"<h1>(.*?)</h1>", content, re.IGNORECASE)
+            if title_match:
+                title = title_match.group(1)
+            else:
+                title = file_name[-14:-4]
+
+            excerpt_match = re.search(r"<p>(.*?)</p>", content, re.IGNORECASE)
+            if excerpt_match:
+                excerpt = excerpt_match.group(1)
+            else:
+                excerpt = ""
 
             json_data = {
                 "id": file_name[-14:-4],
-                "title": file_name[-14:-4],
-                "excerpt": content[:100],
+                "title": title,
+                "excerpt": excerpt,
                 "detail": content,
                 "readTime": str(reading_time) + " min read",
                 "category": "Health and Fitness",
@@ -51,7 +63,7 @@ def preprocess_files():
             print(json_data["title"])
             # File path to save the JSON
             json_path = PROCESSED_OUTPUT_FOLDER + \
-                "/" + json_data["title"] + ".json"
+                "/" + json_data["id"] + ".json"
             with open(json_path, "w", encoding="utf-8") as json_file:
                 json.dump(json_data, json_file, indent=4, ensure_ascii=False)
                 print(f"JSON file saved to {json_path}")
