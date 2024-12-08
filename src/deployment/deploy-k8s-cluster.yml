@@ -24,7 +24,7 @@
       service_account_file: "{{ gcp_service_account_file }}"
       state: "{{ cluster_state }}"
     register: cluster
-  
+
   - name: "Create a Node Pool"
     google.cloud.gcp_container_node_pool:
       name: default-pool
@@ -53,7 +53,7 @@
       auth_kind: "{{ gcp_auth_kind }}"
       service_account_file: "{{ gcp_service_account_file }}"
       state: "{{ cluster_state }}"
-  
+
   - name: "Connect to cluster (update kubeconfig)"
     shell: "gcloud container clusters get-credentials {{ cluster.name }} --zone {{ gcp_zone }} --project {{ gcp_project }}"
     when: cluster_state == "present"
@@ -113,7 +113,7 @@
             requests:
               storage: 5Gi
     when: cluster_state == "present"
-  
+
   - name: "Create Persistent Volume Claim for ChromaDB"
     k8s:
       state: present
@@ -130,7 +130,7 @@
             requests:
               storage: 10Gi
     when: cluster_state == "present"
-  
+
   - name: Importing credentials as a Secret
     shell: |
       #!/bin/bash
@@ -138,12 +138,12 @@
     register: create_secret_op
     ignore_errors: yes
     when: cluster_state == "present"
-  
+
   - name: "Print Create Secret Output"
     debug:
       var: create_secret_op
     when: cluster_state == "present"
-  
+
   - name: "Create Deployment for Frontend"
     k8s:
       state: present
@@ -326,8 +326,8 @@
               initContainers:
               - name: wait-for-chromadb
                 image: busybox:1.28
-                command: ['sh', '-c', 
-                  'until wget --spider -S http://vector-db:8000/api/v1/heartbeat 2>&1 | grep "HTTP/1.1 200"; 
+                command: ['sh', '-c',
+                  'until wget --spider -S http://vector-db:8000/api/v1/heartbeat 2>&1 | grep "HTTP/1.1 200";
                   do echo "Waiting for ChromaDB..."; sleep 5; done;']
               containers:
               - name: vector-db-loader

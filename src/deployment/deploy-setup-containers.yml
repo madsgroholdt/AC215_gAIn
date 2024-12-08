@@ -4,7 +4,7 @@
   become: true
 
   tasks:
-    # Setup secrets so containers can have access to GCP resources 
+    # Setup secrets so containers can have access to GCP resources
     - name: Create secrets directory
       file:
         path: "/srv/secrets"
@@ -17,7 +17,7 @@
         mode: 0644
     - name: Authenticate gcloud using service account
       shell: "gcloud auth activate-service-account --key-file /srv/secrets/gcp-service.json"
-    
+
     # Create common network for all containers
     - name: Create network
       docker_network:
@@ -101,9 +101,9 @@
         volumes:
           - /mnt/disk-1/persistent:/persistent
           - /srv/secrets:/secrets
-  
+
     - name: Check if containers are running
       shell: docker ps
-    
+
     - name: "Remove all unused containers"
       shell: docker system prune -a -f

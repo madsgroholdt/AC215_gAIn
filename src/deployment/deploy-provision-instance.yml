@@ -17,7 +17,7 @@
         mode: 0755
 
     - name: "Mount persistent disk"
-      mount: 
+      mount:
         path: "/mnt/disk-1"
         src: "/dev/disk/by-id/google-persistent-disk-1"
         fstype: ext4
@@ -29,10 +29,10 @@
       with_items:
         - "apt-daily.timer"
         - "apt-daily-upgrade.timer"
-    
+
     - name: "Reload systemctl daemon"
       raw: "systemctl daemon-reload"
-    
+
     - name: "Wait for unattended upgrade to finish if running"
       raw: "systemd-run --property=\"After=apt-daily.service apt-daily-upgrade.service\" --wait /bin/true"
     - name: Update apt catalog
@@ -81,13 +81,13 @@
         force_apt_get: "yes"
         update_cache: "yes"
         state: present
-    
+
     - name: Install Pip Packages
       pip:
-          name: 
+          name:
             - requests
             - docker
-            
+
     - name: Create Docker group
       group:
         name: "docker"
@@ -100,4 +100,3 @@
       service:
         name: docker
         state: started
-

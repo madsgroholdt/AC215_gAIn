@@ -29,4 +29,3 @@ docker run --rm --name $IMAGE_NAME -ti \
 -e GCP_PROJECT=$GCP_PROJECT \
 -e GCP_ZONE=$GCP_ZONE \
 $IMAGE_NAME
-
