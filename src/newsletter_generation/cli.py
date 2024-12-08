@@ -2,8 +2,6 @@ import os
 import argparse
 from datetime import date
 from google.cloud import storage
-# Vertex AI
-import vertexai
 from vertexai.generative_models import GenerativeModel
 
 # Setup
@@ -13,9 +11,10 @@ BUCKET_NAME = "gain-newsletters"
 BUCKET_FOLDER = "newsletters_raw"
 CONTEXT_BUCKET = "gain-ft-articles"
 OUTPUT_FOLDER = "output"
-GENERATIVE_MODEL = "gemini-1.5-flash-001"
-
-vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
+ENDPOINT_ID = "1336804928747732992"
+MODEL_ENDPOINT = (
+    "projects/ac215-final-project/locations/us-central1/endpoints/"
+) + ENDPOINT_ID
 
 # Configuration settings for the content generation
 generation_config = {
@@ -37,9 +36,9 @@ SYSTEM_INSTRUCTION = (
     "Your goal is to provide accurate, helpful information about health "
     "and fitness to the readers."
 )
-generative_model = GenerativeModel(
-    GENERATIVE_MODEL, system_instruction=[SYSTEM_INSTRUCTION]
-)
+
+generative_model = GenerativeModel(MODEL_ENDPOINT,
+                                   system_instruction=[SYSTEM_INSTRUCTION])
 
 
 def upload_file(bucket_name, source_file_path, destination_file_path):
@@ -113,6 +112,7 @@ def generate_newsletter():
     )
     INPUT_PROMPT = f"{INPUT_PROMPT}\n{documents_text}"
     print("INPUT_PROMPT: ", INPUT_PROMPT)
+
     response = generative_model.generate_content(
         [INPUT_PROMPT],
         generation_config=generation_config,

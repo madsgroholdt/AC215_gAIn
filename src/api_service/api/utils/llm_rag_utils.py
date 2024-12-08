@@ -4,7 +4,6 @@ from fastapi import HTTPException
 from datetime import datetime
 import traceback
 import chromadb
-import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
 from vertexai.generative_models import GenerativeModel, ChatSession
 
@@ -13,11 +12,12 @@ GCP_PROJECT = os.environ["GCP_PROJECT"]
 GCP_LOCATION = "us-central1"
 EMBEDDING_MODEL = "text-embedding-004"
 EMBEDDING_DIMENSION = 256
-GENERATIVE_MODEL = "gemini-1.5-pro"
 CHROMADB_HOST = os.environ["CHROMADB_HOST"]
 CHROMADB_PORT = os.environ["CHROMADB_PORT"]
-
-vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
+ENDPOINT_ID = "1336804928747732992"
+MODEL_ENDPOINT = (
+    "projects/ac215-final-project/locations/us-central1/endpoints/"
+) + ENDPOINT_ID
 
 # Configuration settings for the content generation
 generation_config = {
@@ -77,7 +77,7 @@ SYSTEM_INSTRUCTION = (
     "of giving them irrelevant information from the data you do have."
 )
 generative_model = GenerativeModel(
-    GENERATIVE_MODEL,
+    MODEL_ENDPOINT,
     system_instruction=[SYSTEM_INSTRUCTION]
 )
 # https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings-api#python
@@ -88,7 +88,7 @@ chat_sessions: Dict[str, ChatSession] = {}
 
 # Connect to chroma DB
 client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
-method = "semantic-split"
+method = "recursive-split"
 collection_name = f"{method}-collection"
 # Get the collection
 collection = client.get_collection(name=collection_name)
@@ -143,7 +143,7 @@ def generate_chat_response(chat_session: ChatSession, message: Dict) -> str:
         if not message_parts:
             raise ValueError(
                 "Message must contain either text content or image")
-
+        print(INPUT_PROMPT)
         # Send message with all parts to the model
         response = chat_session.send_message(
             message_parts,

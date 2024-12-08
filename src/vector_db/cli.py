@@ -187,7 +187,7 @@ def get_collection(method="recursive-split"):
     return collection
 
 
-def chunk(method="semantic-split"):
+def chunk(method="recursive-split"):
     print("chunk()")
 
     # Make dataset folders
@@ -209,7 +209,7 @@ def chunk(method="semantic-split"):
         text_chunks = None
 
         if method == "recursive-split":
-            chunk_size = 500
+            chunk_size = 750
             # Init the splitter
             text_splitter = RecursiveCharacterTextSplitter(
                 chunk_size=chunk_size)
@@ -257,7 +257,7 @@ def embed(method="recursive-split"):
             )
         else:
             embeddings = generate_text_embeddings(
-                chunks, EMBEDDING_DIMENSION, batch_size=100
+                chunks, EMBEDDING_DIMENSION, batch_size=50
             )
         data_df["embedding"] = embeddings
 
