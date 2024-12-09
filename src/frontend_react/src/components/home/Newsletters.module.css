@@ -142,10 +142,7 @@
     }
 
     .aboutNewsletter {
-        width: 100%; /* Full width for smaller screens */
-        text-align: left; /* Align text to the left for readability */
-        padding: 0 10px; /* Add padding for spacing */
-        box-sizing: border-box; /* Include padding in width */
+        display: none;
     }
 
     .newsletterGrid {
@@ -159,6 +156,7 @@
         width: 100%; /* Full width for cards */
         padding: 15px; /* Adjust padding for smaller screens */
         box-sizing: border-box;
+        align-items: center;
     }
 
     .newsletterTitle {

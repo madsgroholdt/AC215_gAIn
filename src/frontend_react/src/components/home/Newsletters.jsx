@@ -33,25 +33,6 @@ export default function Newsletter() {
             <div className={styles.underline}></div>
 
             <div className={styles.content}>
-                <div className={styles.aboutNewsletter}>
-                    <Image
-                        src="/assets/newsletter.png"
-                        alt="Newsletter Icon"
-                        width={240}
-                        height={240}
-                        style={{
-                            width: 'auto',
-                            height: 'auto',
-                        }}
-                    />
-                    <h3>About Newsletters</h3>
-                    <p>
-                        Welcome to gAIn’s Chronicles, your ultimate weekly digest on everything health and fitness!
-                        Our newsletters keep you informed with the latest articles, blogs, research, and expert insights on fitness trends,
-                        nutrition breakthroughs, workout routines, and more. Stay ahead with cutting-edge knowledge from the very material
-                        our LLM is fine-tuned on, curated to keep you informed and help you achieve your health and wellness goals.
-                    </p>
-                </div>
                 <div className={styles.newsletterGrid}>
                     {newsletters.map((newsletter) => (
                         <Link href={`/newsletters?id=${newsletter.id}`} key={newsletter.id} className={styles.newsletterCardLink}>
@@ -71,6 +52,25 @@ export default function Newsletter() {
                             </article>
                         </Link>
                     ))}
+                </div>
+                <div className={styles.aboutNewsletter}>
+                    <Image
+                        src="/assets/newsletter.png"
+                        alt="Newsletter Icon"
+                        width={240}
+                        height={240}
+                        style={{
+                            width: 'auto',
+                            height: 'auto',
+                        }}
+                    />
+                    <h3>About Newsletters</h3>
+                    <p>
+                        Welcome to gAIn’s Chronicles, your ultimate weekly digest on everything health and fitness!
+                        Our newsletters keep you informed with the latest articles, blogs, research, and expert insights on fitness trends,
+                        nutrition breakthroughs, workout routines, and more. Stay ahead with cutting-edge knowledge from the very material
+                        our LLM is fine-tuned on, curated to keep you informed and help you achieve your health and wellness goals.
+                    </p>
                 </div>
             </div>
             <div className={styles.viewAllContainer}>
