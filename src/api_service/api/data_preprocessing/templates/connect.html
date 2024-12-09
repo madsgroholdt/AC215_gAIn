@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect to Strava</title>
+</head>
+<body>
+    <h1>Connect to Health Data</h1>
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    {% if connected %}
+        <button disabled>Connected to Strava</button>
+        <br>You're account is now connected to Strava!
+    {% else %}
+        <a href="{{ url_for('connect_strava') }}">
+            <button>Connect to Strava</button>
+        </a>
+    {% endif %}
+</body>
+</html>

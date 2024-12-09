@@ -1,3 +1,42 @@
+On Tuesday, December 03rd 2024, Mads Grøholdt had the                     following health and activity metrics:
+Name was Triathlon Part 2 and 3
+Sport Type was Run
+Distance (meters) was 8914.7 meters
+Moving Time (seconds) was 2829 seconds
+Elapsed Time (seconds) was 2995 seconds
+Total Elevation Gain (meters) was 167.6 meters
+Average Speed (meters/second) was 3.151 meters/second
+Max Speed (meters/second) was 6.42 meters/second
+Average Watts (watts) was 368.7 watts
+Max Watts (watts) was 808.0 watts
+Average Heartrate (bpm) was 174.3 bpm
+Max Heartrate (bpm) was 193.0 bpm
+Kilojoules (kj) was 1043.1 kJ
+Elev High (meters) was 17.2 meters
+Elev Low (meters) was -1.6 meters
+Timezone was (GMT-05:00) America/New_York
+Achievement Count was 7
+Kudos Count was 25
+Athlete Count was 2
+
+On Tuesday, December 03rd 2024, Mads Grøholdt had the                     following health and activity metrics:
+Name was Triathlon Part 1
+Sport Type was Rowing
+Distance (meters) was 0.0 meters
+Moving Time (seconds) was 1664 seconds
+Elapsed Time (seconds) was 1664 seconds
+Total Elevation Gain (meters) was 0.0 meters
+Average Speed (meters/second) was 0.0 meters/second
+Max Speed (meters/second) was 0.0 meters/second
+Average Heartrate (bpm) was 180.0 bpm
+Max Heartrate (bpm) was 192.0 bpm
+Elev High (meters) was 0.0 meters
+Elev Low (meters) was 0.0 meters
+Timezone was (GMT-05:00) America/Atikokan
+Achievement Count was 0
+Kudos Count was 13
+Athlete Count was 1
+
 On Monday, November 18th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Afternoon Row
 Sport Type was Rowing
@@ -286,7 +325,7 @@ Elev Low (meters) was -0.8 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 17
 Kudos Count was 12
-Athlete Count was 3
+Athlete Count was 4
 
 On Saturday, October 12th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Morning Run
@@ -307,7 +346,7 @@ Elev Low (meters) was -1.4 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 2
 Kudos Count was 0
-Athlete Count was 2
+Athlete Count was 3
 
 On Friday, October 11th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Steady Run
@@ -370,7 +409,7 @@ Elev Low (meters) was -1.0 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 0
 Kudos Count was 0
-Athlete Count was 2
+Athlete Count was 3
 
 On Monday, October 07th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Afternoon Run
@@ -412,7 +451,7 @@ Elev Low (meters) was -6.2 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 21
 Kudos Count was 0
-Athlete Count was 3
+Athlete Count was 4
 
 On Saturday, October 05th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Morning Run
@@ -433,7 +472,7 @@ Elev Low (meters) was -2.8 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 13
 Kudos Count was 0
-Athlete Count was 2
+Athlete Count was 3
 
 On Friday, October 04th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Afternoon Run
@@ -496,7 +535,7 @@ Elev Low (meters) was -3.2 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 0
 Kudos Count was 0
-Athlete Count was 3
+Athlete Count was 4
 
 On Wednesday, October 02nd 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Afternoon Run
@@ -538,7 +577,7 @@ Elev Low (meters) was 0.2 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 29
 Kudos Count was 0
-Athlete Count was 2
+Athlete Count was 3
 
 On Monday, September 30th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Afternoon Run
@@ -692,7 +731,7 @@ Elev Low (meters) was -1.8 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 8
 Kudos Count was 0
-Athlete Count was 3
+Athlete Count was 4
 
 On Monday, September 23rd 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Morning Run
@@ -854,7 +893,7 @@ Elev Low (meters) was -3.0 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 8
 Kudos Count was 0
-Athlete Count was 2
+Athlete Count was 3
 
 On Friday, September 13th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Afternoon Row
@@ -2944,7 +2983,7 @@ Elev Low (meters) was -2.6 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 14
 Kudos Count was 11
-Athlete Count was 1
+Athlete Count was 2
 
 On Thursday, March 07th 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Steady State
@@ -3052,7 +3091,7 @@ Elev Low (meters) was -1.0 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 12
 Kudos Count was 6
-Athlete Count was 1
+Athlete Count was 2
 
 On Saturday, March 02nd 2024, Mads Grøholdt had the                     following health and activity metrics:
 Name was Morning Lactate Party
@@ -4750,7 +4789,7 @@ Elev Low (meters) was -3.0 meters
 Timezone was (GMT-05:00) America/New_York
 Achievement Count was 5
 Kudos Count was 0
-Athlete Count was 4
+Athlete Count was 5
 
 On Wednesday, November 29th 2023, Mads Grøholdt had the                     following health and activity metrics:
 Name was Afternoon Row
@@ -9232,7 +9271,7 @@ Max Speed (meters/second) was 13.4 meters/second
 Elev High (meters) was 363.6 meters
 Elev Low (meters) was 320.6 meters
 Timezone was (GMT-05:00) America/New_York
-Achievement Count was 24
+Achievement Count was 26
 Kudos Count was 21
 Athlete Count was 2
 
@@ -9918,7 +9957,7 @@ Max Speed (meters/second) was 11.3 meters/second
 Elev High (meters) was 369.4 meters
 Elev Low (meters) was 357.6 meters
 Timezone was (GMT-05:00) America/New_York
-Achievement Count was 19
+Achievement Count was 21
 Kudos Count was 24
 Athlete Count was 8
 
@@ -11356,7 +11395,7 @@ Max Heartrate (bpm) was 184.0 bpm
 Elev High (meters) was 124.0 meters
 Elev Low (meters) was 41.2 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 10
+Achievement Count was 11
 Kudos Count was 9
 Athlete Count was 1
 
@@ -11484,7 +11523,7 @@ Max Heartrate (bpm) was 173.0 bpm
 Elev High (meters) was 102.6 meters
 Elev Low (meters) was 39.0 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 12
+Achievement Count was 13
 Kudos Count was 13
 Athlete Count was 1
 
@@ -13536,7 +13575,7 @@ Max Speed (meters/second) was 12.4 meters/second
 Elev High (meters) was 876.0 meters
 Elev Low (meters) was 805.0 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 45
+Achievement Count was 46
 Kudos Count was 16
 Athlete Count was 1
 
@@ -14254,7 +14293,7 @@ Max Heartrate (bpm) was 99.0 bpm
 Elev High (meters) was 750.8 meters
 Elev Low (meters) was 713.8 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 60
+Achievement Count was 62
 Kudos Count was 20
 Athlete Count was 2
 
@@ -14302,7 +14341,7 @@ Max Speed (meters/second) was 14.4 meters/second
 Elev High (meters) was 747.0 meters
 Elev Low (meters) was 713.6 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 48
+Achievement Count was 49
 Kudos Count was 19
 Athlete Count was 2
 
@@ -14390,7 +14429,7 @@ Max Speed (meters/second) was 7.9 meters/second
 Elev High (meters) was 130.0 meters
 Elev Low (meters) was 45.6 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 12
+Achievement Count was 13
 Kudos Count was 14
 Athlete Count was 1
 
@@ -17604,7 +17643,7 @@ Max Heartrate (bpm) was 169.0 bpm
 Elev High (meters) was 405.4 meters
 Elev Low (meters) was 144.8 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 17
+Achievement Count was 18
 Kudos Count was 12
 Athlete Count was 1
 
@@ -17764,7 +17803,7 @@ Max Heartrate (bpm) was 134.0 bpm
 Elev High (meters) was 457.6 meters
 Elev Low (meters) was 164.4 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 20
+Achievement Count was 21
 Kudos Count was 18
 Athlete Count was 6
 
@@ -18238,7 +18277,7 @@ Max Heartrate (bpm) was 101.0 bpm
 Elev High (meters) was 455.4 meters
 Elev Low (meters) was 146.6 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 41
+Achievement Count was 42
 Kudos Count was 16
 Athlete Count was 5
 
@@ -18306,7 +18345,7 @@ Max Speed (meters/second) was 7.1 meters/second
 Elev High (meters) was 439.8 meters
 Elev Low (meters) was 132.4 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 29
+Achievement Count was 30
 Kudos Count was 16
 Athlete Count was 4
 

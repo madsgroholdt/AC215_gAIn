@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from starlette.middleware.cors import CORSMiddleware
-from api.routers import llm_rag_chat
+from api.routers import llm_rag_chat, connect_strava
 
 # Setup FastAPI app
 app = FastAPI(title="API Server", description="API Server", version="v1")
@@ -30,3 +30,4 @@ async def favicon():
 # Additional routers here
 app.include_router(llm_rag_chat.router, prefix="/llm-rag")
 # app.include_router(newsletter.router, prefix="/resources")
+app.include_router(connect_strava.router)

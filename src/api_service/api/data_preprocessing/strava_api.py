@@ -1,17 +1,47 @@
-import os
 import requests
 import csv
 import pandas as pd
 import json
 import time
+from google.cloud import secretmanager
+
+
+def get_strava_config(project_id, secret_name, version='latest'):
+    client = secretmanager.SecretManagerServiceClient()
+    path = f"projects/{project_id}/secrets/{secret_name}/versions/{version}"
+    response = client.access_secret_version(name=path)
+    secret_value = response.payload.data.decode('UTF-8')
+    return secret_value
+
+
+def update_strava_config_in_gcp(project_id, secret_name, new_config):
+    client = secretmanager.SecretManagerServiceClient()
+    parent = f"projects/{project_id}/secrets/{secret_name}"
+
+    # Add a new version of the secret with the updated JSON
+    client.add_secret_version(
+        parent=parent,
+        payload={"data": new_config.encode("UTF-8")}
+    )
+    print("Updated strava_config secret in GCP Secret Manager.")
+
+
+def unlink_strava(project_id, secret_name):
+    data = json.loads(get_strava_config(project_id, secret_name))
+    unlinked_config = {
+        'client_id': data['client_id'],
+        'client_secret': data['client_secret'],
+    }
+    unlinked_config = json.dumps(unlinked_config, indent=4)
+    update_strava_config_in_gcp(project_id, secret_name, unlinked_config)
 
 
 def get_access_token():
-    token_url = "https://www.strava.com/oauth/token"
-    json_path = os.path.join('../../', 'secrets', 'strava_config.json')
-
-    with open(json_path, 'r') as file:
-        strava_config = json.load(file)
+    project_id = "1059187665772"
+    secret_name = "strava_config"
+    # Retrieve the JSON secret and parse it
+    secret_data = get_strava_config(project_id, secret_name)
+    strava_config = json.loads(secret_data)
 
     client_id = strava_config['client_id']
     client_secret = strava_config['client_secret']
@@ -36,6 +66,7 @@ def get_access_token():
         'refresh_token': refresh_token,
         'grant_type': 'refresh_token'
     }
+    token_url = "https://www.strava.com/oauth/token"
     token_response = requests.post(token_url, data=params)
 
     if token_response.status_code == 200:
@@ -49,10 +80,12 @@ def get_access_token():
         strava_config['refresh_token'] = refresh_token
         strava_config['expires_at'] = expires_at
 
-        with open(json_path, 'w') as file:
-            json.dump(strava_config, file, indent=4)
-        print("Access token has been refreshed and strava_config.json has \
-              been updated.")
+        # Convert updated config to JSON and upload to GCP Secret Manager
+        updated_config_json = json.dumps(strava_config, indent=4)
+        update_strava_config_in_gcp(project_id,
+                                    secret_name,
+                                    updated_config_json)
+
         return access_token
 
     print("Error refreshing access token:", token_response.json())
@@ -99,7 +132,8 @@ def create_activities_csv(all_activities, access_token):
     athlete_info = athlete_response.json()
 
     first_name, last_name = athlete_info["firstname"], athlete_info["lastname"]
-    csv_file = f"csv_data/{first_name}_{last_name}_strava_data.csv"
+    csv_file = (f"api/data_preprocessing/csv_data/{first_name}_"
+                f"{last_name}_strava_data.csv")
 
     # write the data to a CSV file
     with open(csv_file, mode="w", newline="") as file:

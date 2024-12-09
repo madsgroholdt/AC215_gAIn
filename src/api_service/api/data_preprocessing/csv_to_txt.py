@@ -53,8 +53,8 @@ def csv_to_txt(input_csv, output_txt, filename):
 
 def create_activities_txt():
     cwd = os.getcwd()
-    csv_folder_path = '/csv_data/'
-    txt_folder_path = '/txt_data/'
+    csv_folder_path = '/api/data_preprocessing/csv_data/'
+    txt_folder_path = '/api/data_preprocessing/txt_data/'
     for filename in os.listdir(cwd + csv_folder_path):
         if filename.endswith('.csv'):
             csv_file = os.path.join(cwd + csv_folder_path, filename)
@@ -73,7 +73,7 @@ def upload_to_gcp(bucket_name, folder_path, output_folder):
     storage_client = storage.Client(credentials=credentials)
     bucket = storage_client.bucket(bucket_name)
 
-    file_type = '.csv' if folder_path == '/csv_data/' else '.txt'
+    file_type = '.csv' if folder_path == '/api/data_preprocessing/csv_data/' else '.txt'
 
     for filename in os.listdir(os.getcwd() + folder_path):
         if filename.endswith(file_type):
