@@ -9,7 +9,7 @@
 }
 
 .sidebarHeader {
-    padding: 20px;
+    padding: 16px 20px;
     border-bottom: 1px solid #444;
     display: flex;
     justify-content: space-between;
@@ -83,4 +83,24 @@
 .chatDate {
     font-size: 10px;
     color: #00134d;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 30%; /* Full width on mobile */
+        border-right: none;
+        border-bottom: 1px solid #444; /* Adjust for mobile layout */
+    }
+
+    .sidebarHeader {
+        flex-direction: column; /* Stack elements vertically on smaller screens */
+        align-items: flex-start; /* Align items to the left */
+        gap: 8px; /* Reduce spacing for a compact look */
+    }
+
+    .newChatButton {
+        width: 100%; /* Make the button full-width on mobile */
+        text-align: center; /* Center-align text */
+    }
+    
 }
