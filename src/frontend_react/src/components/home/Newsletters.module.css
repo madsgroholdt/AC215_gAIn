@@ -123,14 +123,40 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .section {
-        padding: 60px 20px;
+        padding: 20px 10px; /* Reduce padding for smaller screens */
+        max-width: 100%; /* Ensure it fits within the viewport */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
     }
 
-    .title {
-        font-size: 28px;
+    .content {
+        display: flex;
+        flex-direction: column; /* Stack sections vertically */
+        gap: 20px; /* Add spacing between stacked sections */
+        align-items: center; /* Center-align items */
+    }
+
+    .aboutNewsletter {
+        width: 100%; /* Full width for smaller screens */
+        text-align: left; /* Align text to the left for readability */
+        padding: 0 10px; /* Add padding for spacing */
+        box-sizing: border-box; /* Include padding in width */
+    }
+
+    .newsletterGrid {
+        width: 100%; /* Ensure the grid spans the full screen width */
+        gap: 15px; /* Adjust gap between items */
+        display: flex;
+        flex-direction: column; /* Stack newsletter cards vertically */
+    }
+
+    .newsletterCard {
+        width: 100%; /* Full width for cards */
+        padding: 15px; /* Adjust padding for smaller screens */
+        box-sizing: border-box;
     }
 
     .newsletterTitle {
-        font-size: 20px;
+        font-size: 18px; /* Smaller font size for titles */
+        text-align: left; /* Align text to the left */
     }
 }

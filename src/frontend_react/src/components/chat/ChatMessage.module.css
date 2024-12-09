@@ -36,6 +36,7 @@
     padding: 12px 16px;
     border-radius: 12px;
     position: relative;
+    word-break: break-word;
 }
 
 .messageIcon {
@@ -69,8 +70,8 @@
 }
 
 .messageContent {
-    color: #FFFFFF;
-    font-size: 50px;
+    color: #000;
+    font-size: 18px;
     line-height: 1.5;
     word-break: break-word;
 }
@@ -89,12 +90,6 @@
 
 .assistant .messageTime {
     left: 0;
-}
-
-.messageContent {
-    color: #000;
-    font-size: 18px;
-    line-height: 1.5;
 }
 
 /* Links */
@@ -184,5 +179,28 @@
     30% {
         transform: translateY(-4px);
         opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .chatHistory {
+        padding: 10px; /* Reduce padding on smaller screens */
+    }
+
+    .message {
+        max-width: 100%; /* Allow messages to use full width */
+        padding: 8px 12px;
+    }
+
+    .chatTitle {
+        padding: 8px 12px; /* Adjust padding for title */
+        font-size: 16px; /* Adjust font size */
+    }
+
+    .messageContent {
+        color: #000;
+        font-size: 13px;
+        line-height: 1.5;
+        word-break: break-word;
     }
 }

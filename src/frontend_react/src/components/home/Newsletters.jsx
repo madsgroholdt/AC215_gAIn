@@ -33,24 +33,6 @@ export default function Newsletter() {
             <div className={styles.underline}></div>
 
             <div className={styles.content}>
-                <div className={styles.newsletterGrid}>
-                    {newsletters.map((newsletter) => (
-                        <article key={newsletter.id} className={styles.newsletterCard}>
-                            <div className={styles.cardHeader}>
-                                <span className={styles.date}>{newsletter.date}</span>
-                                <span className={styles.readTime}>{newsletter.readTime}</span>
-                            </div>
-
-                            <h3 className={styles.newsletterTitle}>{newsletter.title}</h3>
-
-                            <p className={styles.excerpt}>{newsletter.excerpt}</p>
-
-                            <Link href={`/newsletters?id=${newsletter.id}`} className={styles.readMore}>
-                                Read More →
-                            </Link>
-                        </article>
-                    ))}
-                </div>
                 <div className={styles.aboutNewsletter}>
                     <Image
                         src="/assets/newsletter.png"
@@ -69,6 +51,24 @@ export default function Newsletter() {
                         nutrition breakthroughs, workout routines, and more. Stay ahead with cutting-edge knowledge from the very material
                         our LLM is fine-tuned on, curated to keep you informed and help you achieve your health and wellness goals.
                     </p>
+                </div>
+                <div className={styles.newsletterGrid}>
+                    {newsletters.map((newsletter) => (
+                        <article key={newsletter.id} className={styles.newsletterCard}>
+                            <div className={styles.cardHeader}>
+                                <span className={styles.date}>{newsletter.date}</span>
+                                <span className={styles.readTime}>{newsletter.readTime}</span>
+                            </div>
+
+                            <h3 className={styles.newsletterTitle}>{newsletter.title}</h3>
+
+                            <p className={styles.excerpt}>{newsletter.excerpt}</p>
+
+                            <Link href={`/newsletters?id=${newsletter.id}`} className={styles.readMore}>
+                                Read More →
+                            </Link>
+                        </article>
+                    ))}
                 </div>
             </div>
             <div className={styles.viewAllContainer}>
