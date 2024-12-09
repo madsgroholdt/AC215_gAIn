@@ -54,20 +54,22 @@ export default function Newsletter() {
                 </div>
                 <div className={styles.newsletterGrid}>
                     {newsletters.map((newsletter) => (
-                        <article key={newsletter.id} className={styles.newsletterCard}>
-                            <div className={styles.cardHeader}>
-                                <span className={styles.date}>{newsletter.date}</span>
-                                <span className={styles.readTime}>{newsletter.readTime}</span>
-                            </div>
+                        <Link href={`/newsletters?id=${newsletter.id}`} key={newsletter.id} className={styles.newsletterCardLink}>
+                            <article key={newsletter.id} className={styles.newsletterCard}>
+                                <div className={styles.cardHeader}>
+                                    <span className={styles.date}>{newsletter.date}</span>
+                                    <span className={styles.readTime}>{newsletter.readTime}</span>
+                                </div>
 
-                            <h3 className={styles.newsletterTitle}>{newsletter.title}</h3>
+                                <h3 className={styles.newsletterTitle}>{newsletter.title}</h3>
 
-                            <p className={styles.excerpt}>{newsletter.excerpt}</p>
+                                <p className={styles.excerpt}>{newsletter.excerpt}</p>
 
-                            <Link href={`/newsletters?id=${newsletter.id}`} className={styles.readMore}>
-                                Read More →
-                            </Link>
-                        </article>
+                                <span className={styles.readMore}>
+                                    Read More →
+                                </span>
+                            </article>
+                        </Link>
                     ))}
                 </div>
             </div>

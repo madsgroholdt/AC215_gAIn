@@ -62,6 +62,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.newsletterCardLink {
+    text-decoration: none; /* Remove link underlining */
+    color: inherit; /* Inherit the text color */
+    display: block; /* Ensure the link takes up the full area of the card */
+}
+
 .cardHeader {
     display: flex;
     justify-content: space-between;
