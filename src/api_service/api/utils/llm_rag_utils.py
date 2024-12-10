@@ -91,7 +91,7 @@ client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
 method = "recursive-split"
 collection_name = f"{method}-collection"
 # Get the collection
-collection = client.get_collection(name=collection_name)
+# collection = client.get_collection(name=collection_name)
 
 
 def generate_query_embedding(query):
@@ -121,7 +121,7 @@ def generate_chat_response(chat_session: ChatSession, message: Dict) -> str:
         str: The model's response
     """
     try:
-        # collection = client.get_collection(name=collection_name)
+        collection = client.get_collection(name=collection_name)
         # Initialize parts list for the message
         message_parts = []
 
