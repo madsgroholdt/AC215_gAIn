@@ -15,7 +15,6 @@
   border-radius: 12px;
   padding: 20px;
   width: 95%;
-  height: 95%
 }
 
 .textareaWrapper {
@@ -115,4 +114,12 @@
   color: #666;
   font-size: 14px;
   margin-right: 16px;
+}
+
+@media (max-width: 768px) {
+  .chatInputContainer {
+      width: 100%; /* Full width on mobile */
+      border-radius: 0; /* Remove rounded edges */
+      padding: 10px;
+  }
 }

@@ -101,47 +101,36 @@ export default function Header() {
 
                 {/* Mobile Menu Button */}
                 <button
-                    className="md:hidden p-2"
+                    className="md:hidden text-white p-2"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    aria-label="Toggle mobile menu"
+                    aria-label="Toggle menu"
                 >
-                    <div className={`w-6 h-0.5 bg-white mb-1.5 transition-all ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-                    <div className={`w-6 h-0.5 bg-white mb-1.5 ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
-                    <div className={`w-6 h-0.5 bg-white transition-all ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+                    <div className="w-6 space-y-1">
+                        <span className={`block h-0.5 bg-white transition-transform ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+                        <span className={`block h-0.5 bg-white transition-opacity ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
+                        <span className={`block h-0.5 bg-white transition-transform ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+                    </div>
                 </button>
 
                 {/* Mobile Menu */}
-                <div
-                    className={`
-                        fixed md:hidden top-20 left-0 w-full bg-white shadow-lg transform transition-transform duration-300
-                        ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}
-                    `}
-                >
-                    <nav className="flex flex-col p-4">
-                        <Link
-                            href="/"
-                            className="py-3 text-gray-800 border-b border-gray-200"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            Home
-                        </Link>
-                        <Link
-                            href="#connect"
-                            className="py-3 text-gray-800 border-b border-gray-200"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            Connect Your Apps
-                        </Link>
-                        <Link
-                            href="#about"
-                            className="py-3 text-gray-800 border-b border-gray-200"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            About
-                        </Link>
+                {isMobileMenuOpen && (
+                    <nav
+                        className="fixed top-20 left-0 w-full bg-black text-white py-4 flex flex-col items-center gap-4 md:hidden"
+                    >
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.name}
+                                href={buildHref(item)}
+                                className="flex items-center gap-2 text-white opacity-80 hover:opacity-100 transition-opacity"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                <span>{item.icon}</span>
+                                <span>{item.name}</span>
+                            </Link>
+                        ))}
                     </nav>
-                </div>
+                )}
             </div>
         </header>
-    )
+    );
 }

@@ -42,3 +42,73 @@ body {
     margin: 0;
     padding: 0;
 }
+
+/* Global Mobile Styles */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px; /* Adjust root font size for smaller screens */
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        font-size: 0.875rem; /* Adjust body font size */
+        line-height: 1.5;
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Scale down headers for mobile */
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        line-height: 1.3;
+    }
+
+    h3 {
+        font-size: 1.125rem;
+        line-height: 1.4;
+    }
+
+    p {
+        font-size: 0.875rem; /* Make paragraphs smaller */
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    img {
+        max-width: 100%; /* Ensure images are responsive */
+        height: auto;
+    }
+
+    .layout-wrapper {
+        padding: 0 1rem; /* Add padding to layout for mobile */
+    }
+
+    .container {
+        width: 100%; /* Make container full-width */
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+
+    .section {
+        padding: 2rem 1rem; /* Adjust section padding */
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .button {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+
+    nav a {
+        padding: 0.5rem 0; /* Make navigation links touch-friendly */
+        font-size: 0.875rem;
+    }
+
+}
