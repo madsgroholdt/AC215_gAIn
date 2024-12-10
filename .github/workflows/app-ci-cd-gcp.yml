@@ -2,7 +2,7 @@ name: Continuous Integration and Continuous Deployment
 run-name: ${{ github.actor }} submitted a CI CD Action
 on:
   push:
-    branches: [ "final-mobile" ]
+    branches: ["main"]
 
 jobs:
   Explore-GitHub-Actions:
@@ -15,10 +15,10 @@ jobs:
       - run: echo "Branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v4
-      - id: 'auth'
+      - id: "auth"
         uses: google-github-actions/auth@v1
         with:
-          credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
       - name: Configure Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
       - name: Configure Docker Client
