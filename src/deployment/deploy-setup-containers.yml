@@ -4,7 +4,7 @@
   become: true
 
   tasks:
-    # Setup secrets so containers can have access to GCP resources
+    # Setup secrets so containers can access GCP resources
     - name: Create secrets directory
       file:
         path: "/srv/secrets"
