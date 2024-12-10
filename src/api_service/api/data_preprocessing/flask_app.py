@@ -1,3 +1,4 @@
+import os
 from flask import Flask, redirect, request, render_template, url_for
 import json
 import requests
@@ -14,9 +15,9 @@ else:
 app = Flask(__name__)
 
 # Load Strava configuration
-project_id = "1059187665772"
-secret_name = "strava_config"
-secret_data = get_strava_config(project_id, secret_name)
+PROJECT_NUM = os.getenv("PROJECT_NUM")
+SECRET_NAME = os.getenv("SECRET_NAME")
+secret_data = get_strava_config(PROJECT_NUM, SECRET_NAME)
 strava_config = json.loads(secret_data)
 
 client_id = strava_config['client_id']
@@ -72,8 +73,8 @@ def callback():
             strava_config['expires_at'] = expires_at
 
             updated_config_json = json.dumps(strava_config, indent=4)
-            update_strava_config_in_gcp(project_id,
-                                        secret_name,
+            update_strava_config_in_gcp(PROJECT_NUM,
+                                        SECRET_NAME,
                                         updated_config_json)
 
             main(['--fetch_data', '--generate', '--upload'])

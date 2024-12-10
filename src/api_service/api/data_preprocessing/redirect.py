@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse as urlparse
@@ -13,9 +14,11 @@ else:
         update_strava_config_in_gcp
     )
 
-
+# Load env variables
+PROJECT_NUM = os.getenv("PROJECT_NUM")
+SECRET_NAME = os.getenv("SECRET_NAME")
 # Load Strava configuration
-secret_data = get_strava_config("1059187665772", "strava_config")
+secret_data = get_strava_config(PROJECT_NUM, SECRET_NAME)
 strava_config = json.loads(secret_data)
 
 client_id = strava_config['client_id']
@@ -68,8 +71,8 @@ class RequestHandler(BaseHTTPRequestHandler):
                 strava_config['expires_at'] = expires_at
 
                 updated_config_json = json.dumps(strava_config, indent=4)
-                update_strava_config_in_gcp("1059187665772",
-                                            "strava_config",
+                update_strava_config_in_gcp(PROJECT_NUM,
+                                            SECRET_NAME,
                                             updated_config_json)
                 print("\nstrava_config.json has been updated.\n")
             else:

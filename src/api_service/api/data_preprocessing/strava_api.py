@@ -1,22 +1,27 @@
+import os
 import requests
 import csv
 import pandas as pd
 import json
 import time
 from google.cloud import secretmanager
+if __package__ is None or __package__ == '':
+    from csv_to_txt import get_csv_txt_paths
+else:
+    from api.data_preprocessing.csv_to_txt import get_csv_txt_paths
 
 
-def get_strava_config(project_id, secret_name, version='latest'):
+def get_strava_config(project_num, secret_name, version='latest'):
     client = secretmanager.SecretManagerServiceClient()
-    path = f"projects/{project_id}/secrets/{secret_name}/versions/{version}"
+    path = f"projects/{project_num}/secrets/{secret_name}/versions/{version}"
     response = client.access_secret_version(name=path)
     secret_value = response.payload.data.decode('UTF-8')
     return secret_value
 
 
-def update_strava_config_in_gcp(project_id, secret_name, new_config):
+def update_strava_config_in_gcp(project_num, secret_name, new_config):
     client = secretmanager.SecretManagerServiceClient()
-    parent = f"projects/{project_id}/secrets/{secret_name}"
+    parent = f"projects/{project_num}/secrets/{secret_name}"
 
     # Add a new version of the secret with the updated JSON
     client.add_secret_version(
@@ -26,21 +31,21 @@ def update_strava_config_in_gcp(project_id, secret_name, new_config):
     print("Updated strava_config secret in GCP Secret Manager.")
 
 
-def unlink_strava(project_id, secret_name):
-    data = json.loads(get_strava_config(project_id, secret_name))
+def unlink_strava(project_num, secret_name):
+    data = json.loads(get_strava_config(project_num, secret_name))
     unlinked_config = {
         'client_id': data['client_id'],
         'client_secret': data['client_secret'],
     }
     unlinked_config = json.dumps(unlinked_config, indent=4)
-    update_strava_config_in_gcp(project_id, secret_name, unlinked_config)
+    update_strava_config_in_gcp(project_num, secret_name, unlinked_config)
 
 
 def get_access_token():
-    project_id = "1059187665772"
-    secret_name = "strava_config"
+    PROJECT_NUM = os.getenv("PROJECT_NUM")
+    SECRET_NAME = os.getenv("SECRET_NAME")
     # Retrieve the JSON secret and parse it
-    secret_data = get_strava_config(project_id, secret_name)
+    secret_data = get_strava_config(PROJECT_NUM, SECRET_NAME)
     strava_config = json.loads(secret_data)
 
     client_id = strava_config['client_id']
@@ -82,8 +87,8 @@ def get_access_token():
 
         # Convert updated config to JSON and upload to GCP Secret Manager
         updated_config_json = json.dumps(strava_config, indent=4)
-        update_strava_config_in_gcp(project_id,
-                                    secret_name,
+        update_strava_config_in_gcp(PROJECT_NUM,
+                                    SECRET_NAME,
                                     updated_config_json)
 
         return access_token
@@ -132,8 +137,8 @@ def create_activities_csv(all_activities, access_token):
     athlete_info = athlete_response.json()
 
     first_name, last_name = athlete_info["firstname"], athlete_info["lastname"]
-    csv_file = (f"api/data_preprocessing/csv_data/{first_name}_"
-                f"{last_name}_strava_data.csv")
+    csv_path, _ = get_csv_txt_paths()
+    csv_file = f"{csv_path[1:]}{first_name}_{last_name}_strava_data.csv"
 
     # write the data to a CSV file
     with open(csv_file, mode="w", newline="") as file:

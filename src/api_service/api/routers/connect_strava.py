@@ -1,3 +1,4 @@
+import os
 import time
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse, JSONResponse
@@ -14,10 +15,13 @@ from api.data_preprocessing.cli import main
 # Define Route
 router = APIRouter()
 
+# Get front end url
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+
 # Load Strava configuration
-project_id = "1059187665772"
-secret_name = "strava_config"
-secret_data = get_strava_config(project_id, secret_name)
+PROJECT_NUM = os.getenv("PROJECT_NUM")
+SECRET_NAME = os.getenv("SECRET_NAME")
+secret_data = get_strava_config(PROJECT_NUM, SECRET_NAME)
 strava_config = json.loads(secret_data)
 
 client_id = strava_config['client_id']
@@ -35,7 +39,7 @@ strava_auth_url = (
 @router.get("/connection_status")
 async def connection_status():
     # Fetch latest data
-    secret_data = get_strava_config(project_id, secret_name, version='latest')
+    secret_data = get_strava_config(PROJECT_NUM, SECRET_NAME, version='latest')
     strava_config = json.loads(secret_data)
 
     # Check if the user has a valid access token
@@ -80,29 +84,25 @@ async def callback(request: Request):
             strava_config['expires_at'] = expires_at
 
             updated_config_json = json.dumps(strava_config, indent=4)
-            update_strava_config_in_gcp(project_id,
-                                        secret_name,
+            update_strava_config_in_gcp(PROJECT_NUM,
+                                        SECRET_NAME,
                                         updated_config_json)
 
             # Process the data after connecting
             main(['--fetch_data', '--generate', '--upload'])
 
             # Redirect back to the index page
-            return RedirectResponse(
-                url="http://localhost:3000/#connect"
-            )
+            return RedirectResponse(url=f"{FRONTEND_URL}/#connect")
 
     # Catch all
-    return RedirectResponse(
-        url="http://localhost:3000/#connect"
-    )
+    return RedirectResponse(url=f"{FRONTEND_URL}/#connect")
 
 
 @router.post("/unlink")
 async def unlink():
     try:
         # Call the unlink function
-        unlink_strava(project_id, secret_name)
+        unlink_strava(PROJECT_NUM, SECRET_NAME)
 
         # Return a success message
         return JSONResponse(

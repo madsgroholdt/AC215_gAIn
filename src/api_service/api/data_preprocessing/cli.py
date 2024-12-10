@@ -1,4 +1,5 @@
 import argparse
+import os
 if __package__ is None or __package__ == '':
     # Standalone execution
     from redirect import connect_to_strava
@@ -23,10 +24,10 @@ else:
 
 
 # Setup
-GCP_PROJECT = "ac215-final-project"
-BUCKET_NAME = "gain-bucket"
-BUCKET_CSV_OUTPUT_FOLDER = "raw_user_data"
-BUCKET_TXT_OUTPUT_FOLDER = "processed_user_data"
+GCP_PROJECT = os.getenv("GCP_PROJECT")
+BUCKET_NAME = os.getenv("GCS_BUCKET_NAME")
+BUCKET_CSV_OUTPUT_FOLDER = os.getenv("BUCKET_CSV_OUTPUT_FOLDER")
+BUCKET_TXT_OUTPUT_FOLDER = os.getenv("BUCKET_TXT_OUTPUT_FOLDER")
 
 
 def authenticate():
@@ -54,11 +55,18 @@ def generate():
 def upload():
     """Step 4: Upload files to GCP Bucket"""
     print("\nUploading files to GCP Bucket")
+    if os.path.exists("./api"):
+        csv_path = '/api/data_preprocessing/csv_data/'
+        txt_path = '/api/data_preprocessing/txt_data/'
+    else:
+        csv_path = '/csv_data/'
+        txt_path = '/txt_data/'
+
     upload_to_gcp(BUCKET_NAME,
-                  '/api/data_preprocessing/csv_data/',
+                  csv_path,
                   BUCKET_CSV_OUTPUT_FOLDER)
     upload_to_gcp(BUCKET_NAME,
-                  '/api/data_preprocessing/txt_data/',
+                  txt_path,
                   BUCKET_TXT_OUTPUT_FOLDER)
 
 
