@@ -38,10 +38,9 @@ jobs:
           docker run --rm --name gain-deployment \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v $HOME/.ssh:/home/app/.ssh \
-            -v ${{ github.workspace }}/src/frontend_react:/frontend_react \
+            -v ${{ github.workspace }}/src/vector_db:/vector_db \
             -v ${{ github.workspace }}/src/api_service:/api_service \
-            -v ${{ github.workspace }}/src/data-collector:/data-collector \
-            -v ${{ github.workspace }}/src/data-processor:/data-processor \
+            -v ${{ github.workspace }}/src/frontend_react:/frontend_react \
             --volume $GITHUB_WORKSPACE:/workspace \
             --mount type=bind,source=$GOOGLE_APPLICATION_CREDENTIALS,target=/secrets/deployment.json \
             --env GOOGLE_APPLICATION_CREDENTIALS=/secrets/deployment.json \
