@@ -5,11 +5,11 @@
 
   vars:
     cluster_name: "gain-cluster"
-  
+
   tasks:
   - name: "Connect to cluster (update kubeconfig)"
     shell: "gcloud container clusters get-credentials {{ cluster_name }} --zone {{ gcp_zone }} --project {{ gcp_project }}"
-  
+
   - name: "Copy docker tag file"
     copy:
       src: .docker-tag
@@ -23,7 +23,7 @@
   - name: "Print tag"
     debug:
       var: tag
-  
+
   - name: "Update Deployment for Frontend"
     k8s:
       state: present
@@ -53,7 +53,7 @@
                 - name: NEXTAUTH_SECRET
                   value: "k5NCFwirrmdd9FMswLRlml/ouor+SPSLE55YBFcKc3M="
               restartPolicy: Always
-  
+
   - name: "Update Deployment for API Service"
     k8s:
       state: present

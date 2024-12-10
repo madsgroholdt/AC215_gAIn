@@ -91,7 +91,7 @@ client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
 method = "recursive-split"
 collection_name = f"{method}-collection"
 # Get the collection
-#collection = client.get_collection(name=collection_name)
+# collection = client.get_collection(name=collection_name)
 
 
 def generate_query_embedding(query):
