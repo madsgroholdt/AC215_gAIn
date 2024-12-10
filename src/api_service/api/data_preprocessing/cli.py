@@ -1,13 +1,33 @@
 import argparse
-from redirect import connect_to_strava
-from strava_api import get_access_token, get_strava_data, create_activities_csv
-from csv_to_txt import create_activities_txt, upload_to_gcp
+import os
+if __package__ is None or __package__ == '':
+    # Standalone execution
+    from redirect import connect_to_strava
+    from strava_api import (
+        get_access_token,
+        get_strava_data,
+        create_activities_csv
+    )
+    from csv_to_txt import create_activities_txt, upload_to_gcp
+else:
+    # Package execution
+    from api.data_preprocessing.redirect import connect_to_strava
+    from api.data_preprocessing.strava_api import (
+        get_access_token,
+        get_strava_data,
+        create_activities_csv
+    )
+    from api.data_preprocessing.csv_to_txt import (
+        create_activities_txt,
+        upload_to_gcp
+    )
+
 
 # Setup
-GCP_PROJECT = "ac215-final-project"
-BUCKET_NAME = "gain-bucket"
-BUCKET_CSV_OUTPUT_FOLDER = "raw_user_data"
-BUCKET_TXT_OUTPUT_FOLDER = "processed_user_data"
+GCP_PROJECT = os.getenv("GCP_PROJECT")
+BUCKET_NAME = os.getenv("GCS_BUCKET_NAME")
+BUCKET_CSV_OUTPUT_FOLDER = os.getenv("BUCKET_CSV_OUTPUT_FOLDER")
+BUCKET_TXT_OUTPUT_FOLDER = os.getenv("BUCKET_TXT_OUTPUT_FOLDER")
 
 
 def authenticate():
@@ -35,11 +55,22 @@ def generate():
 def upload():
     """Step 4: Upload files to GCP Bucket"""
     print("\nUploading files to GCP Bucket")
-    upload_to_gcp(BUCKET_NAME, '/csv_data/', BUCKET_CSV_OUTPUT_FOLDER)
-    upload_to_gcp(BUCKET_NAME, '/txt_data/', BUCKET_TXT_OUTPUT_FOLDER)
+    if os.path.exists("./api"):
+        csv_path = '/api/data_preprocessing/csv_data/'
+        txt_path = '/api/data_preprocessing/txt_data/'
+    else:
+        csv_path = '/csv_data/'
+        txt_path = '/txt_data/'
+
+    upload_to_gcp(BUCKET_NAME,
+                  csv_path,
+                  BUCKET_CSV_OUTPUT_FOLDER)
+    upload_to_gcp(BUCKET_NAME,
+                  txt_path,
+                  BUCKET_TXT_OUTPUT_FOLDER)
 
 
-def main():
+def main(input_args=None):
     parser = argparse.ArgumentParser(
         description="Strava Data Processing Script"
         )
@@ -56,7 +87,7 @@ def main():
                         action='store_true',
                         help="Step 4: Upload Data to GCP")
 
-    args = parser.parse_args()
+    args = parser.parse_args(input_args)
     print(args)
 
     if args == argparse.Namespace(authenticate=False,

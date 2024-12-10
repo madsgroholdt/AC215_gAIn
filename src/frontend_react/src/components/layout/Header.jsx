@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Info, Email, SmartToy, ChatBubbleOutline } from '@mui/icons-material';
+import { Home, Info, Email, SmartToy, ChatBubbleOutline, ElectricalServices} from '@mui/icons-material';
 import styles from './Header.module.css';
 
 const navItems = [
     { name: 'Home', path: '/', sectionId: '', icon: <Home fontSize="small" /> },
+    { name: 'Connect Your Apps' , path: '/', sectionId: 'connect', icon: <ElectricalServices fontSize="small"/> },
     { name: 'About', path: '/', sectionId: 'about', icon: <Info fontSize="small" /> },
     { name: 'Newsletters', path: '/newsletters', sectionId: 'newsletters', icon: <Email fontSize="small" /> },
     { name: 'gAIn', path: '/chat', sectionId: '', icon: <SmartToy fontSize="small" /> }
@@ -123,6 +124,13 @@ export default function Header() {
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             Home
+                        </Link>
+                        <Link
+                            href="#connect"
+                            className="py-3 text-gray-800 border-b border-gray-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            Connect Your Apps
                         </Link>
                         <Link
                             href="#about"

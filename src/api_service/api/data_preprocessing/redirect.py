@@ -1,15 +1,25 @@
-import os
 import json
+import os
 import requests
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse as urlparse
 import webbrowser
+if __package__ is None or __package__ == '':
+    # Standalone execution
+    from strava_api import get_strava_config, update_strava_config_in_gcp
+else:
+    # Package execution
+    from api.data_preprocessing.strava_api import (
+        get_strava_config,
+        update_strava_config_in_gcp
+    )
 
-
+# Load env variables
+PROJECT_NUM = os.getenv("PROJECT_NUM")
+SECRET_NAME = os.getenv("SECRET_NAME")
 # Load Strava configuration
-json_path = os.path.join('../../', 'secrets', 'strava_config.json')
-with open(json_path, 'r') as file:
-    strava_config = json.load(file)
+secret_data = get_strava_config(PROJECT_NUM, SECRET_NAME)
+strava_config = json.loads(secret_data)
 
 client_id = strava_config['client_id']
 client_secret = strava_config['client_secret']
@@ -60,8 +70,10 @@ class RequestHandler(BaseHTTPRequestHandler):
                 strava_config['refresh_token'] = refresh_token
                 strava_config['expires_at'] = expires_at
 
-                with open(json_path, 'w') as file:
-                    json.dump(strava_config, file, indent=4)
+                updated_config_json = json.dumps(strava_config, indent=4)
+                update_strava_config_in_gcp(PROJECT_NUM,
+                                            SECRET_NAME,
+                                            updated_config_json)
                 print("\nstrava_config.json has been updated.\n")
             else:
                 print("Error exchanging token:", response.json())
