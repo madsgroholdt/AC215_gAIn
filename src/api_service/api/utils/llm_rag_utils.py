@@ -121,6 +121,7 @@ def generate_chat_response(chat_session: ChatSession, message: Dict) -> str:
         str: The model's response
     """
     try:
+        # collection = client.get_collection(name=collection_name)
         # Initialize parts list for the message
         message_parts = []
 

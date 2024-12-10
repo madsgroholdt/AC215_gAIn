@@ -21,7 +21,7 @@ const DataService = {
         // Any application initialization logic comes here
     },
     GetNewsletters: async function (limit) {
-        return await api.get("/newsletters?limit=" + limit);
+        return await api.get("/newsletters/?limit=" + limit);
     },
     GetNewsletter: async function (newsletter_id) {
         return await api.get("/newsletters/" + newsletter_id);
