@@ -1,4 +1,3 @@
-import os
 import argparse
 import random
 import string
@@ -7,10 +6,10 @@ from kfp import compiler
 import google.cloud.aiplatform as aip
 from model_deployment import model_deploy
 
-GCP_PROJECT = os.environ["GCP_PROJECT"]
-GCS_BUCKET_NAME = os.environ["GCS_BUCKET_NAME"]
-GCS_SERVICE_ACCOUNT = os.environ["GCS_SERVICE_ACCOUNT"]
-GCP_REGION = os.environ["GCP_REGION"]
+GCP_PROJECT = "ac215-final-project"
+GCS_BUCKET_NAME = "gain-ml-pipeline"
+GCS_SERVICE_ACCOUNT = "data-preprocessing@ac215-final-project.iam.gserviceaccount.com"
+GCP_REGION = "us-central1"
 BUCKET_URI = "gs:" + f"//{GCS_BUCKET_NAME}"
 PIPELINE_ROOT = f"{BUCKET_URI}/pipeline_root/root"
 

@@ -4,7 +4,6 @@ import vertexai
 from vertexai.preview.tuning import sft
 from vertexai.generative_models import GenerativeModel
 
-# Setup
 GCP_PROJECT = "ac215-final-project"
 GCS_BUCKET_NAME = "gain-ml-pipeline"
 GCP_REGION = "us-central1"
@@ -12,7 +11,6 @@ GCP_REGION = "us-central1"
 DATASET = "gs:" + f"//{GCS_BUCKET_NAME}/processed_data"
 TRAIN_DATASET = f"{DATASET}/train.jsonl"
 VALIDATION_DATASET = f"{DATASET}/test.jsonl"
-
 
 # Configuration settings for the content generation
 model_resource_name = f"projects/{GCP_PROJECT}/\
@@ -64,6 +62,7 @@ def main(args=None):
     print("CLI Arguments:", args)
 
     if args.train:
+        print("Finetuning model")
         train()
 
 

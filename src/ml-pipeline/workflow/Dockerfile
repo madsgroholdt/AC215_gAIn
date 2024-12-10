@@ -53,4 +53,6 @@ RUN pipenv sync
 ADD --chown=app:app . /app
 
 # Entry point
-ENTRYPOINT ["/bin/bash","./docker-entrypoint.sh"]
+ENTRYPOINT ["pipenv", "run"]
+
+CMD ["python", "cli.py", "--pipeline", "100"]

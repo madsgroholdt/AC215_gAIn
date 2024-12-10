@@ -4,7 +4,7 @@
 set -e
 
 # Define some environment variables
-source ../env.dev
+source env.dev
 export IMAGE_NAME="gain-ml-pipeline"
 
 # Build the image based on the Dockerfile

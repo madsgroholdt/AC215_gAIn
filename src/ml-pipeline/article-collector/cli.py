@@ -7,9 +7,8 @@ from google.cloud import storage
 from find_urls import get_urls
 
 GCS_BUCKET_NAME = "gain-ml-pipeline"
-
-# Set directory names
 destination_folder = "raw_articles"
+archive = "archive"
 
 
 # Upload a file's content to GCS
@@ -66,8 +65,8 @@ def scrape():
             get_article_content(url[0], title)
 
     # Add url list to archive
-    num_url_lists = sum(1 for _ in bucket.list_blobs(prefix='archive/urls'))
-    destination_blob = bucket.blob(f'archive/urls/urls{num_url_lists}.csv')
+    num_url_lists = sum(1 for _ in bucket.list_blobs(prefix=f'{archive}/urls'))
+    destination_blob = bucket.blob(f'{archive}/urls/urls{num_url_lists}.csv')
     destination_blob.rewrite(blob)
     blob.delete()
 
@@ -86,12 +85,12 @@ def main(args=None):
 if __name__ == "__main__":
     # Generate the inputs arguments parser
     # if you type into the terminal '--help', it will provide the description
-    parser = argparse.ArgumentParser(description="Data Collector CLI")
+    parser = argparse.ArgumentParser(description="Article Collector CLI")
 
     parser.add_argument(
         "--urls",
         type=int,
-        help="Get URLs",
+        help="Get and store URLs",
     )
 
     parser.add_argument(
