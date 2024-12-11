@@ -71,7 +71,7 @@ export default function NewslettersPage({ searchParams }) {
                     <div className={styles.aboutContent}>
                         <h2>About Newsletters</h2>
                         <p>
-                        Welcome to gAIn’s Chronicles, your ultimate weekly digest on everything health and fitness!
+                        Welcome to gAIn’s Chronicles (2), your ultimate weekly digest on everything health and fitness!
                         Our newsletters keep you informed with the latest articles, blogs, research, and expert insights on fitness trends,
                         nutrition breakthroughs, workout routines, and more. Stay ahead with cutting-edge knowledge from the very material
                         our LLM is fine-tuned on, curated to keep you informed and help you achieve your health and wellness goals.

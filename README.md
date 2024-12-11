@@ -98,156 +98,47 @@ With the gAIn application, we seek to fill an existing gap in the health and fit
 
 ---
 
-### Milestone 4
-
-In this milestone, we have the components for the backend (i.e., our LLM-RAG model), the back-end API service, and the front-end web app. Also included are components from previous milestones, such as data storage and versioning.
-
-After building a robust ML Pipeline in our previous milestone, we have now built a backend api service and frontend app. This will be our user-facing application that ties together the various components built in previous milestones.
-
-**Application Design**
-
-Before we start implementing the app we built a detailed design document outlining the application’s architecture. We built a Solution Architecture and Technical Architecture to ensure all our components work together.
-
-Here is our Solution Architecture:
-
-<img src="images/solution-arch.png"  width="800">
-
-Here is our Technical Architecture:
-
-<img src="images/technical-arch.png"  width="800">
-
-**Backend API**
-
-We built a backend API service using FastAPI to expose model functionality to the frontend. We also added APIs that will help the front-end display some key information about the model and data. As seen below, this routes output from our back-end (e.g., LLM-generated text) to the user-facing front-end application.
-
-<img src="images/api_list.png"  width="800">
-
-**Frontend**
-
-A user-friendly React app was built to allow users to interact with their personalized LLM-RAG model from the backend. In the app, the user can ask their AI personal trainer about anything health- and fitness-related from the fine-tuned LLM. Even more, they can get personalized insights and advice since the gAIn chatbot's RAG pipeline grants it access to user health data (e.g., from Strava). There is also a Newsletters section that allows users to browse and read primary source material, much of which contributes to the knowledge base for gAIn's fine-tuning.
-
-Here are some screenshots of our app:
-<img src="images/gain_home.png"  width="800">
-
-<img src="images/new_chat.png"  width="800">
-
-<img src="images/gain_convo.png"  width="800">
-
-## gAIn Application Setup Guide
-
-Follow these steps to get the application up and running locally.
-
----
+### Milestone 5
+In this milestone, we deploy the fully-functional gAIn app to a Kubernetes cluster.
 
 ### Prerequisites
 
-1. **Secrets Folder:**
-
+1. **Secrets Folders:**
    - Ensure you have a `secrets` folder in the directory `AC215_gAIn/src`.
-   - This folder should contain the file `llm-service-account.json`.
+       - This folder should contain the file `llm-service-account.json`.
+   - Ensure you have another `secrets` folder at the same level as `AC215_gAIn`.
+       - This folder should contain the files `deployment.json` and `gcp-service.json`
 
-2. **Directory Structure:**
-   - Navigate to `AC215_gAIn/src` where you will find the following folders:
-     - `vector_db`
-     - `api_service`
-     - `frontend_react`
-
----
+2. **APIs**
+   - Enable the following APIs in your GCP console:
+       - Compute Engine API
+       - Service Usage API
+       - Cloud Resource Manager API
+       - Google Container Registry API
+       - Kubernetes Engine API
 
 ### Setup Instructions
 
-#### 1. Prepare the Vector Database
+1. Change your working directory to `AC215_gAIn/src/deployment`.
 
-1. Change your working directory to the `vector_db` folder.
-
-2. Start the container by running:
-
+2. Start and enter the container by running:
    ```bash
    sh docker-shell.sh
-
    ```
 
-3. Inside the container, preprocess the user data by running:
+3. If you need to push the images to Google Cloud (for the first time or to update them), run:
    ```bash
-   python cli.py --preprocess
+   ansible-playbook deploy-docker-images.yml -i inventory.yml
    ```
-   - This downloads the data from GCS, then chunks, embeds, and uploads it to ChromaDB
-   - The default chunking method is `recursive-split`, but you can also try semantic splitting by adding `--chunk_type semantic-split`
+   - This will build and push the `gain-vector-db-cli`, `gain-api-service`, and `gain-frontend` images
+   - *NOTE: This step is **not** required if your containers are already up-to-date and in your artifact registry*
 
-#### 2. Start the Backend API Service
-
-1. Open a **new terminal** and navigate to the `api_service` folder.
-
-2. Start the docker container by running:
-
+4. Create and deploy the cluster by running:
    ```bash
-   sh docker-shell.sh
-
+   ansible-playbook deploy-k8s-cluster.yml -i inventory.yml --extra-vars cluster_state=present
    ```
 
-3. Inside the container, expose the backend API server:
-   ```bash
-   uvicorn_server
-   ```
-
-#### 3. Start the Frontend Web Application
-
-1. Open another **new terminal** and navigate to the `frontend_react` folder.
-
-2. Start the docker container by running:
-
-   ```bash
-   sh docker-shell.sh
-
-   ```
-
-3. (Optional) If this is your first time setting up the application, install the necessary dependencies:
-
-   ```bash
-   npm install
-
-   ```
-
-4. Start the local development server:
-   ```bash
-   npm run dev
-   ```
-
----
-
-### Accessing the Application
-
-- Open your browser and navigate to:
-  **[http://localhost:3000/](http://localhost:3000/)**
-
-- Explore the features:
-  1. **Home Page:** Learn about gAIn and its mission.
-  2. **Newsletters Page:** Explore articles and blogs (content pending).
-  3. **AI Chat Assistant:**
-     - Chat with gAIn about health and fitness topics.
-     - gAIn has access to Mads’s Strava data for personalized recommendations and insights.
-
-## Pushing Dockerfile to Google Cloud Artifact Registry
-
-Add the below `docker-push.sh` file to a folder that has the Dockerfile for the image you want to add to the project's artifact registry.
-
-```sh
-#!/bin/bash
-set -e
-
-PROJECT_ID="ac215-final-project"
-REGION="us-central1"
-REPO_NAME="gcf-artifacts"
-IMAGE_NAME="image-name" # Put your image name here
-
-# Tag the image for Artifact Registry
-docker build -t $IMAGE_NAME .
-docker tag $IMAGE_NAME $REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME
-
-# Push the image to Artifact Registry
-docker push $REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME
-```
-
-Then run `sh docker-push.sh` to build the image and add it to the registry.
+5. View the app and explore gAIn by going to `http://<YOUR INGRESS IP>.sslip.io`
+   - Copy `nginx_ingress_ip` from the terminal
 
 ---
