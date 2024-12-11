@@ -1,4 +1,5 @@
-## Run This Container If You Wish to Get User Strava Data, Preprocess It, and Upload to GCP
+## Strava Data Pre-Processing
+Run this container if you wish to get user-specific Strava data, preprocess it, and then upload it to a GCP bucket
 
 ### Container Set-Up
 Run the startup script which makes building & running the container easy.
@@ -14,7 +15,7 @@ This folder should contain:
   - `Secret Manager Admin`
   - `Vertex AI Administrator`
 - strava_config.json: Contains our Strava API's `client_id` and `client_secret` which allows a user to connect their Strava account to gAIn
-  - Current Implementation now works by storing these Strava secrets in GCP via its Secret Manager
+  - Current Implementation now works by storing these Strava secrets in the GCP Secret Manager
 
 ### Authenticate Strava Account
 - Run `python cli.py --authenticate`
@@ -66,6 +67,14 @@ This folder should contain:
     - Triggers the rest of the pipeline essentially invoking `python cli.py --fetch_data --generate --upload`
   - To renable the button, simply get rid of the `/?connected=true` in the link
 
+<img src="../../../../images/flask1.png">
+<img src="../../../../images/flask2.png">
+
 
 ### Unlink Strava Account
-- Within `strava_api.py` the function `unlink_strava(project_num, secret_name)` simply gets rid of the `access_token`, `refresh_token`, and `expires_at` value from the strava_config.json it downloads from GCP, and then uploads this new strava_config.json version to the GCP Secrets Manager
+- Within `strava_api.py` the function `unlink_strava(project_num, secret_name)` simply gets rid of the `access_token`, `refresh_token`, and `expires_at` value from the secrets it downloads from GCP, and then uploads the new version to the GCP Secrets Manager
+  - If you want to run this function, type `python` into the terminal and press enter which opens a python interpreter
+  - Type `import os` and press enter
+  - Type `from strava_api import unlink_strava` and press enter
+  - Type `PROJECT_NUM, SECRET_NAME = os.getenv("PROJECT_NUM"), os.getenv("SECRET_NAME")` and press enter
+  - Type `unlink_strava(PROJECT_NUM, SECRET_NAME)` and press enter
