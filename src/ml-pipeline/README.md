@@ -10,6 +10,8 @@ The pipeline is divided into 4 distinct containers, each serving a unique functi
 - model-finetuning
 - workflow
 
+<img src="../../images/pipeline.png"  width="400">
+
 ### Article Collector
 
 The first step of the pipeline involves finding and scraping articles from across the internet. The `get_urls(N)` function uses an OpenAI agent to collect links to `N` recently-published, publicly accessible articles about health, fitness, diet, and exercise. The CSV containing these links is saved to a folder within the `ml-pipeline` GCS bucket.
