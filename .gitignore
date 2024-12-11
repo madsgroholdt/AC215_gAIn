@@ -176,8 +176,8 @@ cython_debug/
 
 
 #user data
-src/data_preprocessing/csv_data
-src/data_preprocessing/txt_data
+src/api_service/api/data_preprocessing/csv_data
+src/api_service/api/data_preprocessing/txt_data
 src/api_service/chat-history
 src/vector_db/output
 #
