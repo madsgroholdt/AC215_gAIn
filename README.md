@@ -131,6 +131,7 @@ In this milestone, we deploy the fully-functional gAIn app to a Kubernetes clust
    ansible-playbook deploy-docker-images.yml -i inventory.yml
    ```
    - This will build and push the `gain-vector-db-cli`, `gain-api-service`, and `gain-frontend` images
+   - *NOTE: This step is **not** required if your containers are already up-to-date and in your artifact registry*
 
 4. Create and deploy the cluster by running:
    ```bash
