@@ -13805,7 +13805,7 @@ Max Speed (meters/second) was 13.0 meters/second
 Elev High (meters) was 758.0 meters
 Elev Low (meters) was 714.4 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 33
+Achievement Count was 34
 Kudos Count was 22
 Athlete Count was 2
 
@@ -14293,7 +14293,7 @@ Max Heartrate (bpm) was 99.0 bpm
 Elev High (meters) was 750.8 meters
 Elev Low (meters) was 713.8 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 62
+Achievement Count was 63
 Kudos Count was 20
 Athlete Count was 2
 
@@ -14341,7 +14341,7 @@ Max Speed (meters/second) was 14.4 meters/second
 Elev High (meters) was 747.0 meters
 Elev Low (meters) was 713.6 meters
 Timezone was (GMT+01:00) Europe/Oslo
-Achievement Count was 49
+Achievement Count was 50
 Kudos Count was 19
 Athlete Count was 2
 

@@ -16,3 +16,5 @@ RUN pipenv install
 
 # Copy the entire project into the container
 COPY . /app
+
+ENTRYPOINT ["/bin/bash"]

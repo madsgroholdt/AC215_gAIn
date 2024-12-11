@@ -1,4 +1,5 @@
 import os
+import sys
 import requests
 import csv
 import pandas as pd
@@ -7,6 +8,8 @@ import time
 from google.cloud import secretmanager
 if __package__ is None or __package__ == '':
     from csv_to_txt import get_csv_txt_paths
+elif 'pytest' in sys.modules:
+    from api_service.api.data_preprocessing.csv_to_txt import get_csv_txt_paths
 else:
     from api.data_preprocessing.csv_to_txt import get_csv_txt_paths
 

@@ -9,6 +9,10 @@ exceptiongroup = "*"
 requests = "*"
 numpy = "*"
 langchain-community = "*"
+pandas = "*"
+google-cloud-storage="*"
+google-auth = "*"
+google-cloud-secret-manager = "*"
 
 [dev-packages]
 
