@@ -15,7 +15,7 @@ deploymentSpec:
       container:
         args:
         - cli.py
-        - --urls 2
+        - --urls 100
         - --scrape
         image: us-central1-docker.pkg.dev/ac215-final-project/gcf-artifacts/article-collector
     exec-article-processor:
@@ -55,7 +55,7 @@ deploymentSpec:
         - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
           \ *\n\ndef model_deploy():\n    print(\"Model Deployment\")\n\n    import\
           \ google.cloud.aiplatform as aip\n\n    # Get endpoint\n    endpoint = aip.Endpoint(endpoint_name=\"\
-          gain-endpoint\",\n                            project=\"ac215-final-project\"\
+          1336804928747732992\",\n                            project=\"ac215-final-project\"\
           ,\n                            location=\"us-central1\")\n\n    # Get most\
           \ recently trained model\n    model = aip.Model.list(filter=\"display_name=gain-finetuned\"\
           )[0]\n\n    # Deploy model to existing endpoint\n    model.deploy(\n   \

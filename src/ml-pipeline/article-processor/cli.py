@@ -12,11 +12,12 @@ from vertexai.generative_models import GenerativeModel
 GCP_PROJECT = "ac215-final-project"
 GCS_BUCKET_NAME = "gain-ml-pipeline"
 GCP_REGION = "us-central1"
-
-GENERATIVE_MODEL = "gemini-1.5-flash-002"
 QA_PAIRS = "qa_data"
 PROCESSED_DATA = "processed_data"
 INPUT_FOLDER = "raw_articles/"
+ARCHIVE = "archive"
+
+GENERATIVE_MODEL = "gemini-1.5-flash-002"
 # Configuration settings for the content generation
 generation_config = {
     "max_output_tokens": 8192,  # Maximum number of tokens for output
@@ -174,7 +175,7 @@ def generate():
             continue
 
         # Move article to archive when done
-        article_archive = bucket.blob(f"archive/{article.name}")
+        article_archive = bucket.blob(f"{ARCHIVE}/{article.name}")
         article_archive.rewrite(article)
         article.delete()
 
