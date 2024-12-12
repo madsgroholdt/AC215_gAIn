@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from unittest.mock import MagicMock, patch
-from api_service.api.data_preprocessing.csv_to_txt import (
+from src.api_service.api.data_preprocessing.csv_to_txt import (
     get_csv_txt_paths,
     get_first_last_name,
     csv_to_txt,

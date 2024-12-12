@@ -1,7 +1,7 @@
 import json
 import os
 import time
-from api_service.api.data_preprocessing.strava_api import (
+from src.api_service.api.data_preprocessing.strava_api import (
     get_strava_config,
     update_strava_config_in_gcp,
     unlink_strava,

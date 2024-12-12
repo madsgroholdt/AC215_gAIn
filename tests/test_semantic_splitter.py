@@ -1,6 +1,6 @@
 import pytest
-from vector_db.semantic_splitter import (combine_sentences,
-                                         calculate_cosine_distances)
+from src.vector_db.semantic_splitter import (combine_sentences,
+                                             calculate_cosine_distances)
 
 
 def test_combine_sentences_with_default_buffer():
