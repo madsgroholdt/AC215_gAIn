@@ -63,7 +63,7 @@ jobs:
       # Run pytest with coverage and generate HTML report
       - name: Run tests with coverage
         run: |
-          pipenv run pytest --ignore=tests/integration_tests--cov=. --cov-report=html
+          pytest --ignore=tests/integration_tests--cov=. --cov-report=html
 
       # Upload coverage report as an artifact
       - name: Upload coverage report
