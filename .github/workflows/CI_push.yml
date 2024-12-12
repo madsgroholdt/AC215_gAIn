@@ -1,10 +1,5 @@
 name: CI on Merge to Main
 on:
-  push:
-    branches:
-      - main # Triggers when code is pushed to the main branch
-      - milestone4
-      - milestone4-RAG
   pull_request:
     branches:
       - main # Runs on PRs to main branch
