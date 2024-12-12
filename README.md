@@ -11,6 +11,23 @@ Below is an overview of the gAIn source code repository.
 └── src
 │   ├── api_service
 │   │   ├── api
+│   │   │   ├── data_preprocessing
+|   |   │   │   ├── csv_data/
+|   |   │   │   ├── txt_data/
+│   │   │   |   ├── templates
+│   │   │   │   │   └── index.html
+|   |   │   │   ├── Dockerfile
+|   |   │   │   ├── Pipfile
+|   |   │   │   ├── Pipfile.lock
+|   |   │   │   ├── docker-shell.sh
+|   |   │   │   ├── docker-entrypoint.sh
+|   |   │   │   ├── env.dev
+|   |   │   │   ├── cli.py
+|   |   │   │   ├── redirect.py
+|   |   │   │   ├── strava_api.py
+|   |   │   │   ├── csv_to_txt.py
+|   |   │   │   ├── flask_app.py
+|   |   │   │   └── README.md
 │   │   │   ├── routers
 │   │   │   │   └── llm_rag_chat.py
 │   │   │   └── utils
@@ -22,16 +39,6 @@ Below is an overview of the gAIn source code repository.
 │   │   ├── Pipfile.lock
 │   │   ├── docker-entrypoint.sh
 │   │   ├── docker-shell.sh
-│   ├── data_preprocessing
-│   │   ├── Dockerfile
-│   │   ├── Pipfile
-│   │   ├── Pipfile.lock
-│   │   ├── docker-shell.sh
-│   │   ├── env.dev
-│   │   ├── cli.py
-│   │   ├── redirect.py
-│   │   ├── strava_api.py
-│   │   ├── csv_to_txt.py
 │   │   ├── README.md
 │   ├── data_scraping
 │   │   ├── Dockerfile
