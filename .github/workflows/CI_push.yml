@@ -1,14 +1,16 @@
 name: CI on Merge to Main
-
 on:
+  push:
+    branches:
+      - main # Triggers when code is pushed to the main branch
+      - milestone4
+      - milestone4-RAG
   pull_request:
     branches:
       - main # Runs on PRs to main branch
-
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       # Checkout the repository code
       - name: Checkout code
@@ -19,18 +21,18 @@ jobs:
         with:
           python-version: "3.11"
 
-      # - name: Cache Docker Compose binary
-      #   id: docker-compose-cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: /usr/local/bin/docker-compose
-      #     key: docker-compose-${{ runner.os }}
+      - name: Cache Docker Compose binary
+        id: docker-compose-cache
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/bin/docker-compose
+          key: docker-compose-${{ runner.os }}
 
-      # - name: Install Docker Compose if not cached
-      #   if: steps.docker-compose-cache.outputs.cache-hit != 'true'
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y docker-compose
+      - name: Install Docker Compose if not cached
+        if: steps.docker-compose-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
       - name: Install Pipenv
         run: pip install pipenv
@@ -38,14 +40,9 @@ jobs:
       - name: Install dependencies with Pipenv
         run: pipenv install
 
-      # - name: Build and start services with Docker Compose
-      #   run: docker-compose up --abort-on-container-exit --exit-code-from test_runner
-      #   working-directory: ./
-
-      # - name: Tear down services
-      #   if: always()
-      #   run: docker-compose down
-      #   working-directory: ./
+      - name: Build and start services with Docker Compose
+        run: docker-compose up --abort-on-container-exit --exit-code-from test_runner
+        working-directory: ./
 
       # Set PYTHONPATH to include the root directory (or src)
       - name: Set PYTHONPATH
@@ -66,7 +63,7 @@ jobs:
       # Run pytest with coverage and generate HTML report
       - name: Run tests with coverage
         run: |
-          pytest tests/test_semantic_splitter.py --cov=. --cov-report=html
+          pipenv run pytest --cov=. --cov-report=html
 
       # Upload coverage report as an artifact
       - name: Upload coverage report
@@ -74,3 +71,8 @@ jobs:
         with:
           name: coverage-report
           path: htmlcov # The folder where pytest-cov stores HTML reports
+
+      - name: Tear down services
+        if: always()
+        run: docker-compose down
+        working-directory: ./
