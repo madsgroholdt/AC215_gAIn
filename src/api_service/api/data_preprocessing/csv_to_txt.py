@@ -38,8 +38,8 @@ def csv_to_txt(input_csv, output_txt, filename):
             formatted_date += f"{day_suffix} {date.year}"
 
             # header for each entry
-            f.write(f"On {formatted_date}, {first_name} {last_name} had the \
-                    following health and activity metrics: \n")
+            f.write(f"On {formatted_date}, {first_name} {last_name} had the "
+                    "following health and activity metrics: \n")
 
             # get metric values
             for title in df.columns[1:]:
@@ -89,8 +89,8 @@ def upload_to_gcp(bucket_name, folder_path, output_folder):
         if filename.endswith(file_type):
             first_name, last_name = get_first_last_name(filename)
 
-            destination_blob_name = f"{output_folder}/\
-                {first_name}_{last_name}/{filename}"
+            destination_blob_name = (f"{output_folder}/"
+                                     f"{first_name}_{last_name}/{filename}")
 
             blob = bucket.blob(destination_blob_name)
 
