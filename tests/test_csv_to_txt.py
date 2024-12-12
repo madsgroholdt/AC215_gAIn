@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+import csv
 from unittest.mock import MagicMock, patch
 from src.api_service.api.data_preprocessing.csv_to_txt import (
     get_csv_txt_paths,
@@ -40,9 +40,14 @@ def test_csv_to_txt(tmp_path):
         "distance (meters)": [5000],
         "moving time (seconds)": [1200]
     }
-    pd.DataFrame(data).to_csv(input_csv, index=False)
 
-    csv_to_txt(input_csv, output_txt, "John_Doe_metrics.csv")
+    input_csv = "output.csv"
+    with open(input_csv, mode="w", newline="") as file:
+        writer = csv.writer(file)
+
+        writer.writerow(data.keys())
+        writer.writerows(zip(*data.values()))
+        csv_to_txt(input_csv, output_txt, "John_Doe_metrics.csv")
 
     # Verify the output file is created and has content
     assert output_txt.exists()
