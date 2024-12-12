@@ -9,6 +9,7 @@ exceptiongroup = "*"
 requests = "*"
 numpy = "*"
 langchain-community = "*"
+pandas = "*"
 
 [dev-packages]
 
