@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main # Runs on PRs to main branch
+  push:
+    branches:
+      - main
 
 jobs:
   test:
