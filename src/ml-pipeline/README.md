@@ -38,7 +38,7 @@ It is also within this container that the newly-finetuned model is deployed to t
 
 ## Deploying Changes
 
-The Vertex AI pipeline job runs the container image for each step of the process. Thus, to save changes to the code, these images must be updated and pushed to the GCP Artifact Registry. This is done automatically through `docker-push.sh` files within each container. These `sh` files are activated with every push to the `gAIn` GitHub, and so changes to the pipeline can be made by simply pushing changes.
+The Vertex AI pipeline job runs the container image for each step of the process. Thus, to save changes to the code, these images must be updated and pushed to the GCP Artifact Registry. This is done automatically through `docker-push.sh` files within each container. Simply enter the folder in which changes were made, and run `sh docker-push.sh`.
 
 ## Activating the Pipeline Locally
 
