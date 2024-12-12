@@ -147,7 +147,7 @@ def test_get_strava_data(mock_get):
 
 
 @patch('api_service.api.data_preprocessing.strava_api.get_csv_txt_paths')
-# @patch('pandas.DataFrame.to_csv')
+@patch('pandas.DataFrame.to_csv')
 @patch('requests.get')
 def test_create_activities_csv(mock_requests_get, mock_to_csv, mock_get_paths):
     # Mock get_csv_txt_paths
